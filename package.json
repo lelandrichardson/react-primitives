@@ -1,0 +1,35 @@
+{
+  "name": "react-primitives",
+  "version": "0.0.1",
+  "description": "Primitive React Interfaces Across Targets",
+  "main": "index.js",
+  "scripts": {
+    "test": " mocha --compilers js:babel-core/register --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lelandrichardson/react-primitives.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Leland Richardson <leland.richardson@airbnb.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lelandrichardson/react-primitives/issues"
+  },
+  "homepage": "https://github.com/lelandrichardson/react-primitives#readme",
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.4",
+    "babel-preset-airbnb": "^1.1.1",
+    "chai": "^3.5.0",
+    "enzyme": "^2.2.0",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-react": "^4.3.0",
+    "mocha": "^2.4.5",
+    "react": "^15.0.0",
+    "react-addons-test-utils": "^15.0.0",
+    "react-dom": "^15.0.0"
+  }
+}
