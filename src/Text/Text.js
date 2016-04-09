@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Primitive from './Primitive';
-import StyleSheet from './StyleSheet';
+import Primitive from '../Primitive';
+import StyleSheet from '../StyleSheet';
 
 const propTypes = {
   accessibilityLabel: Primitive.propTypes.accessibilityLabel,
@@ -9,7 +9,7 @@ const propTypes = {
   children: PropTypes.any,
   numberOfLines: PropTypes.number,
   onPress: PropTypes.func,
-  //style: StyleSheetPropType(TextStylePropTypes),
+  style: null, // TODO(lmr): StyleSheetPropType(TextStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
 
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Text;
+module.exports = Text;

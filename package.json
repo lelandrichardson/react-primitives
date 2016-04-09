@@ -4,7 +4,7 @@
   "description": "Primitive React Interfaces Across Targets",
   "main": "index.js",
   "scripts": {
-    "test": " mocha --compilers js:babel-core/register --watch"
+    "test": " mocha --compilers js:babel-core/register --watch --recursive"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,9 @@
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0"
+  },
+  "dependencies": {
+    "inline-style-prefix-all": "^1.0.4",
+    "invariant": "^2.2.1"
   }
 }

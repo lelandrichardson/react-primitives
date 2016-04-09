@@ -8,7 +8,7 @@ const roleComponents = {
   complementary: 'aside',
   contentinfo: 'footer',
   form: 'form',
-  heading: 'h1',
+  heading: 'h1', // TODO: Figure out the ideal way to support additional semantic header tags.
   link: 'a',
   list: 'ul',
   listitem: 'li',
@@ -55,7 +55,7 @@ class Primitive extends React.Component {
       testID,
       type,
       style,
-      } = this.props;
+    } = this.props;
 
     const Component = roleComponents[accessibilityRole] || component;
 
@@ -76,4 +76,4 @@ class Primitive extends React.Component {
 Primitive.propTypes = propTypes;
 Primitive.defaultProps = defaultProps;
 
-export default Primitive;
+module.exports = Primitive;
