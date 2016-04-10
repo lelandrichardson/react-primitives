@@ -1,5 +1,7 @@
-import React, { PropTypes } from 'react';
-import StyleSheet from './StyleSheet';
+const React = require('react');
+const StyleSheet = require('./StyleSheet');
+
+const { PropTypes } = React;
 
 const roleComponents = {
   article: 'article',

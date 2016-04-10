@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
-import Primitive from '../Primitive';
-import StyleSheet from '../StyleSheet';
+const React = require('react');
+const Primitive = require('../Primitive');
+const StyleSheet = require('../StyleSheet');
+
+const { PropTypes } = React;
 
 const propTypes = {
   accessibilityLabel: Primitive.propTypes.accessibilityLabel,
@@ -27,6 +29,7 @@ class Text extends React.Component {
       <Primitive
         {...this.props}
         component="span"
+        onClick={this.props.onPress}
         style={[
           styles.initial,
           style,

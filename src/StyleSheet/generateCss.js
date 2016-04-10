@@ -1,8 +1,8 @@
-import prefixAll from 'inline-style-prefix-all';
-import processTransform from './processTransform';
-import normalizeValue from './normalizeValue';
-import expandStyle from './expandStyle';
-import hyphenate from './hyphenate';
+const prefixAll = require('inline-style-prefix-all');
+const processTransform = require('./processTransform');
+const normalizeValue = require('./normalizeValue');
+const expandStyle = require('./expandStyle');
+const hyphenate = require('./hyphenate');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 

@@ -2,9 +2,12 @@
   "name": "react-primitives",
   "version": "0.0.1",
   "description": "Primitive React Interfaces Across Targets",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": " mocha --compilers js:babel-core/register --watch --recursive"
+    "prepublish": "npm run build",
+    "build": "rm -rf lib && babel -d lib src",
+    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test:watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -33,7 +36,13 @@
     "react-dom": "^15.0.0"
   },
   "dependencies": {
+    "animated": "^0.1.1",
     "inline-style-prefix-all": "^1.0.4",
-    "invariant": "^2.2.1"
+    "invariant": "^2.2.1",
+    "react-timer-mixin": "^0.13.3"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
   }
 }

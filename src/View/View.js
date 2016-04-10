@@ -1,19 +1,16 @@
-import React, { PropTypes } from 'react';
-import Primitive from '../Primitive';
-import StyleSheet from '../StyleSheet';
-import normalizeNativeEvent from '../Touchable/normalizeNativeEvent';
+const React = require('react');
+const Primitive = require('../Primitive');
+const StyleSheet = require('../StyleSheet');
+const normalizeNativeEvent = require('../Touchable/normalizeNativeEvent');
 
-const defaultProps = {
-  accessible: true,
-  style: null,
-};
+const { PropTypes } = React;
 
 const propTypes = {
   accessibilityLabel: Primitive.propTypes.accessibilityLabel,
   accessibilityLiveRegion: Primitive.propTypes.accessibilityLiveRegion,
   accessibilityRole: Primitive.propTypes.accessibilityRole,
   accessible: Primitive.propTypes.accessible,
-  children: PropTypes.any,
+  children: PropTypes.node,
   onClick: PropTypes.func,
   onClickCapture: PropTypes.func,
   onMoveShouldSetResponder: PropTypes.func,
@@ -39,31 +36,30 @@ const propTypes = {
   testID: Primitive.propTypes.testID,
 };
 
+const defaultProps = {
+  accessible: true,
+  style: null,
+};
+
+/**
+ * React Native expects `pageX` and `pageY` to be on the `nativeEvent`, but
+ * React doesn't include them for touch events.
+ */
+function normalizeHandler(handler) {
+  if (!handler) {
+    return undefined;
+  }
+  return (e) => {
+    /* eslint no-param-reassign: 0 */
+    if (e.nativeEvent.pageX === undefined) {
+      e.nativeEvent = normalizeNativeEvent(e.nativeEvent);
+    }
+    handler(e);
+  };
+}
+
 // TODO(lmr): @NativeMethodsDecorator
 class View extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this._normalizeEventForHandler = this._normalizeEventForHandler.bind(this);
-  }
-
-  /**
-   * React Native expects `pageX` and `pageY` to be on the `nativeEvent`, but
-   * React doesn't include them for touch events.
-   */
-  _normalizeEventForHandler(handler) {
-    if (!handler) {
-      return undefined;
-    }
-    return (e) => {
-      /* eslint no-param-reassign: 0 */
-      const { pageX } = e.nativeEvent;
-      if (pageX === undefined) {
-        e.nativeEvent = normalizeNativeEvent(e.nativeEvent);
-      }
-      handler(e);
-    };
-  }
-
   render() {
     // TODO(lmr):
     // we should probably ensure that children is not a string, and enforce that those types of
@@ -79,15 +75,15 @@ class View extends React.Component {
     return (
       <Primitive
         {...this.props}
-        onClickCapture={this._normalizeEventForHandler(this.props.onClickCapture)}
-        onTouchCancel={this._normalizeEventForHandler(this.props.onTouchCancel)}
-        onTouchCancelCapture={this._normalizeEventForHandler(this.props.onTouchCancelCapture)}
-        onTouchEnd={this._normalizeEventForHandler(this.props.onTouchEnd)}
-        onTouchEndCapture={this._normalizeEventForHandler(this.props.onTouchEndCapture)}
-        onTouchMove={this._normalizeEventForHandler(this.props.onTouchMove)}
-        onTouchMoveCapture={this._normalizeEventForHandler(this.props.onTouchMoveCapture)}
-        onTouchStart={this._normalizeEventForHandler(this.props.onTouchStart)}
-        onTouchStartCapture={this._normalizeEventForHandler(this.props.onTouchStartCapture)}
+        onClickCapture={normalizeHandler(this.props.onClickCapture)}
+        onTouchCancel={normalizeHandler(this.props.onTouchCancel)}
+        onTouchCancelCapture={normalizeHandler(this.props.onTouchCancelCapture)}
+        onTouchEnd={normalizeHandler(this.props.onTouchEnd)}
+        onTouchEndCapture={normalizeHandler(this.props.onTouchEndCapture)}
+        onTouchMove={normalizeHandler(this.props.onTouchMove)}
+        onTouchMoveCapture={normalizeHandler(this.props.onTouchMoveCapture)}
+        onTouchStart={normalizeHandler(this.props.onTouchStart)}
+        onTouchStartCapture={normalizeHandler(this.props.onTouchStartCapture)}
         style={[
           styles.initial,
           style,

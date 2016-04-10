@@ -1,6 +1,6 @@
-import getHairlineWidth from './getHairlineWidth';
-import generateCss from './generateCss';
-import murmurHash from './murmurHash';
+const getHairlineWidth = require('./getHairlineWidth');
+const generateCss = require('./generateCss');
+const murmurHash = require('./murmurHash');
 
 // TODO:
 // 1. (done) browser-prefixed styles (inline-style-prefixer)

@@ -1,6 +1,6 @@
-import CSSPropertyOperations from 'react/lib/CSSPropertyOperations'; // TODO(lmr): alternative?
-import flattenStyle from './StyleSheet/flattenStyle';
-import processTransform from './StyleSheet/processTransform';
+const CSSPropertyOperations = require('react/lib/CSSPropertyOperations'); // TODO(lmr): alternative?
+const flattenStyle = require('./StyleSheet/flattenStyle');
+const processTransform = require('./StyleSheet/processTransform');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 

@@ -1,7 +1,7 @@
 /* eslint max-len:0 no-nested-ternary:0 */
 // Taken from:
 // https://github.com/necolas/react-native-web/blob/master/src/apis/StyleSheet/expandStyle.js
-import normalizeValue from './normalizeValue';
+const normalizeValue = require('./normalizeValue');
 
 const styleShortHands = {
   borderColor: ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'],

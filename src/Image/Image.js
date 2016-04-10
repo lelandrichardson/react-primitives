@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
-import Primitive from '../Primitive';
-import StyleSheet from '../StyleSheet';
-import View from '../View/View';
+const React = require('react');
+const Primitive = require('../Primitive');
+const StyleSheet = require('../StyleSheet');
+const View = require('../View/View');
+const { PropTypes } = React;
 
-import resolveAssetSource from './resolveAssetSource';
-import ImageResizeMode from './ImageResizeMode';
+const resolveAssetSource = require('./resolveAssetSource');
+const ImageResizeMode = require('./ImageResizeMode');
 
-import ImageStylePropTypes from './ImageStylePropTypes';
-import StyleSheetPropType from '../../apis/StyleSheet/StyleSheetPropType';
+const ImageStylePropTypes = require('./ImageStylePropTypes');
+const StyleSheetPropType = require('../../apis/StyleSheet/StyleSheetPropType');
 
 const STATUS_ERRORED = 'ERRORED';
 const STATUS_LOADED = 'LOADED';
