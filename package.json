@@ -6,8 +6,8 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf lib && babel -d lib src",
-    "test": "mocha --require test/_setup --compilers js:babel-core/register --recursive",
-    "test:watch": "npm run test -- --watch",
+    "test": "npm run --silent karma",
+    "test:watch": "npm run karma:watch",
     "karma": "karma start --single-run --browsers PhantomJS",
     "karma:watch": "karma start --auto-watch"
   },
