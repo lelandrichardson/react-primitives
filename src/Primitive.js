@@ -1,7 +1,9 @@
 const React = require('react');
+const applyPrimitiveMethods = require('./applyPrimitiveMethods');
 const StyleSheet = require('./StyleSheet');
 
 const { PropTypes } = React;
+const { string, oneOf, bool, oneOfType, func, array, object, number } = PropTypes;
 
 const roleComponents = {
   article: 'article',
@@ -20,25 +22,25 @@ const roleComponents = {
 };
 
 const propTypes = {
-  accessibilityLabel: PropTypes.string,
-  accessibilityLiveRegion: PropTypes.oneOf([
+  accessibilityLabel: string,
+  accessibilityLiveRegion: oneOf([
     'assertive',
     'off',
     'polite',
   ]),
-  accessibilityRole: PropTypes.string,
-  accessible: PropTypes.bool,
-  component: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
+  accessibilityRole: string,
+  accessible: bool,
+  component: oneOfType([
+    func,
+    string,
   ]),
-  style: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.number,
+  style: oneOfType([
+    array,
+    object,
+    number,
   ]),
-  testID: PropTypes.string,
-  type: PropTypes.string,
+  testID: string,
+  type: string,
 };
 
 const defaultProps = {
@@ -77,5 +79,6 @@ class Primitive extends React.Component {
 
 Primitive.propTypes = propTypes;
 Primitive.defaultProps = defaultProps;
+applyPrimitiveMethods(Primitive);
 
 module.exports = Primitive;

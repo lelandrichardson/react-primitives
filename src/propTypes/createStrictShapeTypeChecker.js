@@ -43,7 +43,7 @@ module.exports = function createStrictShapeTypeChecker(shapeTypes) {
           `Invalid props.${propName} key \`${key}\` supplied to \`${componentName}\`.` +
           `\nBad object: ` + JSON.stringify(props[propName], null, '  ') +
           `\nValid keys: ` + JSON.stringify(Object.keys(shapeTypes), null, '  ')
-        )
+        );
       }
       const error = checker(propValue, key, componentName, location);
       if (error) {

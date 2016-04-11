@@ -9,6 +9,7 @@ const ImageResizeMode = require('./ImageResizeMode');
 
 const ImageStylePropTypes = require('./ImageStylePropTypes');
 const StyleSheetPropType = require('../../apis/StyleSheet/StyleSheetPropType');
+const applyPrimitiveMethods = require('../applyPrimitiveMethods');
 
 const STATUS_ERRORED = 'ERRORED';
 const STATUS_LOADED = 'LOADED';
@@ -35,7 +36,7 @@ const propTypes = {
   onLoadStart: PropTypes.func,
   resizeMode: PropTypes.oneOf(['contain', 'cover', 'none', 'stretch']),
   source: ImageSourcePropType,
-  style: null, // TODO(lmr): StyleSheetPropType(ImageStylePropTypes),
+  style: StyleSheetPropType(ImageStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
 
@@ -44,7 +45,6 @@ const defaultProps = {
   style: {},
 };
 
-// TODO(lmr): @NativeMethodsDecorator
 class Image extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -186,6 +186,7 @@ class Image extends React.Component {
 Image.propTypes = propTypes;
 Image.defaultProps = defaultProps;
 Image.resizeMode = ImageResizeMode;
+applyPrimitiveMethods(Image);
 
 const styles = StyleSheet.create({
   initial: {

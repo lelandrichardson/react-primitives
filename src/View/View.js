@@ -4,9 +4,10 @@ const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const ViewStylePropTypes = require('./ViewStylePropTypes');
 const normalizeNativeEvent = require('../Touchable/normalizeNativeEvent');
+const applyPrimitiveMethods = require('../applyPrimitiveMethods');
 
 const { PropTypes } = React;
-const { func, oneOf } = PropTypes;
+const { func } = PropTypes;
 
 const propTypes = {
   accessibilityLabel: Primitive.propTypes.accessibilityLabel,
@@ -34,7 +35,7 @@ const propTypes = {
   onTouchMoveCapture: func,
   onTouchStart: func,
   onTouchStartCapture: func,
-  pointerEvents: oneOf(['auto', 'box-none', 'box-only', 'none']),
+  pointerEvents: PropTypes.oneOf(['auto', 'box-none', 'box-only', 'none']),
   style: StyleSheetPropType(ViewStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
@@ -61,7 +62,6 @@ function normalizeHandler(handler) {
   };
 }
 
-// TODO(lmr): @NativeMethodsDecorator
 class View extends React.Component {
   render() {
     // TODO(lmr):
@@ -103,6 +103,7 @@ class View extends React.Component {
 
 View.propTypes = propTypes;
 View.defaultProps = defaultProps;
+applyPrimitiveMethods(View);
 
 const styles = StyleSheet.create({
   // https://github.com/facebook/css-layout#default-values

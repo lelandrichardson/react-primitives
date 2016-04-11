@@ -4,8 +4,8 @@
  * All rights reserved.
  */
 
-'use strict';
-
+// TODO(lmr): since there's no way we are getting rid of `react/lib/*` dependencies, we might as
+// well use the react version of this instead.
 const PooledClass = require('./PooledClass');
 
 /**

@@ -3,6 +3,7 @@ const Primitive = require('../Primitive');
 const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const TextStylePropTypes = require('./TextStylePropTypes');
+const applyPrimitiveMethods = require('../applyPrimitiveMethods');
 
 const { PropTypes } = React;
 
@@ -46,6 +47,7 @@ class Text extends React.Component {
 
 Text.propTypes = propTypes;
 Text.defaultProps = defaultProps;
+applyPrimitiveMethods(Text);
 
 const styles = StyleSheet.create({
   initial: {

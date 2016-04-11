@@ -5,7 +5,7 @@ const LayoutPropTypes = require('../propTypes/LayoutPropTypes');
 const TransformPropTypes = require('../propTypes/TransformPropTypes');
 
 const { number, oneOf, string } = PropTypes;
-const autoOrHiddenOrVisible = oneOf([ 'auto', 'hidden', 'visible' ]);
+const autoOrHiddenOrVisible = oneOf(['auto', 'hidden', 'visible']);
 const hiddenOrVisible = oneOf(['hidden', 'visible']);
 
 module.exports = {
@@ -16,9 +16,7 @@ module.exports = {
   backgroundColor: ColorPropType,
   opacity: number,
   overflow: autoOrHiddenOrVisible,
-  /*
-   * @platform web
-   */
+  /* @platform web */
   backgroundAttachment: string,
   backgroundClip: string,
   backgroundImage: string,
@@ -26,7 +24,7 @@ module.exports = {
   backgroundOrigin: oneOf([
     'border-box',
     'content-box',
-    'padding-box'
+    'padding-box',
   ]),
   backgroundRepeat: string,
   backgroundSize: string,
@@ -37,5 +35,5 @@ module.exports = {
   overflowY: autoOrHiddenOrVisible,
   userSelect: string,
   visibility: hiddenOrVisible,
-  zIndex: number
+  zIndex: number,
 };

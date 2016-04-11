@@ -34,6 +34,7 @@
     "chai": "^3.5.0",
     "enzyme": "^2.2.0",
     "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-prefer-object-spread": "^1.1.0",
     "eslint-plugin-react": "^4.3.0",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",

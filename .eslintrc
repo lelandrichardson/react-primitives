@@ -1,6 +1,10 @@
 {
   "extends": "airbnb",
   "rules": {
-    "no-use-before-define": 0
+    "no-use-before-define": 0,
+    "new-cap": 0
+  },
+  "ecmaFeatures": {
+    "experimentalObjectRestSpread": true
   }
 }

@@ -2,8 +2,8 @@ const { PropTypes } = require('react');
 const ColorPropType = require('../propTypes/ColorPropType');
 const ViewStylePropTypes = require('../View/ViewStylePropTypes');
 
-const { number, oneOf, oneOfType, string } = PropTypes;
-const numberOrString = oneOfType([ number, string ]);
+const { oneOf, string } = PropTypes;
+const numberOrString = PropTypes.oneOfType([PropTypes.number, string]);
 
 module.exports = {
   ...ViewStylePropTypes,
@@ -26,7 +26,7 @@ module.exports = {
     'auto',
     'bottom',
     'center',
-    'top'
+    'top',
   ]),
   textDecorationLine: string,
   /* @platform web */
@@ -38,11 +38,15 @@ module.exports = {
     'capitalize',
     'lowercase',
     'none',
-    'uppercase'
+    'uppercase',
   ]),
   /* @platform web */
   whiteSpace: string,
   /* @platform web */
   wordWrap: string,
-  writingDirection: oneOf([ 'auto', 'ltr', 'rtl' ]),
+  writingDirection: oneOf([
+    'auto',
+    'ltr',
+    'rtl',
+  ]),
 };

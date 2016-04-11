@@ -149,8 +149,6 @@ const flattenStyle = (input) => {
     // input is falsy, so we skip it by returning undefined
     return undefined;
   }
-  // in this case input is a raw object, which means it was passed in directly from the component
-  // TODO(lmr): validate input in dev mode so we can surface mistakes to developers early.
   return input;
 };
 

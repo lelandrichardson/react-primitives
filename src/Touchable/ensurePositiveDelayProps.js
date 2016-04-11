@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -10,7 +9,7 @@
 
 const invariant = require('invariant');
 
-var ensurePositiveDelayProps = function(props) {
+const ensurePositiveDelayProps = (props) => {
   invariant(
     !(props.delayPressIn < 0 || props.delayPressOut < 0 ||
     props.delayLongPress < 0),

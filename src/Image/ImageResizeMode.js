@@ -1,8 +1,8 @@
-const ImageResizemode = {
+const ImageResizeMode = {
   contain: 'CONTAIN',
   cover: 'COVER',
   none: 'NONE',
   stretch: 'STRETCH',
 };
 
-module.exports = ImageResizemode;
+module.exports = ImageResizeMode;
