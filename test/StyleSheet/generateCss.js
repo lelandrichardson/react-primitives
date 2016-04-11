@@ -1,9 +1,7 @@
 import { expect } from 'chai';
+import { addNewlines, stripWhiteSpace } from '../util';
 
 import generateCss from '../../src/StyleSheet/generateCss';
-
-const addNewlines = str => str.replace(/;/g, ';\n');
-const stripWhiteSpace = str => str.replace(/\n\s*/g, '\n').replace(/^\n/, '');
 
 describe('generateCss()', () => {
   it('works', () => {

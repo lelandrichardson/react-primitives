@@ -6,8 +6,10 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf lib && babel -d lib src",
-    "test": "mocha --compilers js:babel-core/register --recursive",
-    "test:watch": "npm run test -- --watch"
+    "test": "mocha --require test/_setup --compilers js:babel-core/register --recursive",
+    "test:watch": "npm run test -- --watch",
+    "karma": "karma start --single-run --browsers PhantomJS",
+    "karma:watch": "karma start --auto-watch"
   },
   "repository": {
     "type": "git",
@@ -25,15 +27,26 @@
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.4",
+    "babel-plugin-syntax-object-rest-spread": "^6.5.0",
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "babel-preset-airbnb": "^1.1.1",
+    "babelify": "^7.2.0",
     "chai": "^3.5.0",
     "enzyme": "^2.2.0",
     "eslint-config-airbnb": "^6.2.0",
     "eslint-plugin-react": "^4.3.0",
+    "karma": "^0.13.22",
+    "karma-babel-preprocessor": "^6.0.1",
+    "karma-browserify": "^5.0.3",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-mocha": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^2.4.5",
+    "phantomjs-prebuilt": "^2.1.7",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react-dom": "^15.0.0",
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "animated": "^0.1.1",

@@ -1,18 +1,20 @@
 const getHairlineWidth = require('./getHairlineWidth');
 const generateCss = require('./generateCss');
 const murmurHash = require('./murmurHash');
+const injector = require('./injector');
+const mapKeyValue = require('../util/mapKeyValue');
 
 // TODO:
 // 1. (done) browser-prefixed styles (inline-style-prefixer)
-// 2. inject style tags for each style (once and only once)
+// 2. (done) inject style tags for each style (once and only once)
 // 3. ensure that multiple-bundled react-primitives will work...
-// 4. conversion of style hash to css...
+// 4. (done) conversion of style hash to css...
 // 5. (done) hairline width: http://dieulot.net/css-retina-hairline
 // 6. use invariant and add a lot of validation + runtime checks
 // 7. introduce a "strict mode" which only allows RN-compatible API (not sure about this any more)
 // 8. build a react-native implementation...
 // 9. figure out interop with css-layout default values...
-// 10. make sure it works / process transform properties correctly...
+// 10. (done) make sure it works / process transform properties correctly...
 // 11. should we sort the resulting rules? to improve gzippability? does it matter?
 // 12. how to handle custom font families??
 // 13. refactor this file into sub-files
@@ -30,6 +32,8 @@ const createCssRule = (key, rule, genCss) => {
   // key is the media query, eg. '@media (max-width: 600px)'
   const className = `rp_${murmurHash(key + cssBody)}`;
   const css = genCss(key, className, cssBody);
+  // this adds the rule to the buffer to be injected into the document
+  injector.addRule(className, css);
   return {
     key,
     className,
@@ -64,12 +68,6 @@ const extractRules = style => {
       declarations[key] = style[key];
     }
   });
-
-  // TODO(lmr):
-  // if we are in the browser and mediaQueries or pseudoStyles were registered, we will
-  // want to insert the style tag at this point (and probably do so in a way that we don't
-  // insert the stylesheet twice if it ended up being server-rendered, or if the same style had
-  // already been registered prior to this? we should use the classname/hash as a unique key here.
 
   return {
     declarations,
@@ -162,10 +160,14 @@ const getClassNames = id => {
   if (!mediaQueryRules && !pseudoStyleRules) {
     return null;
   }
-  return [
-    ...(mediaQueryRules || []).map(x => x.className),
-    ...(pseudoStyleRules || []).map(x => x.className),
-  ].join(' ') || null;
+  const results = [];
+  if (mediaQueryRules) {
+    results.push.apply(results, mapKeyValue(mediaQueryRules, (id, rule) => rule.className));
+  }
+  if (pseudoStyleRules) {
+    results.push.apply(results, mapKeyValue(pseudoStyleRules, (id, rule) => rule.className));
+  }
+  return results.join(' ') || null;
 };
 
 const flattenClassNames = (input) => {
@@ -189,11 +191,8 @@ module.exports = {
   // NOTE:
   // `flatten` is exported separately from `resolve` because it mimics the RN api more closely
   // than `resolve`.
-  flatten: flattenStyle,
+  flatten: style => flattenStyle(style) || {},
   resolve,
-
-  // TODO(lmr): maybe implement this API to start off the injectable styles somewhere on the page
-  // bootstrap: () => {/* implement */},
 
   // NOTE: direct use of this method is for testing only...
   //reset: () => {

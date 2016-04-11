@@ -1,6 +1,8 @@
 const React = require('react');
 const Primitive = require('../Primitive');
 const StyleSheet = require('../StyleSheet');
+const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
+const TextStylePropTypes = require('./TextStylePropTypes');
 
 const { PropTypes } = React;
 
@@ -11,7 +13,7 @@ const propTypes = {
   children: PropTypes.any,
   numberOfLines: PropTypes.number,
   onPress: PropTypes.func,
-  style: null, // TODO(lmr): StyleSheetPropType(TextStylePropTypes),
+  style: StyleSheetPropType(TextStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
 

@@ -3,18 +3,7 @@ const processTransform = require('./processTransform');
 const normalizeValue = require('./normalizeValue');
 const expandStyle = require('./expandStyle');
 const hyphenate = require('./hyphenate');
-
-const hasOwnProperty = Object.prototype.hasOwnProperty;
-
-const mapKeyValue = (obj, fn) => {
-  const result = [];
-  for (const key in obj) {
-    if (hasOwnProperty.call(obj, key)) {
-      result.push(fn(key, obj[key]));
-    }
-  }
-  return result;
-};
+const mapKeyValue = require('../util/mapKeyValue');
 
 const normalizeStyle = style => prefixAll(processTransform(expandStyle(style)));
 

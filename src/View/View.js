@@ -1,9 +1,12 @@
 const React = require('react');
 const Primitive = require('../Primitive');
 const StyleSheet = require('../StyleSheet');
+const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
+const ViewStylePropTypes = require('./ViewStylePropTypes');
 const normalizeNativeEvent = require('../Touchable/normalizeNativeEvent');
 
 const { PropTypes } = React;
+const { func, oneOf } = PropTypes;
 
 const propTypes = {
   accessibilityLabel: Primitive.propTypes.accessibilityLabel,
@@ -11,28 +14,28 @@ const propTypes = {
   accessibilityRole: Primitive.propTypes.accessibilityRole,
   accessible: Primitive.propTypes.accessible,
   children: PropTypes.node,
-  onClick: PropTypes.func,
-  onClickCapture: PropTypes.func,
-  onMoveShouldSetResponder: PropTypes.func,
-  onMoveShouldSetResponderCapture: PropTypes.func,
-  onResponderGrant: PropTypes.func,
-  onResponderMove: PropTypes.func,
-  onResponderReject: PropTypes.func,
-  onResponderRelease: PropTypes.func,
-  onResponderTerminate: PropTypes.func,
-  onResponderTerminationRequest: PropTypes.func,
-  onStartShouldSetResponder: PropTypes.func,
-  onStartShouldSetResponderCapture: PropTypes.func,
-  onTouchCancel: PropTypes.func,
-  onTouchCancelCapture: PropTypes.func,
-  onTouchEnd: PropTypes.func,
-  onTouchEndCapture: PropTypes.func,
-  onTouchMove: PropTypes.func,
-  onTouchMoveCapture: PropTypes.func,
-  onTouchStart: PropTypes.func,
-  onTouchStartCapture: PropTypes.func,
-  pointerEvents: PropTypes.oneOf(['auto', 'box-none', 'box-only', 'none']),
-  style: null, // TODO(lmr): StyleSheetPropType(ViewStylePropTypes),
+  onClick: func,
+  onClickCapture: func,
+  onMoveShouldSetResponder: func,
+  onMoveShouldSetResponderCapture: func,
+  onResponderGrant: func,
+  onResponderMove: func,
+  onResponderReject: func,
+  onResponderRelease: func,
+  onResponderTerminate: func,
+  onResponderTerminationRequest: func,
+  onStartShouldSetResponder: func,
+  onStartShouldSetResponderCapture: func,
+  onTouchCancel: func,
+  onTouchCancelCapture: func,
+  onTouchEnd: func,
+  onTouchEndCapture: func,
+  onTouchMove: func,
+  onTouchMoveCapture: func,
+  onTouchStart: func,
+  onTouchStartCapture: func,
+  pointerEvents: oneOf(['auto', 'box-none', 'box-only', 'none']),
+  style: StyleSheetPropType(ViewStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
 

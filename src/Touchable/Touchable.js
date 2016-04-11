@@ -36,7 +36,7 @@ const InsetPropType = PropTypes.shape({
  * },
  * ```
  */
-const TouchableAnimated = React.createClass({
+const Touchable = React.createClass({
   propTypes: {
     accessible: PropTypes.bool,
 
@@ -221,4 +221,4 @@ const TouchableAnimated = React.createClass({
   },
 });
 
-module.exports = TouchableAnimated;
+module.exports = Touchable;
