@@ -51,7 +51,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "animated": "^0.1.1",
+    "animated": "^0.1.2",
     "inline-style-prefix-all": "^1.0.4",
     "invariant": "^2.2.1",
     "react-timer-mixin": "^0.13.3"
