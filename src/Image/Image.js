@@ -8,7 +8,7 @@ const resolveAssetSource = require('./resolveAssetSource');
 const ImageResizeMode = require('./ImageResizeMode');
 
 const ImageStylePropTypes = require('./ImageStylePropTypes');
-const StyleSheetPropType = require('../../apis/StyleSheet/StyleSheetPropType');
+const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const applyPrimitiveMethods = require('../applyPrimitiveMethods');
 
 const STATUS_ERRORED = 'ERRORED';

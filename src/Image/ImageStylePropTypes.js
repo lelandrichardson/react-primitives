@@ -1,7 +1,7 @@
 const { PropTypes } = require('react');
-const ColorPropType = require('../StyleSheet/ColorPropType');
-const LayoutPropTypes = require('../StyleSheet/LayoutPropTypes');
-const TransformPropTypes = require('../StyleSheet/TransformPropTypes');
+const ColorPropType = require('../propTypes/ColorPropType');
+const LayoutPropTypes = require('../propTypes/LayoutPropTypes');
+const TransformPropTypes = require('../propTypes/TransformPropTypes');
 
 const ImageResizeMode = require('./ImageResizeMode');
 

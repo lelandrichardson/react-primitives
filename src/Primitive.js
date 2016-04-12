@@ -65,6 +65,8 @@ class Primitive extends React.Component {
 
     return (
       <Component
+        // TODO(SWB): Do we want to whitelist props to avoid spread here?
+        {...this.props}
         {...StyleSheet.resolve(style)}
         aria-hidden={accessible ? null : true}
         aria-label={accessibilityLabel}
@@ -72,7 +74,9 @@ class Primitive extends React.Component {
         data-testid={testID}
         role={accessibilityRole}
         type={accessibilityRole === 'button' ? 'button' : type}
-      />
+      >
+        {this.props.children}
+      </Component>
     );
   }
 }
