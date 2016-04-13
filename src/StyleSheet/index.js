@@ -3,6 +3,7 @@ const generateCss = require('./generateCss');
 const murmurHash = require('./murmurHash');
 const injector = require('./injector');
 const mapKeyValue = require('../util/mapKeyValue');
+const processTransform = require('./processTransform');
 
 // TODO:
 // 1. (done) browser-prefixed styles (inline-style-prefixer)
@@ -179,9 +180,11 @@ const flattenClassNames = (input) => {
 
 const resolve = (styles) => ({
   className: flattenClassNames(styles),
-  style: flattenStyle(styles), // TODO(lmr): do we need expandStyle and processTransform here?
+  // TODO(lmr): do we need expandStyle and processTransform here?
+  style: processTransform(returnCopy(styles, flattenStyle(styles))),
 });
 
+const returnCopy = (original, result) => original === result ? Object.assign({}, result) : result;
 
 module.exports = {
   hairlineWidth: getHairlineWidth(),
@@ -189,7 +192,7 @@ module.exports = {
   // NOTE:
   // `flatten` is exported separately from `resolve` because it mimics the RN api more closely
   // than `resolve`.
-  flatten: style => flattenStyle(style) || {},
+  flatten: style => returnCopy(style, flattenStyle(style)) || {},
   resolve,
 
   // NOTE: direct use of this method is for testing only...

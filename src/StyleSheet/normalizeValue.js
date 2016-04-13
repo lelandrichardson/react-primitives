@@ -23,6 +23,9 @@ const unitlessNumbers = {
   strokeDashoffset: true,
   strokeOpacity: true,
   strokeWidth: true,
+  scaleX: true,
+  scaleY: true,
+  scaleZ: true,
 };
 
 const normalizeValue = (property, value) => {
