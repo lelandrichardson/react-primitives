@@ -49,7 +49,7 @@ const UIManager = {
           break;
         case 'class':
         case 'className':
-          // prevent class names managed by React Native from being replaced
+          // prevent class names managed by React from being replaced
           node.setAttribute('class', `${node.getAttribute('class')} ${value}`);
           break;
         case 'text':

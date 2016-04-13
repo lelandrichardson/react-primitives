@@ -7,6 +7,8 @@ const Image = require('./Image/Image');
 const StyleSheet = require('./StyleSheet');
 const Touchable = require('./Touchable/Touchable');
 
+Animated.inject.FlattenStyle(StyleSheet.flatten);
+
 module.exports = {
   Animated: {
     ...Animated,
