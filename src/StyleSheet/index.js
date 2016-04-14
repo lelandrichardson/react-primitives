@@ -4,6 +4,7 @@ const murmurHash = require('./murmurHash');
 const injector = require('./injector');
 const mapKeyValue = require('../util/mapKeyValue');
 const processTransform = require('./processTransform');
+const expandStyle = require('./expandStyle');
 
 // TODO:
 // 1. (done) browser-prefixed styles (inline-style-prefixer)
@@ -180,8 +181,7 @@ const flattenClassNames = (input) => {
 
 const resolve = (styles) => ({
   className: flattenClassNames(styles),
-  // TODO(lmr): do we need expandStyle and processTransform here?
-  style: processTransform(returnCopy(styles, flattenStyle(styles))),
+  style: processTransform(returnCopy(styles, expandStyle(flattenStyle(styles)))),
 });
 
 const returnCopy = (original, result) => original === result ? Object.assign({}, result) : result;

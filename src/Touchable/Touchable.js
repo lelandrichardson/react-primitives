@@ -125,6 +125,7 @@ const Touchable = React.createClass({
       onLongPress: noop,
       onPressIn: noop,
       onPressOut: noop,
+      press: new Animated.Value(0),
     };
   },
 
