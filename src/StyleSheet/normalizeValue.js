@@ -26,6 +26,7 @@ const unitlessNumbers = {
   scaleX: true,
   scaleY: true,
   scaleZ: true,
+  scale: true,
 };
 
 const normalizeValue = (property, value) => {
