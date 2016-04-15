@@ -11,7 +11,6 @@ const unitlessNumbers = {
   flexNegative: true,
   fontWeight: true,
   lineClamp: true,
-  lineHeight: true,
   opacity: true,
   order: true,
   orphans: true,
