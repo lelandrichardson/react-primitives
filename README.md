@@ -4,13 +4,13 @@ Primitive React Interfaces Across Targets
 
 ## Installation
 
-```
+```sh
 npm i --save react-primitives
 ```
 
 ### Usage
 
-```
+```jsx
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-primitives';
 
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff00ff',
   },
 });
-
 ```
 
 
