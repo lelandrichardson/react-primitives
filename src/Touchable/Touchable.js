@@ -1,5 +1,6 @@
 const React = require('react');
 const Animated = require('animated');
+const StyleSheet = require('../StyleSheet');
 const TouchableMixin = require('./TouchableMixin');
 const TimerMixin = require('react-timer-mixin');
 const ensurePositiveDelayProps = require('./ensurePositiveDelayProps');
@@ -218,7 +219,14 @@ const Touchable = React.createClass({
       onResponderMove: this.touchableHandleResponderMove,
       onResponderRelease: this.touchableHandleResponderRelease,
       onResponderTerminate: this.touchableHandleResponderTerminate,
+      style: [ styles.touchable, this.props.children.props.style ],
     });
+  },
+});
+
+const styles = StyleSheet.create({
+  touchable: {
+    cursor: 'pointer',
   },
 });
 
