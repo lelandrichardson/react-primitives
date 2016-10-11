@@ -5,7 +5,7 @@ const View = require('./View/View');
 const Text = require('./Text/Text');
 const Image = require('./Image/Image');
 const StyleSheet = require('./StyleSheet');
-const Touchable = require('./Touchable/Touchable');
+const Touchable = require('./Touchable/Touchable')(Animated, StyleSheet);
 
 Animated.inject.FlattenStyle(StyleSheet.flatten);
 

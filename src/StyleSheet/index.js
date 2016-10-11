@@ -15,7 +15,7 @@ const expandStyle = require('./expandStyle');
 // 6. use invariant and add a lot of validation + runtime checks
 // 7. introduce a "strict mode" which only allows RN-compatible API (not sure about this any more)
 // 8. build a react-native implementation...
-// 9. figure out interop with css-layout default values...
+// 9. (done) figure out interop with css-layout default values...
 // 10. (done) make sure it works / process transform properties correctly...
 // 11. should we sort the resulting rules? to improve gzippability? does it matter?
 // 12. how to handle custom font families??
@@ -28,6 +28,56 @@ const guid = () => _id++;
 const declarationRegistry = {};
 const mediaQueryRegistry = {};
 const pseudoStyleRegistry = {};
+
+function init() {
+  const initialRules = {
+    // https://github.com/facebook/css-layout#default-values
+    rp_View: {
+      alignItems: 'stretch',
+      borderWidth: 0,
+      borderStyle: 'solid',
+      boxSizing: 'border-box',
+      JsDisplay: 'flex',
+      display: 'flex',
+      flexBasis: 'auto',
+      flexDirection: 'column',
+      flexShrink: 0,
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+      // button and anchor reset
+      backgroundColor: 'transparent',
+      color: 'inherit',
+      font: 'inherit',
+      textAlign: 'inherit',
+      textDecorationLine: 'none',
+      // list reset
+      listStyle: 'none',
+      // fix flexbox bugs
+      maxWidth: '100%',
+      minHeight: 0,
+      minWidth: 0,
+    },
+    rp_ViewReset: {
+      flexShrink: 0,
+    },
+    rp_Text: {
+      color: 'inherit',
+      display: 'inline',
+      font: 'inherit',
+      margin: 0,
+      padding: 0,
+      textDecorationLine: 'none',
+      wordWrap: 'break-word',
+    },
+  };
+
+  Object.keys(initialRules).forEach(key => {
+    const cssBody = generateCss(initialRules[key]);
+    const css = `.${key}{${cssBody}}`;
+    injector.addRule(key, css);
+  });
+}
 
 const createCssRule = (key, rule, genCss) => {
   const cssBody = generateCss(rule);
@@ -56,14 +106,14 @@ const extractRules = style => {
       pseudoStyles = pseudoStyles || {};
       pseudoStyles[key] = createCssRule(
         key,
-        style[key],
+        expandStyle(style[key]),
         (pseudo, className, body) => `.${className}${key}{${body}}`
       );
     } else if (key[0] === '@') {
       mediaQueries = mediaQueries || {};
       mediaQueries[key] = createCssRule(
         key,
-        style[key],
+        expandStyle(style[key]),
         (query, className, body) => `${query}{.${className}{${body}}}`
       );
     } else {
@@ -72,7 +122,7 @@ const extractRules = style => {
   });
 
   return {
-    declarations,
+    declarations: expandStyle(declarations),
     mediaQueries,
     pseudoStyles,
   };
@@ -126,17 +176,16 @@ const mergeTransforms = (a, b) => {
 const mergeStyle = (a, b) => {
   let key;
   for (key in b) {
-    if (!hasOwnProperty.call(b, key)) {
-      continue;
-    }
-    switch (key) {
-      case 'transform':
-        a[key] = mergeTransforms(a[key], b[key]);
-        break;
-      default:
-        /* eslint no-param-reassign: 0 */
-        a[key] = b[key];
-        break;
+    if (hasOwnProperty.call(b, key)) {
+      switch (key) {
+        case 'transform':
+          a[key] = mergeTransforms(a[key], b[key]);
+          break;
+        default:
+          /* eslint no-param-reassign: 0 */
+          a[key] = b[key];
+          break;
+      }
     }
   }
   return a;
@@ -151,7 +200,7 @@ const flattenStyle = (input) => {
     // input is falsy, so we skip it by returning undefined
     return undefined;
   }
-  return input;
+  return expandStyle(input);
 };
 
 const getClassNames = id => {
@@ -179,20 +228,37 @@ const flattenClassNames = (input) => {
   return null;
 };
 
-const resolve = (styles) => ({
-  className: flattenClassNames(styles),
-  style: processTransform(returnCopy(styles, expandStyle(flattenStyle(styles)))),
-});
+const resolve = (styles, extraClassName) => {
+  const classes = flattenClassNames(styles);
+  return {
+    className: !classes ? extraClassName : `${extraClassName} ${classes}`,
+    // TODO(lmr): do we need expandStyle and processTransform here?
+    // old code:
+    // style: processTransform(returnCopy(styles, expandStyle(flattenStyle(styles)))),
+    style: processTransform(flattenStyle(styles)),
+  };
+};
 
 const returnCopy = (original, result) => original === result ? Object.assign({}, result) : result;
 
+init();
+
 module.exports = {
   hairlineWidth: getHairlineWidth(),
+  absoluteFill: registerStyle({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  }),
   create,
   // NOTE:
   // `flatten` is exported separately from `resolve` because it mimics the RN api more closely
   // than `resolve`.
   flatten: style => returnCopy(style, flattenStyle(style)) || {},
+
+  // TODO(lmr): should this be an internal API or something that we expose?
   resolve,
 
   // NOTE: direct use of this method is for testing only...
