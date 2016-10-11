@@ -80,14 +80,13 @@ function normalizeHandler(handler) {
   };
 }
 
-function View(props) {
-  if (!(this instanceof View)) {
-    return new View(props);
+class View extends React.Component {
+  constructor(props) {
+    super(props);
+    if (!FLEXBOX_SUPPORTED) {
+      this.__setEl = this.__setEl.bind(this);
+    }
   }
-  if (!FLEXBOX_SUPPORTED) {
-    this.__setEl = this.__setEl.bind(this);
-  }
-  return React.Component.call(this, props);
 }
 
 View.prototype.render = function render() {
