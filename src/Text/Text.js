@@ -13,13 +13,13 @@ const propTypes = {
   accessible: Primitive.propTypes.accessible,
   children: PropTypes.any,
   numberOfLines: PropTypes.number,
-  onPress: PropTypes.func,
   style: StyleSheetPropType(TextStylePropTypes),
   testID: Primitive.propTypes.testID,
 };
 
 const defaultProps = {
   accessible: true,
+  numberOfLines: null,
 };
 
 class Text extends React.Component {
@@ -28,16 +28,22 @@ class Text extends React.Component {
       style,
       numberOfLines,
     } = this.props;
+    const passedStyle = numberOfLines === 1 ? [style, styles.singleLineStyle] : style;
     return (
       <Primitive
-        {...this.props}
+        accessibilityLabel={this.props.accessibilityLabel}
+        accessibilityRole={this.props.accessibilityRole}
+        accessible={this.props.accessible}
+        onStartShouldSetResponder={this.props.onStartShouldSetResponder}
+        onResponderTerminationRequest={this.props.onResponderTerminationRequest}
+        onResponderGrant={this.props.onResponderGrant}
+        onResponderMove={this.props.onResponderMove}
+        onResponderRelease={this.props.onResponderRelease}
+        onResponderTerminate={this.props.onResponderTerminate}
         component="span"
-        onClick={this.props.onPress}
-        style={[
-          styles.initial,
-          style,
-          numberOfLines === 1 && styles.singleLineStyle,
-        ]}
+        extraClassName="rp_Text"
+        style={passedStyle}
+        testID={this.props.testID}
       >
         {this.props.children}
       </Primitive>
@@ -50,15 +56,6 @@ Text.defaultProps = defaultProps;
 applyPrimitiveMethods(Text);
 
 const styles = StyleSheet.create({
-  initial: {
-    color: 'inherit',
-    display: 'inline',
-    font: 'inherit',
-    margin: 0,
-    padding: 0,
-    textDecorationLine: 'none',
-    wordWrap: 'break-word',
-  },
   singleLineStyle: {
     maxWidth: '100%',
     overflow: 'hidden',

@@ -2,21 +2,71 @@
 // Taken from:
 // https://github.com/necolas/react-native-web/blob/master/src/apis/StyleSheet/expandStyle.js
 const normalizeValue = require('./normalizeValue');
+const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const styleShortHands = {
-  borderColor: ['borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor'],
-  borderRadius: ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius'],
-  borderStyle: ['borderTopStyle', 'borderRightStyle', 'borderBottomStyle', 'borderLeftStyle'],
-  borderWidth: ['borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth'],
-  margin: ['marginTop', 'marginRight', 'marginBottom', 'marginLeft'],
-  marginHorizontal: ['marginRight', 'marginLeft'],
-  marginVertical: ['marginTop', 'marginBottom'],
-  overflow: ['overflowX', 'overflowY'],
-  padding: ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-  paddingHorizontal: ['paddingRight', 'paddingLeft'],
-  paddingVertical: ['paddingTop', 'paddingBottom'],
-  textDecorationLine: ['textDecoration'],
-  writingDirection: ['direction'],
+  borderColor: {
+    borderTopColor: true,
+    borderRightColor: true,
+    borderBottomColor: true,
+    borderLeftColor: true,
+  },
+  borderRadius: {
+    borderTopLeftRadius: true,
+    borderTopRightRadius: true,
+    borderBottomRightRadius: true,
+    borderBottomLeftRadius: true,
+  },
+  borderStyle: {
+    borderTopStyle: true,
+    borderRightStyle: true,
+    borderBottomStyle: true,
+    borderLeftStyle: true,
+  },
+  borderWidth: {
+    borderTopWidth: true,
+    borderRightWidth: true,
+    borderBottomWidth: true,
+    borderLeftWidth: true,
+  },
+  margin: {
+    marginTop: true,
+    marginRight: true,
+    marginBottom: true,
+    marginLeft: true,
+  },
+  marginHorizontal: {
+    marginRight: true,
+    marginLeft: true,
+  },
+  marginVertical: {
+    marginTop: true,
+    marginBottom: true,
+  },
+  overflow: {
+    overflowX: true,
+    overflowY: true,
+  },
+  padding: {
+    paddingTop: true,
+    paddingRight: true,
+    paddingBottom: true,
+    paddingLeft: true,
+  },
+  paddingHorizontal: {
+    paddingRight: true,
+    paddingLeft: true,
+  },
+  paddingVertical: {
+    paddingTop: true,
+    paddingBottom: true,
+  },
+  textDecorationLine: {
+    textDecoration: true,
+  },
+  writingDirection: {
+    direction: true,
+  },
 };
 
 /**
@@ -28,9 +78,9 @@ const styleShortHands = {
 const sortProps = (propsArray) => propsArray.sort((a, b) => {
   const expandedA = styleShortHands[a];
   const expandedB = styleShortHands[b];
-  if (expandedA && expandedA.indexOf(b) > -1) {
+  if (expandedA && expandedA[b]) {
     return -1;
-  } else if (expandedB && expandedB.indexOf(a) > -1) {
+  } else if (expandedB && expandedB[a]) {
     return 1;
   }
   return (a < b) ? -1 : (a > b) ? 1 : 0;
@@ -40,15 +90,17 @@ const sortProps = (propsArray) => propsArray.sort((a, b) => {
  * Expand the shorthand properties to isolate every declaration from the others.
  */
 const expandStyle = (style) => {
+  if (!style) return style;
   /* eslint no-param-reassign:0 */
   const propsArray = Object.keys(style);
   const sortedProps = sortProps(propsArray);
+  const resolvedStyle = {};
 
-  return sortedProps.reduce((resolvedStyle, key) => {
+  for (let i = 0; i < sortedProps.length; i++) {
+    const key = sortedProps[i];
     const expandedProps = styleShortHands[key];
     const value = normalizeValue(key, style[key]);
 
-    // React Native treats `flex:1` like `flex:1 1 auto`
     if (key === 'flex') {
       resolvedStyle.flexGrow = value;
       resolvedStyle.flexShrink = 1;
@@ -56,14 +108,16 @@ const expandStyle = (style) => {
     } else if (key === 'textAlignVertical') {
       resolvedStyle.verticalAlign = (value === 'center' ? 'middle' : value);
     } else if (expandedProps) {
-      expandedProps.forEach((prop, i) => {
-        resolvedStyle[expandedProps[i]] = value;
-      });
+      for (const propName in expandedProps) {
+        if (hasOwnProperty.call(expandedProps, propName)) {
+          resolvedStyle[propName] = value;
+        }
+      }
     } else {
       resolvedStyle[key] = value;
     }
-    return resolvedStyle;
-  }, {});
+  }
+  return resolvedStyle;
 };
 
 module.exports = expandStyle;
