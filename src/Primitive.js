@@ -1,24 +1,9 @@
 const React = require('react');
-const CSSPropertyOperations = require('react/lib/CSSPropertyOperations');
-const applyPrimitiveMethods = require('./applyPrimitiveMethods');
+const { applyPrimitiveMethods, FLEXBOX_SUPPORTED } = require('./applyPrimitiveMethods');
 const StyleSheet = require('./StyleSheet');
-const flexibility = require('flexibility');
 
 const { PropTypes } = React;
 const { string, oneOf, bool, oneOfType, func, array, object, number, node } = PropTypes;
-
-
-const FLEXBOX_SUPPORTED = (() => {
-  if (!global.document) {
-    return true;
-  }
-  const test = document.createElement('test');
-
-  test.style.display = 'flex';
-
-  return test.style.display === 'flex';
-})();
-
 
 const roleComponents = {
   article: 'article',
@@ -65,14 +50,13 @@ const defaultProps = {
   component: 'div',
 };
 
-function Primitive(props) {
-  if (!(this instanceof Primitive)) {
-    return new Primitive(props);
+class Primitive extends React.Component {
+  constructor(props) {
+    super(props);
+    if (!FLEXBOX_SUPPORTED) {
+      this.__setEl = this.__setEl.bind(this);
+    }
   }
-  if (!FLEXBOX_SUPPORTED) {
-    this.__setEl = this.__setEl.bind(this);
-  }
-  return React.Component.call(this, props);
 }
 
 Primitive.prototype.render = function render() {
