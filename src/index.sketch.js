@@ -1,10 +1,12 @@
-require('./Touchable/injectResponderEventPlugin');
-
 const Animated = require('animated');
-const View = require('./View/View');
-const Text = require('./Text/Text');
-const Image = require('./Image/Image');
-const StyleSheet = require('./StyleSheet');
+const {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Platform,
+} = require('react-sketchapp');
+
 const Touchable = require('./Touchable/Touchable')(Animated, StyleSheet);
 
 Animated.inject.FlattenStyle(StyleSheet.flatten);
@@ -21,5 +23,5 @@ module.exports = {
   Text,
   Image,
   Touchable,
-  // TODO: TextInput: require('./TextInput'),
+  Platform,
 };
