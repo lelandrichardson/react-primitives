@@ -1,6 +1,6 @@
 {
   "name": "react-primitives",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Primitive React Interfaces Across Targets",
   "main": "lib/index.web.js",
   "react-native": "lib/index.rn.js",
