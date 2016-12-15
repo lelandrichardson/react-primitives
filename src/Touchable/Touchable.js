@@ -35,12 +35,17 @@ const InsetPropType = PropTypes.shape({
  * },
  * ```
  */
-const Touchable = (Animated, StyleSheet) => {
+const Touchable = (Animated, StyleSheet, Platform) => {
 
   const styles = StyleSheet.create({
-    touchable: {
-      cursor: 'pointer',
-    },
+    touchable: Platform.select({
+      web: {
+        cursor: 'pointer',
+      },
+      ios: {},
+      android: {},
+      sketch: {},
+    }),
   });
 
   return React.createClass({

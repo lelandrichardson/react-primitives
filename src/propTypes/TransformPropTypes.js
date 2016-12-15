@@ -12,7 +12,8 @@ const numberOrString = oneOfType([number, string]);
 const TransformMatrixPropType = function (
   props,
   propName,
-  componentName
+  componentName,
+  ...args
 ) {
   if (props.transform && props.transformMatrix) {
     return new Error(
@@ -20,7 +21,7 @@ const TransformMatrixPropType = function (
       'component'
     );
   }
-  return ArrayOfNumberPropType(props, propName, componentName);
+  return ArrayOfNumberPropType(props, propName, componentName, ...args);
 };
 
 const TransformPropTypes = {

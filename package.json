@@ -2,9 +2,7 @@
   "name": "react-primitives",
   "version": "0.2.1",
   "description": "Primitive React Interfaces Across Targets",
-  "main": "lib/index.web.js",
-  "react-native": "lib/index.rn.js",
-  "sketch": "lib/index.sketch.js",
+  "main": "lib/index.js",
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf lib && babel -d lib src",
@@ -29,7 +27,8 @@
   "homepage": "https://github.com/lelandrichardson/react-primitives#readme",
   "devDependencies": {
     "babel-cli": "^6.6.5",
-    "babel-core": "^6.7.4",
+    "babel-core": "^6.20.0",
+    "babel-loader": "^6.2.9",
     "babel-plugin-syntax-object-rest-spread": "^6.5.0",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "babel-preset-airbnb": "^1.1.1",
@@ -49,10 +48,12 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
-    "react": "^15.0.0",
+    "react": "^15.4.0",
     "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
-    "watchify": "^3.7.0"
+    "react-dom": "^15.4.0",
+    "react-sketchapp": "^0.3.0",
+    "watchify": "^3.7.0",
+    "webpack": "^1.14.0"
   },
   "dependencies": {
     "animated": "^0.1.2",

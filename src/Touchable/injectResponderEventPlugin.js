@@ -2,11 +2,11 @@
 // based on https://github.com/facebook/react/pull/4303/files and
 // https://github.com/necolas/react-native-web/blob/master/src/apis/PanResponder/injectResponderEventPlugin.js
 
-const EventConstants = require('react/lib/EventConstants');
-const EventPluginRegistry = require('react/lib/EventPluginRegistry');
+const EventConstants = require('react-dom/lib/EventConstants');
+const EventPluginRegistry = require('react-dom/lib/EventPluginRegistry');
 const ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
-const ResponderEventPlugin = require('react/lib/ResponderEventPlugin');
-const ResponderTouchHistoryStore = require('react/lib/ResponderTouchHistoryStore');
+const ResponderEventPlugin = require('react-dom/lib/ResponderEventPlugin');
+const ResponderTouchHistoryStore = require('react-dom/lib/ResponderTouchHistoryStore');
 const normalizeNativeEvent = require('./normalizeNativeEvent');
 
 const {

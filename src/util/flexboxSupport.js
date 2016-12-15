@@ -1,5 +1,5 @@
 const flexibility = require('flexibility');
-const CSSPropertyOperations = require('react/lib/CSSPropertyOperations');
+const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
 
 const FLEXBOX_SUPPORTED = (() => {
   if (!global.document) {
