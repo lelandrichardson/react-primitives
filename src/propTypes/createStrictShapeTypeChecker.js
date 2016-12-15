@@ -8,27 +8,25 @@
  */
 
 const invariant = require('invariant');
-const ReactPropTypeLocationNames = require('react/lib/ReactPropTypeLocationNames');
 
 module.exports = function createStrictShapeTypeChecker(shapeTypes) {
-  function checkType(isRequired, props, propName, componentName, location) {
+  function checkType(isRequired, props, propName, componentName, location, ...args) {
     if (!props[propName]) {
       if (isRequired) {
         invariant(
           false,
           `Required object \`${propName}\` was not specified in ` +
           `\`${componentName}\`.`
-        )
+        );
       }
       return;
     }
     const propValue = props[propName];
     const propType = typeof propValue;
-    const locationName = location && ReactPropTypeLocationNames[location] || '(unknown)';
     if (propType !== 'object') {
       invariant(
         false,
-        `Invalid ${locationName} \`${propName}\` of type \`${propType}\` ` +
+        `Invalid prop \`${propName}\` of type \`${propType}\` ` +
         `supplied to \`${componentName}\`, expected \`object\`.`
       );
     }
@@ -45,7 +43,7 @@ module.exports = function createStrictShapeTypeChecker(shapeTypes) {
           `\nValid keys: ` + JSON.stringify(Object.keys(shapeTypes), null, '  ')
         );
       }
-      const error = checker(propValue, key, componentName, location);
+      const error = checker(propValue, key, componentName, location, ...args);
       if (error) {
         invariant(
           false,
@@ -59,9 +57,10 @@ module.exports = function createStrictShapeTypeChecker(shapeTypes) {
     props,
     propName,
     componentName,
-    location
+    location,
+    ...args
   ) {
-    return checkType(false, props, propName, componentName, location)
+    return checkType(false, props, propName, componentName, location, ...args);
   }
   chainedCheckType.isRequired = checkType.bind(null, true);
   return chainedCheckType;

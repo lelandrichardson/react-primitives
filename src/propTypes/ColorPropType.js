@@ -8,18 +8,14 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-const { PropTypes } = require('react');
-const ReactPropTypeLocationNames = require('react/lib/ReactPropTypeLocationNames');
-
 // var normalizeColor = require('./normalizeColor');
 
 var colorPropType = function(isRequired, props, propName, componentName, location, propFullName) {
   var color = props[propName];
   if (color === undefined || color === null) {
     if (isRequired) {
-      var locationName = ReactPropTypeLocationNames[location];
       return new Error(
-        'Required ' + locationName + ' `' + (propFullName || propName) +
+        'Required prop `' + (propFullName || propName) +
         '` was not specified in `' + componentName + '`.'
       );
     }

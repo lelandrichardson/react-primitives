@@ -8,13 +8,13 @@ const { flatten } = require('../StyleSheet');
 
 module.exports = function StyleSheetPropType(shape) {
   const shapePropType = createStrictShapeTypeChecker(shape);
-  return (props, propName, componentName, location) => {
+  return (props, propName, componentName, location, ...args) => {
     let newProps = props;
     if (props[propName]) {
       // Just make a dummy prop object with only the flattened style
       newProps = {};
       newProps[propName] = flatten(props[propName]);
     }
-    return shapePropType(newProps, propName, componentName, location);
+    return shapePropType(newProps, propName, componentName, location, ...args);
   };
 };

@@ -1,4 +1,4 @@
-const CSSPropertyOperations = require('react/lib/CSSPropertyOperations');
+const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
 const { flatten } = require('./StyleSheet');
 const processTransform = require('./StyleSheet/processTransform');
 

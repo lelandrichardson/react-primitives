@@ -1,6 +1,7 @@
 const React = require('react');
-const { applyPrimitiveMethods, FLEXBOX_SUPPORTED } = require('./applyPrimitiveMethods');
+const applyPrimitiveMethods = require('./applyPrimitiveMethods');
 const StyleSheet = require('./StyleSheet');
+const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('./util/flexboxSupport');
 
 const { PropTypes } = React;
 const { string, oneOf, bool, oneOfType, func, array, object, number, node } = PropTypes;
@@ -109,5 +110,6 @@ Primitive.prototype.render = function render() {
 Primitive.propTypes = propTypes;
 Primitive.defaultProps = defaultProps;
 applyPrimitiveMethods(Primitive);
+applyFlexboxPolyfill(Primitive);
 
 module.exports = Primitive;
