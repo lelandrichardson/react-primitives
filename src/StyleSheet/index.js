@@ -70,6 +70,13 @@ function init() {
       textDecorationLine: 'none',
       wordWrap: 'break-word',
     },
+    rp_Image: {
+      borderWidth: 0,
+      height: 'auto',
+      maxHeight: '100%',
+      maxWidth: '100%',
+      opacity: 0,
+    },
   };
 
   Object.keys(initialRules).forEach(key => {

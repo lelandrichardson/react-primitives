@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { View, StyleSheet } from '../src/index-web';
+import { View, Text, StyleSheet } from '../src/index';
 import { getStories } from './StoryManger';
 
 // stories
+import './stories/Image';
 import './stories/Text';
 import './stories/View';
 
@@ -42,4 +42,4 @@ const App = () => (
   </View>
 );
 
-ReactDOM.render(<App />, document.querySelector('.root'));
+module.exports = App;

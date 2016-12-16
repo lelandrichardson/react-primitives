@@ -1,6 +1,6 @@
 const React = require('react');
-const TouchableMixin = require('./TouchableMixin');
 const TimerMixin = require('react-timer-mixin');
+const TouchableMixin = require('./TouchableMixin');
 const ensurePositiveDelayProps = require('./ensurePositiveDelayProps');
 
 const { PropTypes } = React;
@@ -25,12 +25,12 @@ const InsetPropType = PropTypes.shape({
  * ```
  * renderButton: function() {
  *   return (
- *     <TouchableAnimated press={anim} onPress={this._onPressButton}>
+ *     <Touchable press={anim} onPress={this._onPressButton}>
  *       <Image
  *         style={styles.button}
  *         source={require('image!myButton')}
  *       />
- *     </TouchableAnimated>
+ *     </Touchable>
  *   );
  * },
  * ```
@@ -224,7 +224,7 @@ const Touchable = (Animated, StyleSheet, Platform) => {
 
     render() {
       const child = this.props.children;
-      const childStyle = child.props && child.props.style;
+      const childStyle = child && child.props && child.props.style;
       return React.cloneElement(child, {
         onStartShouldSetResponder: this.touchableHandleStartShouldSetResponder,
         onResponderTerminationRequest: this.touchableHandleResponderTerminationRequest,
@@ -232,7 +232,10 @@ const Touchable = (Animated, StyleSheet, Platform) => {
         onResponderMove: this.touchableHandleResponderMove,
         onResponderRelease: this.touchableHandleResponderRelease,
         onResponderTerminate: this.touchableHandleResponderTerminate,
-        style: [ styles.touchable, this.props.children.props.style ],
+        style: [
+          styles.touchable,
+          childStyle,
+        ],
       });
     },
   });

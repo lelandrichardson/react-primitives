@@ -1,4 +1,4 @@
 {
-  presets: ["airbnb"],
+  presets: ["react-native"],
   plugins: ["transform-object-rest-spread"]
 }

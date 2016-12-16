@@ -7,6 +7,10 @@
     "prepublish": "npm run build",
     "build": "rm -rf lib && babel -d lib src",
     "build:watch": "npm run build -- --watch",
+    "run:packager": "./node_modules/react-native/packager/packager.sh",
+    "run:ios": "react-native run-ios --project-path ./example/native/ios",
+    "run:android": "react-native run-android --root ./example/android",
+    "run:webpack": "webpack --watch",
     "test": "npm run --silent karma",
     "test:watch": "npm run karma:watch",
     "karma": "karma start --single-run --browsers PhantomJS",
@@ -51,6 +55,7 @@
     "react": "^15.4.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.4.0",
+    "react-native": "^0.39.2",
     "react-sketchapp": "^0.3.0",
     "watchify": "^3.7.0",
     "webpack": "^1.14.0"

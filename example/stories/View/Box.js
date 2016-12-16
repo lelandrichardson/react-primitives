@@ -1,6 +1,6 @@
 import React from 'react';
 import { make } from '../../StoryManger';
-import { View } from '../../../src/index-web';
+import { View, Text } from '../../../src/index';
 
 make('Box with 1.2 scale', () => (
   <View style={{ padding: 30 }}>
@@ -105,6 +105,18 @@ make('Box with border', () => (
   />
 ));
 
+make('Box with border2', () => (
+  <View
+    style={{
+      width: 100,
+      height: 100,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      borderWidth: 2,
+      borderColor: '#000',
+    }}
+  />
+));
 
 make('Three boxes (row)', () => (
   <View
