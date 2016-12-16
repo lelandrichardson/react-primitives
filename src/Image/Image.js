@@ -45,6 +45,67 @@ const defaultProps = {
   style: {},
 };
 
+// Style props that need to pass through to both
+const BOTH = {
+  flex: true,
+  position: true,
+};
+
+// Style props to be passed in to the "inner" node
+const INNER = {
+  padding: true,
+  paddingBottom: true,
+  paddingHorizontal: true,
+  paddingLeft: true,
+  paddingRight: true,
+  paddingTop: true,
+  paddingVertical: true,
+
+  flexDirection: true,
+  flexBasis: true,
+  flexGrow: true,
+  flexShrink: true,
+  flexWrap: true,
+
+  justifyContent: true,
+  alignItems: true,
+
+  backgroundColor: true,
+};
+
+function extractStyles(style, passedResizeMode) {
+  if (!style) {
+    return { inner: null, outer: null };
+  }
+  const styles = StyleSheet.flatten(style);
+  const inner = {};
+  const outer = {};
+  const resizeMode = passedResizeMode || styles.resizeMode || ImageResizeMode.cover;
+
+  Object.keys(styles).forEach(key => {
+    if (key === 'resizeMode') {
+      // do nothing
+    } else if (INNER[key]) {
+      inner[key] = styles[key];
+    } else if (BOTH[key]) {
+      inner[key] = styles[key];
+      outer[key] = styles[key];
+    } else {
+      outer[key] = styles[key];
+    }
+    if (key === 'position' && styles[key] === 'absolute') {
+      // position absolute is tricky. we basically want the outer node to have the correct full
+      // position, and then the inner node needs to essentially be "absoluteFill".
+      inner.top = 0;
+      inner.left = 0;
+      inner.bottom = 0;
+      inner.right = 0;
+    }
+  });
+
+  return { inner, outer, resizeMode };
+}
+
 class Image extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -145,12 +206,11 @@ class Image extends React.Component {
     const displayImage = resolveAssetSource(!isLoaded ? defaultSource : source);
     const backgroundImage = displayImage ? `url("${displayImage}")` : null;
 
-    // TODO(lmr): do we really need to do this here?
-    const style = StyleSheet.flatten(this.props.style);
-
-    const resizeMode = this.props.resizeMode || style.resizeMode || ImageResizeMode.cover;
-    // remove resizeMode style, as it is not supported by View
-    delete style.resizeMode;
+    const {
+      outer,
+      inner,
+      resizeMode,
+    } = extractStyles(this.props.style, this.props.resizeMode);
 
     /**
      * Image is a non-stretching View. The image is displayed as a background
@@ -166,15 +226,21 @@ class Image extends React.Component {
         accessible={accessible}
         style={[
           styles.initial,
-          style,
+          outer,
           backgroundImage && { backgroundImage },
           resizeModeStyles[resizeMode],
         ]}
         testID={testID}
       >
-        <img src={displayImage} style={styles.img} />
+        <img
+          src={displayImage}
+          className="rp_Image"
+        />
         {children && (
-          <View pointerEvents="box-none" style={styles.children}>
+          <View
+            pointerEvents="box-none"
+            style={[styles.children, inner]}
+          >
             {children}
           </View>
         )}
@@ -196,19 +262,12 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
   },
-  img: {
-    borderWidth: 0,
-    height: 'auto',
-    maxHeight: '100%',
-    maxWidth: '100%',
-    opacity: 0,
-  },
   children: {
-    bottom: 0,
-    left: 0,
     position: 'absolute',
-    right: 0,
     top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
 
@@ -227,4 +286,4 @@ const resizeModeStyles = StyleSheet.create({
   },
 });
 
-export default Image;
+module.exports = Image;
