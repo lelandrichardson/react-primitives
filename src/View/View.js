@@ -1,14 +1,13 @@
 const React = require('react');
-const Primitive = require('../Primitive');
 const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const ViewStylePropTypes = require('./ViewStylePropTypes');
 const normalizeNativeEvent = require('../Touchable/normalizeNativeEvent');
-const applyPrimitiveMethods = require('../applyPrimitiveMethods');
+const applyPrimitiveMethods = require('../util/applyPrimitiveMethods');
 const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('../util/flexboxSupport');
 
 const { PropTypes } = React;
-const { func } = PropTypes;
+const { func, string, bool, node, oneOf } = PropTypes;
 
 const roleComponents = {
   article: 'article',
@@ -28,11 +27,15 @@ const roleComponents = {
 
 
 const propTypes = {
-  accessibilityLabel: Primitive.propTypes.accessibilityLabel,
-  accessibilityLiveRegion: Primitive.propTypes.accessibilityLiveRegion,
-  accessibilityRole: Primitive.propTypes.accessibilityRole,
-  accessible: Primitive.propTypes.accessible,
-  children: PropTypes.node,
+  accessibilityLabel: string,
+  accessibilityLiveRegion: oneOf([
+    'assertive',
+    'off',
+    'polite',
+  ]),
+  accessibilityRole: string,
+  accessible: bool,
+  children: node,
   onClick: func,
   onClickCapture: func,
   onMoveShouldSetResponder: func,
@@ -53,9 +56,14 @@ const propTypes = {
   onTouchMoveCapture: func,
   onTouchStart: func,
   onTouchStartCapture: func,
-  pointerEvents: PropTypes.oneOf(['auto', 'box-none', 'box-only', 'none']),
+  pointerEvents: oneOf([
+    'auto',
+    'box-none',
+    'box-only',
+    'none',
+  ]),
   style: StyleSheetPropType(ViewStylePropTypes),
-  testID: Primitive.propTypes.testID,
+  testID: string,
 };
 
 const defaultProps = {

@@ -1,15 +1,11 @@
 const React = require('react');
-const Primitive = require('../Primitive');
 const StyleSheet = require('../StyleSheet');
 const View = require('../View/View');
-const { PropTypes } = React;
-
 const resolveAssetSource = require('./resolveAssetSource');
 const ImageResizeMode = require('./ImageResizeMode');
-
 const ImageStylePropTypes = require('./ImageStylePropTypes');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
-const applyPrimitiveMethods = require('../applyPrimitiveMethods');
+const applyPrimitiveMethods = require('../util/applyPrimitiveMethods');
 
 const STATUS_ERRORED = 'ERRORED';
 const STATUS_LOADED = 'LOADED';
@@ -17,7 +13,9 @@ const STATUS_LOADING = 'LOADING';
 const STATUS_PENDING = 'PENDING';
 const STATUS_IDLE = 'IDLE';
 
-// TODO(lmr): why both? Why not require that it's just the object w/ uri?
+const { PropTypes } = React;
+const { string, node, bool, func, oneOf } = PropTypes;
+
 const ImageSourcePropType = PropTypes.oneOfType([
   PropTypes.shape({
     uri: PropTypes.string.isRequired,
@@ -26,18 +24,29 @@ const ImageSourcePropType = PropTypes.oneOfType([
 ]);
 
 const propTypes = {
-  accessibilityLabel: Primitive.propTypes.accessibilityLabel,
-  accessible: Primitive.propTypes.accessible,
-  children: PropTypes.any,
+  accessibilityLabel: string,
+  accessibilityLiveRegion: oneOf([
+    'assertive',
+    'off',
+    'polite',
+  ]),
+  accessibilityRole: string,
+  accessible: bool,
+  children: node,
   defaultSource: ImageSourcePropType,
-  onError: PropTypes.func,
-  onLoad: PropTypes.func,
-  onLoadEnd: PropTypes.func,
-  onLoadStart: PropTypes.func,
-  resizeMode: PropTypes.oneOf(['contain', 'cover', 'none', 'stretch']),
+  onError: func,
+  onLoad: func,
+  onLoadEnd: func,
+  onLoadStart: func,
+  resizeMode: oneOf([
+    'contain',
+    'cover',
+    'none',
+    'stretch',
+  ]),
   source: ImageSourcePropType,
   style: StyleSheetPropType(ImageStylePropTypes),
-  testID: Primitive.propTypes.testID,
+  testID: string,
 };
 
 const defaultProps = {
@@ -105,6 +114,8 @@ function extractStyles(style, passedResizeMode) {
 
   return { inner, outer, resizeMode };
 }
+
+// TODO(lmr): Image.prefetch and Image.getSize
 
 class Image extends React.Component {
   constructor(props, context) {
