@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from '../src/index';
-import { getStories } from './StoryManger';
+import { getStories } from './StoryManager';
 
 // stories
 import './stories/Image';

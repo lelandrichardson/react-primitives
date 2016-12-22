@@ -1,5 +1,5 @@
 import React from 'react';
-import { make } from '../../StoryManger';
+import { make } from '../../StoryManager';
 import { View, Text } from '../../../src/index';
 
 make('Text 1', () => (

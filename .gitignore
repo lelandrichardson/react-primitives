@@ -64,5 +64,5 @@ project.xcworkspace
 local.properties
 
 lib/
-
+snapshots
 example/web/dist

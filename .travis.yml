@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+node_js:
+  - "6"
+addons:
+  # This is the latest version of Firefox that currently supports Happo.
+  # https://github.com/SeleniumHQ/selenium/issues/2559
+  firefox: "47.0.1"
+before_script:
+  - 'sh -e /etc/init.d/xvfb start'
+script:
+  - 'sh ./scripts/happo-ci.sh'
