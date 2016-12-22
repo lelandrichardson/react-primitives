@@ -34,7 +34,7 @@ function init() {
     // https://github.com/facebook/css-layout#default-values
     rp_View: {
       alignItems: 'stretch',
-      borderWidth: 0,
+      borderWidth: 4,
       borderStyle: 'solid',
       boxSizing: 'border-box',
       JsDisplay: 'flex',
