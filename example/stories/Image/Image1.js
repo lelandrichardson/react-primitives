@@ -1,8 +1,8 @@
 import React from 'react';
-import { make } from '../../StoryManger';
+import { make } from '../../StoryManager';
 import { View, Text, Image } from '../../../src/index';
 
-const image = (w, h = w) => ({ uri: `https://unsplash.it/${w}/${h}?image=0` });
+const image = (w, h = w) => ({ uri: `../assets/image_1_${w}_${h}.jpeg` });
 
 make('Image: border radius', () => (
   <Image

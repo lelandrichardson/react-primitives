@@ -1,5 +1,5 @@
 const ReactDOM = require('react-dom');
-const UIManager = require('./UIManager');
+const UIManager = require('../UIManager');
 
 function setNativeProps(props) {
   UIManager.updateView(ReactDOM.findDOMNode(this), props);

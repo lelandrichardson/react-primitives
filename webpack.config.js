@@ -1,10 +1,13 @@
 var path = require('path');
 
 module.exports = {
-  entry: './example/web/example.js',
+  entry: {
+    example: './example/web/example.js',
+    happo: './example/web/happo.js',
+  },
   output: {
     path: path.resolve(__dirname, 'example', 'web', 'dist'),
-    filename: 'example.bundle.js',
+    filename: '[name].bundle.js',
   },
   module: {
     loaders: [
@@ -13,6 +16,6 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
-    ]
-  }
+    ],
+  },
 };
