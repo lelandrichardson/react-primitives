@@ -44,6 +44,7 @@
     "eslint-config-airbnb": "^6.2.0",
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "eslint-plugin-react": "^4.3.0",
+    "happo": "^3.0.1",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-browserify": "^5.0.3",
@@ -64,6 +65,7 @@
   },
   "dependencies": {
     "animated": "^0.1.2",
+    "deline": "^1.0.4",
     "flexibility": "^2.0.1",
     "inline-style-prefix-all": "^1.0.4",
     "invariant": "^2.2.1",
