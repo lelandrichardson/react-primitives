@@ -41,6 +41,7 @@
     "browserify": "^13.1.0",
     "chai": "^3.5.0",
     "enzyme": "^2.2.0",
+    "eslint": "^2.13.1",
     "eslint-config-airbnb": "^6.2.0",
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "eslint-plugin-react": "^4.3.0",
@@ -65,6 +66,7 @@
   },
   "dependencies": {
     "animated": "^0.1.2",
+    "asap": "^2.0.5",
     "deline": "^1.0.4",
     "flexibility": "^2.0.1",
     "inline-style-prefix-all": "^1.0.4",
