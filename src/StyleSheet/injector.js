@@ -1,30 +1,10 @@
+const asap = require('asap');
+
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 let registry = {};
 let isDirty = false;
 let styleNode = null;
-
-const nextFrame = cb => {
-  if (global.requestAnimationFrame) {
-    global.requestAnimationFrame(cb);
-  } else {
-    setTimeout(cb, 16);
-  }
-};
-
-const interval = cb => {
-  const repeat = () => {
-    cb();
-    nextFrame(repeat);
-  };
-  nextFrame(repeat);
-};
-
-
-const addRule = (key, rule) => {
-  registry[key] = rule;
-  isDirty = true;
-};
 
 const getStyleText = () => {
   /* eslint prefer-template:0 */
@@ -78,12 +58,18 @@ const frame = () => {
   }
 };
 
-if (global.document) {
-  // NOTE(lmr):
-  // we are only calling this in a browser environment. On the server we can just use the
-  // `getStyleSheetHtml` API.
-  interval(frame);
-}
+const addRule = (key, rule) => {
+  registry[key] = rule;
+  if (!isDirty) {
+    isDirty = true;
+    if (global.document) {
+      // NOTE(lmr):
+      // we are only calling this in a browser environment. On the server we can just use the
+      // `getStyleSheetHtml` API.
+      asap(frame);
+    }
+  }
+};
 
 const getStyleSheetHtml = () => `<style data-react-primitives-stylesheet>${getStyleText()}</style>`;
 
