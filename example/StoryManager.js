@@ -1,6 +1,7 @@
 let stories = [];
 
 const make = (name, Component) => {
+  Component.displayName = `Story(${name})`;
   stories.push({ name, Component });
 };
 const getStories = () => stories;

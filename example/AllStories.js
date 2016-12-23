@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from '../src/index';
 import { getStories } from './StoryManager';
 
 // stories
+import './stories/View';
 import './stories/Image';
 import './stories/Text';
-import './stories/View';
 
 const styles = StyleSheet.create({
   app: {
