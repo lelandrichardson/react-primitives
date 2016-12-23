@@ -1,8 +1,41 @@
 import React from 'react';
 import { make } from '../../StoryManager';
-import { View, Text, Image } from '../../../src/index';
+import { View, Text, Image, StyleSheet } from '../../../src/index';
 
 const image = (w, h = w) => ({ uri: `../assets/image_1_${w}_${h}.jpeg` });
+
+const styles = StyleSheet.create({
+  a: {
+    color: 'blue',
+    width: 20,
+  },
+  b: {
+    width: 20,
+    color: 'blue',
+  },
+  foo: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'orange',
+  },
+  bar: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'blue',
+  },
+});
+
+make('css example', () => (
+  <View>
+    <View
+      style={[styles.bar, { width: 100, height: 100 }]}
+    >
+      <View
+        style={styles.foo}
+      />
+    </View>
+  </View>
+));
 
 make('Image: border radius', () => (
   <Image

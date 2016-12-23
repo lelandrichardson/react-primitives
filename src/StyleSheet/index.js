@@ -7,19 +7,12 @@ const processTransform = require('./processTransform');
 const expandStyle = require('./expandStyle');
 
 // TODO:
-// 1. (done) browser-prefixed styles (inline-style-prefixer)
-// 2. (done) inject style tags for each style (once and only once)
 // 3. ensure that multiple-bundled react-primitives will work...
-// 4. (done) conversion of style hash to css...
-// 5. (done) hairline width: http://dieulot.net/css-retina-hairline
 // 6. use invariant and add a lot of validation + runtime checks
 // 7. introduce a "strict mode" which only allows RN-compatible API (not sure about this any more)
-// 8. build a react-native implementation...
-// 9. (done) figure out interop with css-layout default values...
-// 10. (done) make sure it works / process transform properties correctly...
-// 11. should we sort the resulting rules? to improve gzippability? does it matter?
 // 12. how to handle custom font families??
 // 13. refactor this file into sub-files
+// 14. move the logic for shadows into `processTransform` instead of `expandStyle`
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -28,6 +21,7 @@ const guid = () => _id++;
 const declarationRegistry = {};
 const mediaQueryRegistry = {};
 const pseudoStyleRegistry = {};
+const coreRegistry = {};
 
 function init() {
   const initialRules = {
@@ -86,10 +80,11 @@ function init() {
   });
 }
 
-const createCssRule = (key, rule, genCss) => {
+// TODO(lmr): we should make this lazy and memoize at some point as a performance optimization
+const createCssRule = (prefix, key, rule, genCss) => {
   const cssBody = generateCss(rule);
   // key is the media query, eg. '@media (max-width: 600px)'
-  const className = `rp_${murmurHash(key + cssBody)}`;
+  const className = `${prefix}${murmurHash(key + cssBody)}`;
   const css = genCss(key, className, cssBody);
   // this adds the rule to the buffer to be injected into the document
   injector.addRule(className, css);
@@ -101,26 +96,33 @@ const createCssRule = (key, rule, genCss) => {
   };
 };
 
-const extractRules = style => {
+const extractRules = (name, style) => {
   const declarations = {};
   // media queries and pseudo styles are the exception, not the rule, so we are going to assume
   // they are null most of the time and only create an object when we need to.
   let mediaQueries = null;
   let pseudoStyles = null;
+  let prefix = 'r';
+
+  if (process.env.NODE_ENV === 'development') {
+    prefix = `${name}_`;
+  }
 
   Object.keys(style).forEach(key => {
     if (key[0] === ':') {
       pseudoStyles = pseudoStyles || {};
       pseudoStyles[key] = createCssRule(
+        prefix,
         key,
-        expandStyle(style[key]),
+        processTransform(expandStyle(style[key])),
         (pseudo, className, body) => `.${className}${key}{${body}}`
       );
     } else if (key[0] === '@') {
       mediaQueries = mediaQueries || {};
       mediaQueries[key] = createCssRule(
+        prefix,
         key,
-        expandStyle(style[key]),
+        processTransform(expandStyle(style[key])),
         (query, className, body) => `${query}{.${className}{${body}}}`
       );
     } else {
@@ -128,21 +130,31 @@ const extractRules = style => {
     }
   });
 
+  const coreStyles = processTransform(expandStyle(declarations));
+  const cssClass = createCssRule(
+    prefix,
+    '',
+    coreStyles,
+    (_, className, body) => `.${className}{${body}}`
+  );
+
   return {
-    declarations: expandStyle(declarations),
+    declarations: coreStyles,
+    cssClass,
     mediaQueries,
     pseudoStyles,
   };
 };
 
-const registerStyle = style => {
+const registerStyle = (name, style) => {
   // TODO(lmr):
   // do "proptype"-like validation here in non-production build
   const id = guid();
-  const rules = extractRules(style);
+  const rules = extractRules(name, style);
   declarationRegistry[id] = rules.declarations;
   mediaQueryRegistry[id] = rules.mediaQueries;
   pseudoStyleRegistry[id] = rules.pseudoStyles;
+  coreRegistry[id] = rules.cssClass;
   return id;
 };
 
@@ -151,7 +163,7 @@ const getStyle = id => declarationRegistry[id];
 const create = styles => {
   const result = {};
   Object.keys(styles).forEach(key => {
-    result[key] = registerStyle(styles[key]);
+    result[key] = registerStyle(key, styles[key]);
   });
   return result;
 };
@@ -210,18 +222,35 @@ const flattenStyle = (input) => {
   return expandStyle(input);
 };
 
+const flattenNonRegisteredStyles = (input) => {
+  if (Array.isArray(input)) {
+    return input.reduce((acc, val) => mergeStyle(acc, flattenNonRegisteredStyles(val)), {});
+  } else if (typeof input === 'number') {
+    return undefined;
+  } else if (!input) {
+    // input is falsy, so we skip it by returning undefined
+    return undefined;
+  }
+  return expandStyle(input);
+};
+
 const getClassNames = id => {
+  const coreRule = coreRegistry[id];
   const mediaQueryRules = mediaQueryRegistry[id];
   const pseudoStyleRules = pseudoStyleRegistry[id];
-  if (!mediaQueryRules && !pseudoStyleRules) {
-    return null;
+  // the most common case: coreRule exists, media/pseudo do not
+  if (!!coreRule && !mediaQueryRules && !pseudoStyleRules) {
+    return coreRule.className;
   }
   const results = [];
+  if (coreRule) {
+    results.push(coreRule);
+  }
   if (mediaQueryRules) {
-    results.push.apply(results, mapKeyValue(mediaQueryRules, (id, rule) => rule.className));
+    results.push.apply(results, mapKeyValue(mediaQueryRules, (_, rule) => rule.className));
   }
   if (pseudoStyleRules) {
-    results.push.apply(results, mapKeyValue(pseudoStyleRules, (id, rule) => rule.className));
+    results.push.apply(results, mapKeyValue(pseudoStyleRules, (_, rule) => rule.className));
   }
   return results.join(' ') || null;
 };
@@ -237,12 +266,10 @@ const flattenClassNames = (input) => {
 
 const resolve = (styles, extraClassName) => {
   const classes = flattenClassNames(styles);
+  const style = flattenNonRegisteredStyles(styles);
   return {
     className: !classes ? extraClassName : `${extraClassName} ${classes}`,
-    // TODO(lmr): do we need expandStyle and processTransform here?
-    // old code:
-    // style: processTransform(returnCopy(styles, expandStyle(flattenStyle(styles)))),
-    style: processTransform(flattenStyle(styles)),
+    style: style ? processTransform(style) : null,
   };
 };
 
@@ -252,7 +279,7 @@ init();
 
 module.exports = {
   hairlineWidth: getHairlineWidth(),
-  absoluteFill: registerStyle({
+  absoluteFill: registerStyle('absoluteFill', {
     position: 'absolute',
     top: 0,
     left: 0,
