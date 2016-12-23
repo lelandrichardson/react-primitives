@@ -1,5 +1,7 @@
 // Modeled after: http://dieulot.net/css-retina-hairline
 
+// TODO(lmr): come up with an SSR strategy for this...
+
 // NOTE:
 // This assumes this script runs after <body>. If it is run inside of `<head>`, it would not work
 module.exports = () => {

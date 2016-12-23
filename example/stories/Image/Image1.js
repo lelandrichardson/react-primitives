@@ -2,6 +2,7 @@ import React from 'react';
 import { make } from '../../StoryManager';
 import { View, Text, Image, StyleSheet } from '../../../src/index';
 
+// TODO(lmr): we should figure out asset bundling etc. so that we can use `require('./image.png')`
 const image = (w, h = w) => ({ uri: `../assets/image_1_${w}_${h}.jpeg` });
 
 const styles = StyleSheet.create({

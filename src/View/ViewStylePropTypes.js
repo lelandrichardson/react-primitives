@@ -3,6 +3,7 @@ const BorderPropTypes = require('../propTypes/BorderPropTypes');
 const ColorPropType = require('../propTypes/ColorPropType');
 const LayoutPropTypes = require('../propTypes/LayoutPropTypes');
 const TransformPropTypes = require('../propTypes/TransformPropTypes');
+const ShadowPropTypes = require('../propTypes/ShadowPropTypes');
 
 const { number, oneOf, string } = PropTypes;
 const autoOrHiddenOrVisible = oneOf(['auto', 'hidden', 'visible']);
@@ -12,10 +13,13 @@ module.exports = {
   ...BorderPropTypes,
   ...LayoutPropTypes,
   ...TransformPropTypes,
+  ...ShadowPropTypes,
   backfaceVisibility: hiddenOrVisible,
   backgroundColor: ColorPropType,
   opacity: number,
   overflow: autoOrHiddenOrVisible,
+  // TODO(lmr): we probably want to shim the RN stylesheet or something to strip
+  // these styles, or else it will trigger a redbox in RN.
   /* @platform web */
   backgroundAttachment: string,
   backgroundClip: string,

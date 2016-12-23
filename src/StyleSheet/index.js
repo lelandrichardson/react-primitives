@@ -277,6 +277,14 @@ const returnCopy = (original, result) => original === result ? Object.assign({},
 
 init();
 
+// TODO(lmr):
+// I think `flatten` should return a flattened style object, but not transformed into what a browser
+// expects.
+// As opposed to `resolve`, which should do flattening AND transform into what a browser expects.
+
+// TODO(lmr):
+// figure out a good strategy for SSR here.
+
 module.exports = {
   hairlineWidth: getHairlineWidth(),
   absoluteFill: registerStyle('absoluteFill', {

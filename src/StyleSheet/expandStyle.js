@@ -2,6 +2,7 @@
 // Taken from:
 // https://github.com/necolas/react-native-web/blob/master/src/apis/StyleSheet/expandStyle.js
 const normalizeValue = require('./normalizeValue');
+const colorWithOpacity = require('../util/colorWithOpacity');
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const styleShortHands = {
@@ -86,35 +87,85 @@ const sortProps = (propsArray) => propsArray.sort((a, b) => {
   return (a < b) ? -1 : (a > b) ? 1 : 0;
 });
 
+const resolveFlexStyle = (resolvedStyle, flex, style) => {
+  // TODO(lmr): RN now supports some of these properties. look into how to handle
+  resolvedStyle.flexGrow = flex;
+  resolvedStyle.flexShrink = 1;
+  resolvedStyle.flexBasis = 'auto';
+};
+
+const resolveShadowProperty = (resolvedStyle, style) => {
+  const opacity = style.shadowOpacity != null ? style.shadowOpacity : 1;
+  const color = colorWithOpacity(style.shadowColor, opacity);
+  const offset = style.shadowOffset || { width: 0, height: 0 };
+  const x = normalizeValue('width', offset.width || 0);
+  const y = normalizeValue('height', offset.height || 0);
+  const r = style.shadowRadius || 0;
+
+  // we multiply by 2 here because on native, the radius is in terms of
+  // "points" which are multiple pixels, but on the web they are in terms of
+  // pixels. A more same strategy might be to divide this by PizelRatio.get()
+  // in the react native case.
+  const rpx = normalizeValue('shadowRadius', r * 3);
+
+  // eslint-disable-next-line no-param-reassign
+  resolvedStyle.boxShadow = `${color} ${x} ${y} ${rpx}`;
+};
+
 /**
  * Expand the shorthand properties to isolate every declaration from the others.
  */
 const expandStyle = (style) => {
   if (!style) return style;
-  /* eslint no-param-reassign:0 */
+
   const propsArray = Object.keys(style);
   const sortedProps = sortProps(propsArray);
   const resolvedStyle = {};
+  let hasResolvedShadow = false;
 
   for (let i = 0; i < sortedProps.length; i++) {
     const key = sortedProps[i];
-    const expandedProps = styleShortHands[key];
-    const value = normalizeValue(key, style[key]);
-
-    if (key === 'flex') {
-      resolvedStyle.flexGrow = value;
-      resolvedStyle.flexShrink = 1;
-      resolvedStyle.flexBasis = 'auto';
-    } else if (key === 'textAlignVertical') {
-      resolvedStyle.verticalAlign = (value === 'center' ? 'middle' : value);
-    } else if (expandedProps) {
-      for (const propName in expandedProps) {
-        if (hasOwnProperty.call(expandedProps, propName)) {
-          resolvedStyle[propName] = value;
+    const value = style[key];
+    switch (key) {
+      case 'flex':
+        resolveFlexStyle(resolvedStyle, value, style);
+        break;
+      case 'textAlignVertical':
+        resolvedStyle.verticalAlign = (value === 'center' ? 'middle' : value);
+        break;
+      case 'shadowColor':
+      case 'shadowOffset':
+      case 'shadowOpacity':
+      case 'shadowRadius':
+        if (!hasResolvedShadow) {
+          resolveShadowProperty(resolvedStyle, style);
+          hasResolvedShadow = true;
         }
-      }
-    } else {
-      resolvedStyle[key] = value;
+        break;
+      case 'borderColor':
+      case 'borderRadius':
+      case 'borderStyle':
+      case 'borderWidth':
+      case 'margin':
+      case 'marginHorizontal':
+      case 'marginVertical':
+      case 'overflow':
+      case 'padding':
+      case 'paddingHorizontal':
+      case 'paddingVertical':
+      case 'textDecorationLine':
+      case 'writingDirection': {
+        const expandedProps = styleShortHands[key];
+        const normalizedVal = normalizeValue(key, value);
+        for (const propName in expandedProps) {
+          if (hasOwnProperty.call(expandedProps, propName)) {
+            resolvedStyle[propName] = normalizedVal;
+          }
+        }
+      } break;
+      default:
+        resolvedStyle[key] = normalizeValue(key, value);
+        break;
     }
   }
   return resolvedStyle;
