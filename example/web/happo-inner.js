@@ -9,10 +9,11 @@ import '../stories/Text';
 import '../stories/View';
 
 getStories().forEach(({ name, Component }) => {
-  happo.define(name, () => {
+  happo.define(name, (done) => {
     const div = document.createElement('div');
     document.body.appendChild(div);
     ReactDOM.render(<Component />, div);
+    requestAnimationFrame(done);
   });
 });
 
