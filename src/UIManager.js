@@ -1,6 +1,4 @@
 const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
-const { flatten } = require('./StyleSheet');
-const processTransform = require('./StyleSheet/processTransform');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -45,7 +43,7 @@ const UIManager = {
       switch (prop) {
         case 'style':
           // convert styles to DOM-styles
-          CSSPropertyOperations.setValueForStyles(node, processTransform(flatten(value)));
+          CSSPropertyOperations.setValueForStyles(node, value);
           break;
         case 'class':
         case 'className':

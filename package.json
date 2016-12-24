@@ -69,7 +69,7 @@
     "asap": "^2.0.5",
     "deline": "^1.0.4",
     "flexibility": "^2.0.1",
-    "inline-style-prefix-all": "^1.0.4",
+    "inline-style-prefixer": "^2.0.5",
     "invariant": "^2.2.1",
     "react-timer-mixin": "^0.13.3"
   },

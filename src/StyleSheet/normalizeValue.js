@@ -30,7 +30,7 @@ const unitlessNumbers = {
 
 const normalizeValue = (property, value) => {
   if (!unitlessNumbers[property] && typeof value === 'number') {
-    return `${value}px`; // TODO(lmr): what if we used `em` or `rem` here?
+    return `${value}px`;
   }
   return value;
 };

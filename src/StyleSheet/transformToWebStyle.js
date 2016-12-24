@@ -1,6 +1,5 @@
-/* eslint max-len:0 no-nested-ternary:0 */
-// Taken from:
-// https://github.com/necolas/react-native-web/blob/master/src/apis/StyleSheet/expandStyle.js
+const prefixAll = require('inline-style-prefixer/static'); // 2.4kb gzipped
+const prefixedProperties = require('./prefixedProperties');
 const normalizeValue = require('./normalizeValue');
 const colorWithOpacity = require('../util/colorWithOpacity');
 const hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -112,26 +111,45 @@ const resolveShadowProperty = (resolvedStyle, style) => {
   resolvedStyle.boxShadow = `${color} ${x} ${y} ${rpx}`;
 };
 
+// { scale: 2 } => 'scale(2)'
+const mapTransform = (transform) => {
+  const key = Object.keys(transform)[0];
+  return `${key}(${normalizeValue(key, transform[key])})`;
+};
+
+// mutative
+const resolveTransformProperty = (resolvedStyle, transform) => {
+  /* eslint no-param-reassign:0 */
+  resolvedStyle.transform = transform.map(mapTransform).join(' ');
+};
+
 /**
  * Expand the shorthand properties to isolate every declaration from the others.
  */
-const expandStyle = (style) => {
+const transformToWebStyle = (style) => {
   if (!style) return style;
 
   const propsArray = Object.keys(style);
   const sortedProps = sortProps(propsArray);
-  const resolvedStyle = {};
+  let resolvedStyle = {};
   let hasResolvedShadow = false;
+  let needsPrefix = false;
 
   for (let i = 0; i < sortedProps.length; i++) {
     const key = sortedProps[i];
     const value = style[key];
+    if (!needsPrefix && prefixedProperties[key]) {
+      needsPrefix = true;
+    }
     switch (key) {
       case 'flex':
         resolveFlexStyle(resolvedStyle, value, style);
         break;
       case 'textAlignVertical':
         resolvedStyle.verticalAlign = (value === 'center' ? 'middle' : value);
+        break;
+      case 'transform':
+        resolveTransformProperty(resolvedStyle, value);
         break;
       case 'shadowColor':
       case 'shadowOffset':
@@ -168,7 +186,12 @@ const expandStyle = (style) => {
         break;
     }
   }
+  // micro-optimization. For simple styles that don't have properties that need to be prefixed,
+  // we avoid making this call all together.
+  if (needsPrefix) {
+    resolvedStyle = prefixAll(resolvedStyle);
+  }
   return resolvedStyle;
 };
 
-module.exports = expandStyle;
+module.exports = transformToWebStyle;
