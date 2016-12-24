@@ -1,8 +1,14 @@
 const ReactDOM = require('react-dom');
 const UIManager = require('../UIManager');
+const StyleSheet = require('../StyleSheet');
 
 function setNativeProps(props) {
-  UIManager.updateView(ReactDOM.findDOMNode(this), props);
+  let propsToSend = props;
+  if ('style' in props) {
+    const resolvedStyle = StyleSheet.resolve(props.style);
+    propsToSend = { ...propsToSend, ...resolvedStyle };
+  }
+  UIManager.updateView(ReactDOM.findDOMNode(this), propsToSend);
 }
 
 function blur() {

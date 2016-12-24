@@ -263,6 +263,7 @@ class Image extends React.Component {
 Image.propTypes = propTypes;
 Image.defaultProps = defaultProps;
 Image.resizeMode = ImageResizeMode;
+
 applyPrimitiveMethods(Image);
 
 const styles = StyleSheet.create({

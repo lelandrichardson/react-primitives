@@ -32,7 +32,6 @@ module.exports = {
   ]),
   backgroundRepeat: string,
   backgroundSize: string,
-  boxShadow: string,
   cursor: string,
   outline: string,
   overflowX: autoOrHiddenOrVisible,
