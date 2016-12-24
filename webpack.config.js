@@ -1,9 +1,11 @@
+var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
   entry: {
     example: './example/web/example.js',
     happo: './example/web/happo.js',
+    perf: './example/web/perf.js',
   },
   output: {
     path: path.resolve(__dirname, 'example', 'web', 'dist'),
@@ -18,4 +20,16 @@ module.exports = {
       },
     ],
   },
+  plugins:[
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: true,
+      },
+    }),
+  ],
 };

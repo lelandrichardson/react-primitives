@@ -1,4 +1,15 @@
 {
   presets: ["react-native"],
-  plugins: ["transform-object-rest-spread"]
+  plugins: [
+    "transform-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "react-primitives": "./src/main"
+        },
+        "cwd": "babelrc"
+      }
+    ]
+  ]
 }
