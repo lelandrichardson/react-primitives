@@ -25,7 +25,6 @@ const roleComponents = {
   region: 'section',
 };
 
-
 const propTypes = {
   accessibilityLabel: string,
   accessibilityLiveRegion: oneOf([
