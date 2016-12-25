@@ -65,11 +65,6 @@ const propTypes = {
   testID: string,
 };
 
-const defaultProps = {
-  accessible: true,
-  style: null,
-};
-
 /**
  * React Native expects `pageX` and `pageY` to be on the `nativeEvent`, but
  * React doesn't include them for touch events.
@@ -146,12 +141,12 @@ View.prototype.render = function render() {
   }
 
   if (
-    !this.props.accessible ||
+    this.props.accessible !== undefined ||
     this.props.accessibilityLabel ||
     this.props.accessibilityRole
   ) {
     Object.assign(props, {
-      'aria-hidden': this.props.accessible ? null : true,
+      'aria-hidden': this.props.accessible === false,
       'aria-label': this.props.accessibilityLabel,
       'aria-live': this.props.accessibilityLiveRegion,
       role: accessibilityRole,
@@ -171,7 +166,7 @@ View.prototype.render = function render() {
 };
 
 View.propTypes = propTypes;
-View.defaultProps = defaultProps;
+
 applyPrimitiveMethods(View);
 applyFlexboxPolyfill(View);
 

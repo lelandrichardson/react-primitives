@@ -5,12 +5,11 @@ const injector = require('./injector');
 
 let _id = 1;
 const guid = () => _id++;
-const declarationRegistry = {};
-const mediaQueryRegistry = {};
-const pseudoStyleRegistry = {};
-const coreRegistry = {};
+// store the key in a dictionary with a non-numeric key, since using numeric keys will cause the
+// JS VM to treat it like an array.
+const KEY = id => `r${id}`;
+const styleRegistry = {};
 
-// TODO(lmr): we should make this lazy and memoize at some point as a performance optimization
 const createCssRule = (prefix, key, rule, genCss) => {
   const cssBody = generateCss(rule);
   // key is the media query, eg. '@media (max-width: 600px)'
@@ -67,8 +66,19 @@ const extractRules = (name, style) => {
     (_, className, body) => `.${className}{${body}}`
   );
 
+  let classNames = cssClass.className;
+
+  if (mediaQueries) {
+    classNames += ` ${mapKeyValue(mediaQueries, (_, rule) => rule.className).join(' ')}`;
+  }
+
+  if (pseudoStyles) {
+    classNames += ` ${mapKeyValue(pseudoStyles, (_, rule) => rule.className).join(' ')}`;
+  }
+
   return {
     declarations,
+    classNames,
     cssClass,
     mediaQueries,
     pseudoStyles,
@@ -79,38 +89,26 @@ const registerStyle = (name, style) => {
   // TODO(lmr):
   // do "proptype"-like validation here in non-production build
   const id = guid();
-  const rules = extractRules(name, style);
-  declarationRegistry[id] = rules.declarations;
-  mediaQueryRegistry[id] = rules.mediaQueries;
-  pseudoStyleRegistry[id] = rules.pseudoStyles;
-  coreRegistry[id] = rules.cssClass;
+  styleRegistry[KEY(id)] = {
+    value: null,
+    // since styles are normally registered at module execution time, there's some benefit to us
+    // not doing that work here, and instead holding off until the rules are needed.
+    thunk: () => extractRules(name, style),
+  };
   return id;
 };
 
-const getStyle = id => declarationRegistry[id];
-
-
-const getClassNames = id => {
-  const coreRule = coreRegistry[id];
-  const mediaQueryRules = mediaQueryRegistry[id];
-  const pseudoStyleRules = pseudoStyleRegistry[id];
-  // the most common case: coreRule exists, media/pseudo do not
-  if (!!coreRule && !mediaQueryRules && !pseudoStyleRules) {
-    return coreRule.className;
+const getRegisteredStyle = id => {
+  const obj = styleRegistry[KEY(id)];
+  if (obj.value === null) {
+    obj.value = obj.thunk();
   }
-  const results = [];
-  if (coreRule) {
-    results.push(coreRule);
-  }
-  if (mediaQueryRules) {
-    results.push.apply(results, mapKeyValue(mediaQueryRules, (_, rule) => rule.className));
-  }
-  if (pseudoStyleRules) {
-    results.push.apply(results, mapKeyValue(pseudoStyleRules, (_, rule) => rule.className));
-  }
-  return results.join(' ') || null;
+  return obj.value;
 };
 
+const getStyle = id => getRegisteredStyle(id).declarations;
+
+const getClassNames = id => getRegisteredStyle(id).classNames;
 
 module.exports = {
   registerStyle,
