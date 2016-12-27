@@ -17,7 +17,6 @@ const getStyleText = () => {
   return result;
 };
 
-
 const frame = () => {
   if (!isDirty) return;
   if (!global.document) return;

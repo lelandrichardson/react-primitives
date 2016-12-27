@@ -25,6 +25,42 @@ const createCssRule = (prefix, key, rule, genCss) => {
   };
 };
 
+const repeat = (s, n) => {
+  let r = s;
+  while (--n) {
+    r += s;
+  }
+  return r;
+};
+
+const createPositionableCssRule = (prefix, rule) => {
+  const cssBody = generateCss(rule);
+  const className = `${prefix}${murmurHash(cssBody)}`;
+  const positions = [];
+  const injectPosition = position => {
+    if (positions[position] === true) {
+      return;
+    }
+    positions[position] = true;
+    let css = `.${className}`;
+    for (var i = 1; i < positions.length; i++) {
+      if (positions[i] === true) {
+        css += `,${repeat(`.${className}${i}`, i + 1)}`;
+      }
+    }
+    css += `{${cssBody}}`;
+
+    injector.addRule(className, css);
+  };
+  return {
+    key: null,
+    className,
+    injectPosition,
+    rule,
+    css: null,
+  };
+};
+
 const extractRules = (name, style) => {
   const declarations = {};
   // media queries and pseudo styles are the exception, not the rule, so we are going to assume
@@ -33,9 +69,9 @@ const extractRules = (name, style) => {
   let pseudoStyles = null;
   let prefix = 'r';
 
-  if (process.env.NODE_ENV === 'development') {
+  // if (process.env.NODE_ENV === 'development') {
     prefix = `${name}_`;
-  }
+  // }
 
   Object.keys(style).forEach(key => {
     if (key[0] === ':') {
@@ -59,27 +95,27 @@ const extractRules = (name, style) => {
     }
   });
 
-  const cssClass = createCssRule(
-    prefix,
-    '',
-    declarations,
-    (_, className, body) => `.${className}{${body}}`
-  );
+  const coreRule = createPositionableCssRule(prefix, declarations);
 
-  let classNames = cssClass.className;
+  const getClassNames = (position) => {
+    coreRule.injectPosition(position);
+    let classNames = position === 0 ? coreRule.className : `${coreRule.className}${position}`;
 
-  if (mediaQueries) {
-    classNames += ` ${mapKeyValue(mediaQueries, (_, rule) => rule.className).join(' ')}`;
-  }
+    if (mediaQueries) {
+      classNames += ` ${mapKeyValue(mediaQueries, (_, rule) => rule.className).join(' ')}`;
+    }
 
-  if (pseudoStyles) {
-    classNames += ` ${mapKeyValue(pseudoStyles, (_, rule) => rule.className).join(' ')}`;
-  }
+    if (pseudoStyles) {
+      classNames += ` ${mapKeyValue(pseudoStyles, (_, rule) => rule.className).join(' ')}`;
+    }
+
+    return classNames;
+  };
 
   return {
     declarations,
-    classNames,
-    cssClass,
+    getClassNames,
+    coreRule,
     mediaQueries,
     pseudoStyles,
   };
@@ -108,7 +144,7 @@ const getRegisteredStyle = id => {
 
 const getStyle = id => getRegisteredStyle(id).declarations;
 
-const getClassNames = id => getRegisteredStyle(id).classNames;
+const getClassNames = (id, position) => getRegisteredStyle(id).getClassNames(position);
 
 module.exports = {
   registerStyle,
