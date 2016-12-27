@@ -49,6 +49,8 @@ const propTypes = {
   children: node,
 };
 
+const TEXT_CLASSNAME = 'rp_Text';
+
 class Text extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +66,7 @@ class Text extends React.Component {
     } = this.props;
 
     const passedStyle = numberOfLines === 1 ? [style, styles.singleLineStyle] : style;
-    const resolvedStyle = StyleSheet.resolve(passedStyle, 'rp_Text');
+    const resolvedStyle = StyleSheet.resolve(passedStyle, TEXT_CLASSNAME);
     const Component = (accessibilityRole && roleComponents[accessibilityRole]) || 'span';
 
     const props = {
@@ -122,7 +124,7 @@ class Text extends React.Component {
 
 Text.propTypes = propTypes;
 
-applyPrimitiveMethods(Text);
+applyPrimitiveMethods(Text, TEXT_CLASSNAME);
 applyFlexboxPolyfill(Text);
 
 const styles = StyleSheet.create({

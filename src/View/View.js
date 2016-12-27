@@ -82,6 +82,8 @@ function normalizeHandler(handler) {
   };
 }
 
+const VIEW_CLASSNAME = 'rp_View';
+
 class View extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +105,7 @@ View.prototype.render = function render() {
 
   const passedStyle = !pointerEvents ? style : [style, { pointerEvents }];
 
-  const resolvedStyle = StyleSheet.resolve(passedStyle, 'rp_View');
+  const resolvedStyle = StyleSheet.resolve(passedStyle, VIEW_CLASSNAME);
   const Component = (accessibilityRole && roleComponents[accessibilityRole]) || 'div';
   const props = {
     className: resolvedStyle.className,
@@ -167,7 +169,7 @@ View.prototype.render = function render() {
 
 View.propTypes = propTypes;
 
-applyPrimitiveMethods(View);
+applyPrimitiveMethods(View, VIEW_CLASSNAME);
 applyFlexboxPolyfill(View);
 
 module.exports = View;

@@ -5,10 +5,10 @@ const StyleSheet = require('../StyleSheet');
 function setNativeProps(props) {
   let propsToSend = props;
   if ('style' in props) {
-    const resolvedStyle = StyleSheet.resolve(props.style);
+    const resolvedStyle = StyleSheet.resolve(props.style, this.coreClassName);
     propsToSend = { ...propsToSend, ...resolvedStyle };
   }
-  UIManager.updateView(ReactDOM.findDOMNode(this), propsToSend);
+  UIManager.updateView(ReactDOM.findDOMNode(this), propsToSend, this._reactInternalInstance);
 }
 
 function blur() {
@@ -21,8 +21,9 @@ function focus() {
 
 // TODO(lmr): measure(callback)
 
-module.exports = Constructor => {
+module.exports = (Constructor, coreClassName) => {
   /* eslint no-param-reassign:0 */
+  Constructor.prototype.coreClassName = coreClassName;
   Constructor.prototype.setNativeProps = setNativeProps;
   Constructor.prototype.blur = blur;
   Constructor.prototype.focus = focus;

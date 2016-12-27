@@ -12,22 +12,7 @@ const Position = require('./Position');
 const UIManager = require('../UIManager');
 const TouchEventUtils = require('./TouchEventUtils');
 const invariant = require('invariant');
-
-var keyMirror = function(obj) {
-  var ret = {};
-  var key;
-  invariant(
-    obj instanceof Object && !Array.isArray(obj),
-    'keyMirror(...): Argument must be an object.'
-  );
-  for (key in obj) {
-    if (!obj.hasOwnProperty(key)) {
-      continue;
-    }
-    ret[key] = key;
-  }
-  return ret;
-};
+const keyMirror = require('../util/keyMirror');
 /* @edit end */
 
 
@@ -370,10 +355,10 @@ var TouchableMixin = {
   /**
    * Place as callback for a DOM element's `onResponderGrant` event.
    * @param {SyntheticEvent} e Synthetic event from event system.
-   * @param {string} dispatchID ID of node that e was dispatched to.
    *
    */
-  touchableHandleResponderGrant: function(e, dispatchID) {
+  touchableHandleResponderGrant: function(e) {
+    var dispatchID = e.currentTarget;
     // Since e is used in a callback invoked on another event loop
     // (as in setTimeout etc), we need to call e.persist() on the
     // event to make sure it doesn't get reused in the event object pool.
@@ -440,12 +425,12 @@ var TouchableMixin = {
     var positionOnActivate = this.state.touchable.positionOnActivate;
     var dimensionsOnActivate = this.state.touchable.dimensionsOnActivate;
     var pressRectOffset = this.touchableGetPressRectOffset ?
-                          this.touchableGetPressRectOffset() : {
-      left: PRESS_EXPAND_PX,
-      right: PRESS_EXPAND_PX,
-      top: PRESS_EXPAND_PX,
-      bottom: PRESS_EXPAND_PX
-    };
+      this.touchableGetPressRectOffset() : {
+        left: PRESS_EXPAND_PX,
+        right: PRESS_EXPAND_PX,
+        top: PRESS_EXPAND_PX,
+        bottom: PRESS_EXPAND_PX
+      };
 
     var pressExpandLeft = pressRectOffset.left;
     var pressExpandTop = pressRectOffset.top;
@@ -575,13 +560,13 @@ var TouchableMixin = {
    * @sideeffects
    * @private
    */
-  _remeasureMetricsOnActivation: function(e) {
-    /* @edit begin */
-    UIManager.measure(
-      e.nativeEvent.target,
-      this._handleQueryLayout
-    );
-    /* @edit end */
+  _remeasureMetricsOnActivation: function() {
+    const tag = this.state.touchable.responderID;
+    if (tag == null) {
+      return;
+    }
+
+    UIManager.measure(tag, this._handleQueryLayout);
   },
 
   _handleQueryLayout: function(l, t, w, h, globalX, globalY) {
@@ -693,7 +678,7 @@ var TouchableMixin = {
     }
 
     if (!IsActive[curState] && IsActive[nextState]) {
-      this._remeasureMetricsOnActivation(e);
+      this._remeasureMetricsOnActivation();
     }
 
     if (IsPressingIn[curState] && signal === Signals.LONG_PRESS_DETECTED) {
@@ -701,16 +686,9 @@ var TouchableMixin = {
     }
 
     if (newIsHighlight && !curIsHighlight) {
-      this._savePressInLocation(e);
-      this.touchableHandleActivePressIn && this.touchableHandleActivePressIn(e);
-    } else if (!newIsHighlight && curIsHighlight && this.touchableHandleActivePressOut) {
-      if (this.touchableGetPressOutDelayMS && this.touchableGetPressOutDelayMS()) {
-        this.pressOutDelayTimeout = setTimeout(() => {
-          this.touchableHandleActivePressOut(e);
-        }, this.touchableGetPressOutDelayMS());
-      } else {
-        this.touchableHandleActivePressOut(e);
-      }
+      this._startHighlight(e);
+    } else if (!newIsHighlight && curIsHighlight) {
+      this._endHighlight(e);
     }
 
     if (IsPressingIn[curState] && signal === Signals.RESPONDER_RELEASE) {
@@ -723,14 +701,36 @@ var TouchableMixin = {
 
       var shouldInvokePress =  !IsLongPressingIn[curState] || pressIsLongButStillCallOnPress;
       if (shouldInvokePress && this.touchableHandlePress) {
+        if (!newIsHighlight && !curIsHighlight) {
+          // we never highlighted because of delay, but we should highlight now
+          this._startHighlight(e);
+          this._endHighlight(e);
+        }
         this.touchableHandlePress(e);
       }
     }
 
     this.touchableDelayTimeout && clearTimeout(this.touchableDelayTimeout);
     this.touchableDelayTimeout = null;
-  }
+  },
 
-};
+  _startHighlight: function(e) {
+    this._savePressInLocation(e);
+    this.touchableHandleActivePressIn && this.touchableHandleActivePressIn(e);
+  },
+
+  _endHighlight: function(e) {
+    if (this.touchableHandleActivePressOut) {
+      if (this.touchableGetPressOutDelayMS && this.touchableGetPressOutDelayMS()) {
+        this.pressOutDelayTimeout = setTimeout(() => {
+          this.touchableHandleActivePressOut(e);
+        }, this.touchableGetPressOutDelayMS());
+      } else {
+        this.touchableHandleActivePressOut(e);
+      }
+    }
+  },
+
+}
 
 module.exports = TouchableMixin;
