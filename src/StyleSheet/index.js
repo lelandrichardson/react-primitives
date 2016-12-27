@@ -61,46 +61,86 @@ const assignStyle = (a, b) => {
   return a;
 };
 
-// flattening, including registered styles (used for the public `flatten` method)
-const flattenStyle = (input) => {
-  if (Array.isArray(input)) {
-    return input.reduce((acc, val) => assignStyle(acc, flattenStyle(val)), {});
-  } else if (typeof input === 'number') {
-    return getStyle(input);
-  } else if (!input) {
-    // input is falsy, so we skip it by returning undefined
-    return undefined;
+const flattenStyle = (input, expandRegisteredStyles) => {
+  // optimize for this (common) scenario of input not needing flattening
+  if (!Array.isArray(input)) {
+    if (typeof input === 'number') {
+      return expandRegisteredStyles ? getStyle(input) : undefined;
+    }
+    if (!input) {
+      return undefined;
+    }
+    return input;
   }
-  return input;
+  const result = {};
+  const stack = [{ i: 0, array: input }];
+  while (stack.length) {
+    const iterator = stack.pop();
+    let i = iterator.i;
+    const array = iterator.array;
+    for (; i < array.length; i++) {
+      const el = array[i];
+      if (Array.isArray(el)) {
+        stack.push({ i: i + 1, array });
+        stack.push({ i: 0, array: el });
+        break;
+      }
+      if (typeof el === 'number') {
+        if (expandRegisteredStyles) {
+          assignStyle(result, getStyle(el));
+        }
+      } else if (el) {
+        assignStyle(result, el);
+      }
+    }
+  }
+  return result;
 };
 
-// flattening, but ignores registered styles because those end up as classnames
-const flattenNonRegisteredStyles = (input) => {
-  if (Array.isArray(input)) {
-    return input.reduce((acc, val) => assignStyle(acc, flattenNonRegisteredStyles(val)), {});
-  } else if (typeof input === 'number') {
-    return undefined;
-  } else if (!input) {
-    // input is falsy, so we skip it by returning undefined
-    return undefined;
+const flattenClassNames = (input, flag) => {
+  // optimize for this (common) scenario of input not needing flattening
+  if (!Array.isArray(input)) {
+    if (typeof input === 'number') {
+      return getClassNames(input, 0);
+    }
+    return null;
   }
-  return input;
-};
-
-const flattenClassNames = (input) => {
-  if (Array.isArray(input)) {
-    return input.map(flattenClassNames).filter(x => !!x).join(' ') || null;
-  } else if (typeof input === 'number') {
-    return getClassNames(input);
+  let result = '';
+  let position = 0;
+  let hasSeenObject = false;
+  const stack = [{ i: 0, array: input }];
+  while (stack.length) {
+    const iterator = stack.pop();
+    let i = iterator.i;
+    const array = iterator.array;
+    for (; i < array.length; i++) {
+      const el = array[i];
+      if (Array.isArray(el)) {
+        stack.push({ i: i + 1, array });
+        stack.push({ i: 0, array: el });
+        break;
+      }
+      if (typeof el === 'number') {
+        result += `${getClassNames(el, position)} `;
+        if (hasSeenObject) {
+          // TODO(lmr): warn to console in this case to let user know? or do we not care?
+          flag.deopt = true;
+        }
+      } else if (el) {
+        hasSeenObject = true;
+      }
+      position++;
+    }
   }
-  return null;
+  return result;
 };
 
 const resolve = (styles, extraClassName) => {
-  const classes = flattenClassNames(styles);
-  const style = flattenNonRegisteredStyles(styles);
+  const flag = { deopt: false };
+  const classes = flattenClassNames(styles, flag);
+  const style = flattenStyle(styles, flag.deopt);
   return {
-    className: !classes ? extraClassName : `${extraClassName} ${classes}`,
+    className: !classes || flag.deopt ? extraClassName : `${extraClassName} ${classes}`,
     style: style ? transformToWebStyle(style) : null,
   };
 };
@@ -125,7 +165,7 @@ module.exports = {
   // NOTE:
   // `flatten` is exported separately from `resolve` because it mimics the RN api more closely
   // than `resolve`.
-  flatten: style => returnCopy(style, flattenStyle(style)) || {},
+  flatten: style => returnCopy(style, flattenStyle(style, true)) || {},
 
   // TODO(lmr): should this be an internal API or something that we expose?
   resolve,
