@@ -34,7 +34,7 @@ const UIManager = {
     _measureLayout(node, relativeTo, onSuccess);
   },
 
-  updateView(node, props) {
+  updateView(node, props, instance) {
     for (const prop in props) {
       if (!hasOwnProperty.call(props, prop)) {
         continue;
@@ -43,12 +43,12 @@ const UIManager = {
       switch (prop) {
         case 'style':
           // convert styles to DOM-styles
-          CSSPropertyOperations.setValueForStyles(node, value);
+          CSSPropertyOperations.setValueForStyles(node, value, instance);
           break;
         case 'class':
         case 'className':
           // prevent class names managed by React from being replaced
-          node.setAttribute('class', `${node.getAttribute('class')} ${value}`);
+          node.setAttribute('class', value);
           break;
         case 'text':
         case 'value':

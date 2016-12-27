@@ -5,8 +5,6 @@ const ensurePositiveDelayProps = require('./ensurePositiveDelayProps');
 
 const { PropTypes } = React;
 
-const noop = () => { /* empty */ };
-
 const InsetPropType = PropTypes.shape({
   top: PropTypes.number,
   left: PropTypes.number,
@@ -133,10 +131,6 @@ const Touchable = (Animated, StyleSheet, Platform) => {
           right: 20,
           bottom: 30,
         },
-        onPress: noop,
-        onLongPress: noop,
-        onPressIn: noop,
-        onPressOut: noop,
         press: new Animated.Value(0),
       };
     },
@@ -153,10 +147,14 @@ const Touchable = (Animated, StyleSheet, Platform) => {
       ensurePositiveDelayProps(nextProps);
     },
 
-    setPressValue(value) {
+    setPressValue(toValue) {
       Animated.timing(
         this.props.press,
-        { toValue: value, duration: this.props.pressDuration }
+        {
+          toValue,
+          duration: this.props.pressDuration,
+          // easing: Easing.inOut(Easing.quad),
+        }
       ).start();
     },
 
@@ -165,31 +163,25 @@ const Touchable = (Animated, StyleSheet, Platform) => {
      * defined on your component.
      */
     touchableHandleActivePressIn(e) {
-      this.clearTimeout(this._hideTimeout);
-      this._hideTimeout = null;
-      this._setActive();
-      this.props.onPressIn(e);
+      if (e.dispatchConfig.registrationName === 'onResponderGrant') {
+        this._setActive(0);
+      } else {
+        this._setActive(150);
+      }
+      this.props.onPressIn && this.props.onPressIn(e);
     },
 
     touchableHandleActivePressOut(e) {
-      if (!this._hideTimeout) {
-        this._setInactive();
-      }
-      this.props.onPressOut(e);
+      this._setInactive(250);
+      this.props.onPressOut && this.props.onPressOut(e);
     },
 
     touchableHandlePress(e) {
-      this.clearTimeout(this._hideTimeout);
-      this._setActive();
-      this._hideTimeout = this.setTimeout(
-        this._setInactive,
-        this.props.delayPressOut
-      );
-      this.props.onPress(e);
+      this.props.onPress && this.props.onPress(e);
     },
 
     touchableHandleLongPress(e) {
-      this.props.onLongPress(e);
+      this.props.onLongPress && this.props.onLongPress(e);
     },
 
     touchableGetPressRectOffset() {
@@ -212,14 +204,12 @@ const Touchable = (Animated, StyleSheet, Platform) => {
       return this.props.delayPressOut;
     },
 
-    _setActive() {
-      this.setPressValue(this.props.activeValue);
+    _setActive(duration) {
+      this.setPressValue(1, duration);
     },
 
-    _setInactive() {
-      this.clearTimeout(this._hideTimeout);
-      this._hideTimeout = null;
-      this.setPressValue(0);
+    _setInactive(duration) {
+      this.setPressValue(0, duration);
     },
 
     render() {

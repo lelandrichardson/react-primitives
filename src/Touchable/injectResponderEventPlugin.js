@@ -4,10 +4,10 @@
 
 const EventConstants = require('react-dom/lib/EventConstants');
 const EventPluginRegistry = require('react-dom/lib/EventPluginRegistry');
-const ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
 const ResponderEventPlugin = require('react-dom/lib/ResponderEventPlugin');
 const ResponderTouchHistoryStore = require('react-dom/lib/ResponderTouchHistoryStore');
 const normalizeNativeEvent = require('./normalizeNativeEvent');
+const keyMirror = require('../util/keyMirror');
 
 const {
   topMouseDown,
@@ -19,17 +19,11 @@ const {
   topTouchEnd,
   topTouchMove,
   topTouchStart,
-} = EventConstants.topLevelTypes;
+} = keyMirror(EventConstants.topLevelTypes);
 
-const supportsTouch = ExecutionEnvironment.canUseDOM && (
-  'ontouchstart' in window ||
-  window.DocumentTouch &&
-  document instanceof window.DocumentTouch
-);
-
-const endDependencies = supportsTouch ? [topTouchCancel, topTouchEnd] : [topMouseUp];
-const moveDependencies = supportsTouch ? [topTouchMove] : [topMouseMove];
-const startDependencies = supportsTouch ? [topTouchStart] : [topMouseDown];
+const endDependencies = [topTouchCancel, topTouchEnd, topMouseUp];
+const moveDependencies = [topTouchMove, topMouseMove];
+const startDependencies = [topTouchStart, topMouseDown];
 
 /**
  * Setup ResponderEventPlugin dependencies
