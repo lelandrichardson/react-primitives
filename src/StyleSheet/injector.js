@@ -2,6 +2,7 @@ const asap = require('asap');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+// TODO(lmr): to enable multiple bundles, we *could* just try and have registry be a global
 let registry = {};
 let isDirty = false;
 let styleNode = null;

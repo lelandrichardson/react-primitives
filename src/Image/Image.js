@@ -34,6 +34,7 @@ const propTypes = {
   accessible: bool,
   children: node,
   defaultSource: ImageSourcePropType,
+  onLayout: func,
   onError: func,
   onLoad: func,
   onLoadEnd: func,
@@ -47,11 +48,6 @@ const propTypes = {
   source: ImageSourcePropType,
   style: StyleSheetPropType(ImageStylePropTypes),
   testID: string,
-};
-
-const defaultProps = {
-  accessible: true,
-  style: {},
 };
 
 // Style props that need to pass through to both
@@ -115,9 +111,39 @@ function extractStyles(style, passedResizeMode) {
   return { inner, outer, resizeMode };
 }
 
-// TODO(lmr): Image.prefetch and Image.getSize
+const imageCache = {};
+
+const promiseForImage = uri => {
+  if (imageCache[uri]) return imageCache[uri];
+  if (!global.Image) {
+    throw new Error(`Attempting to prefetch image ${uri} in a server-rendered route`);
+  }
+  const promise = new Promise((resolve, reject) => {
+    const image = new global.Image();
+    image.onerror = reject;
+    image.onload = () => {
+      resolve({
+        width: image.naturalWidth || image.width,
+        height: image.naturalHeight || image.height,
+      });
+    };
+    image.src = uri;
+  });
+  imageCache[uri] = promise;
+  return promise;
+};
+
 
 class Image extends React.Component {
+
+  static prefetch(url) {
+    return promiseForImage(url).then(() => true);
+  }
+
+  static getSize(url, success, failure) {
+    promiseForImage(url).then(({ width, height }) => success(width, height), failure);
+  }
+
   constructor(props, context) {
     super(props, context);
     const uri = resolveAssetSource(props.source);
@@ -144,7 +170,7 @@ class Image extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.status === STATUS_PENDING && !this.image) {
+    if (this.state.status === STATUS_PENDING && !this._image) {
       this._createImageLoader();
     }
   }
@@ -157,18 +183,18 @@ class Image extends React.Component {
     const uri = resolveAssetSource(this.props.source);
 
     this._destroyImageLoader();
-    this.image = new window.Image();
-    this.image.onerror = this._onError;
-    this.image.onload = this._onLoad;
-    this.image.src = uri;
+    this._image = new global.Image();
+    this._image.onerror = this._onError;
+    this._image.onload = this._onLoad;
+    this._image.src = uri;
     this._onLoadStart();
   }
 
   _destroyImageLoader() {
-    if (this.image) {
-      this.image.onerror = null;
-      this.image.onload = null;
-      this.image = null;
+    if (this._image) {
+      this._image.onerror = null;
+      this._image.onload = null;
+      this._image = null;
     }
   }
 
@@ -211,6 +237,7 @@ class Image extends React.Component {
       defaultSource,
       source,
       testID,
+      onLayout,
     } = this.props;
 
     const isLoaded = this.state.status === STATUS_LOADED;
@@ -235,8 +262,9 @@ class Image extends React.Component {
         accessibilityLabel={accessibilityLabel}
         accessibilityRole="img"
         accessible={accessible}
+        onLayout={onLayout}
         style={[
-          styles.initial,
+          styles.container,
           outer,
           backgroundImage && { backgroundImage },
           resizeModeStyles[resizeMode],
@@ -250,7 +278,7 @@ class Image extends React.Component {
         {children && (
           <View
             pointerEvents="box-none"
-            style={[styles.children, inner]}
+            style={[StyleSheet.absoluteFill, inner]}
           >
             {children}
           </View>
@@ -261,25 +289,17 @@ class Image extends React.Component {
 }
 
 Image.propTypes = propTypes;
-Image.defaultProps = defaultProps;
 Image.resizeMode = ImageResizeMode;
 
 applyPrimitiveMethods(Image);
 
 const styles = StyleSheet.create({
-  initial: {
+  container: {
     alignSelf: 'flex-start',
     backgroundColor: 'transparent',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-  },
-  children: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
   },
 });
 
