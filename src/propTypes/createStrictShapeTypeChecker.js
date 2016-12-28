@@ -34,6 +34,7 @@ module.exports = function createStrictShapeTypeChecker(shapeTypes) {
     // props.
     const allKeys = { ...props[propName], ...shapeTypes };
     for (const key in allKeys) {
+      if (!allKeys.hasOwnProperty(key)) continue;
       const checker = shapeTypes[key];
       if (!checker) {
         invariant(

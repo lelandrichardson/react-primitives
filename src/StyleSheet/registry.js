@@ -8,7 +8,7 @@ const guid = () => _id++;
 // store the key in a dictionary with a non-numeric key, since using numeric keys will cause the
 // JS VM to treat it like an array.
 const KEY = id => `r${id}`;
-const styleRegistry = {};
+let styleRegistry = {};
 
 const createCssRule = (prefix, key, rule, genCss) => {
   const cssBody = generateCss(rule);
@@ -27,7 +27,8 @@ const createCssRule = (prefix, key, rule, genCss) => {
 
 const repeat = (s, n) => {
   let r = s;
-  while (--n) {
+  let i = n;
+  while (--i) {
     r += s;
   }
   return r;
@@ -43,7 +44,7 @@ const createPositionableCssRule = (prefix, rule) => {
     }
     positions[position] = true;
     let css = `.${className}`;
-    for (var i = 1; i < positions.length; i++) {
+    for (let i = 1; i < positions.length; i++) {
       if (positions[i] === true) {
         css += `,${repeat(`.${className}${i}`, i + 1)}`;
       }
@@ -69,9 +70,9 @@ const extractRules = (name, style) => {
   let pseudoStyles = null;
   let prefix = 'r';
 
-  // if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     prefix = `${name}_`;
-  // }
+  }
 
   Object.keys(style).forEach(key => {
     if (key[0] === ':') {
@@ -146,8 +147,15 @@ const getStyle = id => getRegisteredStyle(id).declarations;
 
 const getClassNames = (id, position) => getRegisteredStyle(id).getClassNames(position);
 
+const reset = () => {
+  _id = 1;
+  styleRegistry = {};
+  injector.reset();
+};
+
 module.exports = {
   registerStyle,
   getStyle,
   getClassNames,
+  reset,
 };

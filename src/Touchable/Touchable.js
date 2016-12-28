@@ -34,7 +34,6 @@ const InsetPropType = PropTypes.shape({
  * ```
  */
 const Touchable = (Animated, StyleSheet, Platform) => {
-
   const styles = StyleSheet.create({
     touchable: Platform.select({
       web: {
@@ -46,6 +45,7 @@ const Touchable = (Animated, StyleSheet, Platform) => {
     }),
   });
 
+  // eslint-disable-next-line react/prefer-es6-class
   return React.createClass({
     propTypes: {
       accessible: PropTypes.bool,
@@ -168,19 +168,23 @@ const Touchable = (Animated, StyleSheet, Platform) => {
       } else {
         this._setActive(150);
       }
+      // eslint-disable-next-line no-unused-expressions
       this.props.onPressIn && this.props.onPressIn(e);
     },
 
     touchableHandleActivePressOut(e) {
       this._setInactive(250);
+      // eslint-disable-next-line no-unused-expressions
       this.props.onPressOut && this.props.onPressOut(e);
     },
 
     touchableHandlePress(e) {
+      // eslint-disable-next-line no-unused-expressions
       this.props.onPress && this.props.onPress(e);
     },
 
     touchableHandleLongPress(e) {
+      // eslint-disable-next-line no-unused-expressions
       this.props.onLongPress && this.props.onLongPress(e);
     },
 

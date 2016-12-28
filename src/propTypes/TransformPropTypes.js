@@ -9,12 +9,12 @@ const { arrayOf, oneOfType, shape, number, string } = PropTypes;
 const ArrayOfNumberPropType = arrayOf(number);
 const numberOrString = oneOfType([number, string]);
 
-const TransformMatrixPropType = function (
+const TransformMatrixPropType = (
   props,
   propName,
   componentName,
   ...args
-) {
+) => {
   if (props.transform && props.transformMatrix) {
     return new Error(
       'transformMatrix and transform styles cannot be used on the same ' +
@@ -28,19 +28,19 @@ const TransformPropTypes = {
   transform: arrayOf(
     oneOfType([
       shape({ perspective: numberOrString }),
-      shape({ rotate: numberOrString }),
-      shape({ rotateX: numberOrString }),
-      shape({ rotateY: numberOrString }),
-      shape({ rotateZ: numberOrString }),
-      shape({ scale: numberOrString }),
-      shape({ scaleX: numberOrString }),
-      shape({ scaleY: numberOrString }),
+      shape({ rotate: string }),
+      shape({ rotateX: string }),
+      shape({ rotateY: string }),
+      shape({ rotateZ: string }),
+      shape({ scale: number }),
+      shape({ scaleX: number }),
+      shape({ scaleY: number }),
       shape({ skewX: numberOrString }),
       shape({ skewY: numberOrString }),
       shape({ translateX: numberOrString }),
       shape({ translateY: numberOrString }),
       shape({ translateZ: numberOrString }),
-      shape({ translate3d: string }),
+      // shape({ translate3d: string }),
     ])
   ),
   transformMatrix: TransformMatrixPropType,

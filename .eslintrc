@@ -1,10 +1,39 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
-  "rules": {
-    "no-use-before-define": 0,
-    "new-cap": 0
-  },
+  "plugins": [
+    "prefer-object-spread"
+  ],
   "ecmaFeatures": {
-    "experimentalObjectRestSpread": true
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": false,
+    "generators": false,
+    "modules": true,
+    "experimentalObjectRestSpread": true,
+    "objectLiteralComputedProperties": true,
+    "objectLiteralDuplicateProperties": false,
+    "objectLiteralShorthandMethods": true,
+    "objectLiteralShorthandProperties": true,
+    "restParams": true,
+    "spread": true,
+    "superInFunctions": true,
+    "templateStrings": true
+  },
+  "rules": {
+    "prefer-template": 0,
+    "new-cap": 0,
+    "no-use-before-define": 0,
+    "arrow-body-style": 0,
+    // triple equals is required except for when comparing with null
+    "eqeqeq": [2, "allow-null"],
+    // Allow console methods, which get removed during build process
+    "no-console": 0,
+    // Disable `arrow-parens` because it conflicts with Flow.
+    "arrow-parens": 0,
+    "prefer-object-spread/prefer-object-spread": 2
   }
 }

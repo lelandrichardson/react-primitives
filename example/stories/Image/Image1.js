@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     width: 20,
     color: 'blue',
   },
-  foo: {
+  red: {
     margin: 10,
     padding: 10,
     backgroundColor: 'orange',
   },
-  bar: {
+  green: {
     margin: 10,
     padding: 10,
     backgroundColor: 'blue',
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
 make('css example', () => (
   <View>
     <View
-      style={[styles.bar, { width: 100, height: 100 }]}
+      style={[styles.green, { width: 100, height: 100 }]}
     >
       <View
-        style={styles.foo}
+        style={styles.red}
       />
     </View>
   </View>

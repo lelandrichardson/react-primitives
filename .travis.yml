@@ -9,4 +9,4 @@ addons:
 before_script:
   - 'sh -e /etc/init.d/xvfb start'
 script:
-  - 'sh ./scripts/happo-ci.sh'
+  - 'npm run travis'

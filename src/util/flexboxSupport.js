@@ -1,4 +1,4 @@
-const flexibility = require('flexibility');
+// const flexibility = require('flexibility');
 const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
 
 const FLEXBOX_SUPPORTED = (() => {
@@ -12,24 +12,24 @@ const FLEXBOX_SUPPORTED = (() => {
   return test.style.display === 'flex';
 })();
 
-//const node = document.documentElement;
+// const node = document.documentElement;
 
 function polyfill() {
   // NOTE(lmr): I'm temporarily disabling this code. Need to re-address later.
-  //const node = global.document.documentElement;
-  //const node = document.getElementById('root');
-  //flexibility(node);
-  //const data = flexibility.readAll(node);
-  //flexibility.writeAll(data);
-  //let queue = [];
-  //queue.push(...data);
-  //while (queue.length) {
-  //  let node = queue.pop();
-  //  node.element = null;
-  //  queue.push(...node.children);
-  //}
+  // const node = global.document.documentElement;
+  // const node = document.getElementById('root');
+  // flexibility(node);
+  // const data = flexibility.readAll(node);
+  // flexibility.writeAll(data);
+  // let queue = [];
+  // queue.push(...data);
+  // while (queue.length) {
+  //   let node = queue.pop();
+  //   node.element = null;
+  //   queue.push(...node.children);
+  // }
   //
-  //console.log(JSON.stringify(data, null, ' '));
+  // console.log(JSON.stringify(data, null, ' '));
 }
 
 
@@ -53,12 +53,12 @@ function throttledPolyfill() {
 }
 
 // TODO(lmr): throttling probably makes more sense than debouncing
-function debouncePolyfill() {
-  if (timeout) {
-    clearTimeout(timeout);
-  }
-  timeout = setTimeout(polyfill, 1000 / 60);
-}
+// function debouncePolyfill() {
+//   if (timeout) {
+//     clearTimeout(timeout);
+//   }
+//   timeout = setTimeout(polyfill, 1000 / 60);
+// }
 
 function componentDidUpdate() {
   if (this.el && this.lastResolvedStyle) {
@@ -88,8 +88,11 @@ function setElementRef(el) {
 
 function applyFlexboxPolyfill(Component) {
   if (!FLEXBOX_SUPPORTED) {
+    // eslint-disable-next-line no-param-reassign
     Component.prototype.componentDidUpdate = componentDidUpdate;
+    // eslint-disable-next-line no-param-reassign
     Component.prototype.componentDidMount = componentDidMount;
+    // eslint-disable-next-line no-param-reassign
     Component.prototype.__setEl = setElementRef;
   }
 }
