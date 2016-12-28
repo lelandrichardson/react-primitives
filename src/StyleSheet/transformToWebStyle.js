@@ -83,13 +83,17 @@ const sortProps = (propsArray) => propsArray.sort((a, b) => {
   } else if (expandedB && expandedB[a]) {
     return 1;
   }
+  // eslint-disable-next-line no-nested-ternary
   return (a < b) ? -1 : (a > b) ? 1 : 0;
 });
 
-const resolveFlexStyle = (resolvedStyle, flex, style) => {
+const resolveFlexStyle = (resolvedStyle, flex /* , style */) => {
   // TODO(lmr): RN now supports some of these properties. look into how to handle
+  // eslint-disable-next-line no-param-reassign
   resolvedStyle.flexGrow = flex;
+  // eslint-disable-next-line no-param-reassign
   resolvedStyle.flexShrink = 1;
+  // eslint-disable-next-line no-param-reassign
   resolvedStyle.flexBasis = 'auto';
 };
 
@@ -119,7 +123,7 @@ const mapTransform = (transform) => {
 
 // mutative
 const resolveTransformProperty = (resolvedStyle, transform) => {
-  /* eslint no-param-reassign:0 */
+  // eslint-disable-next-line no-param-reassign
   resolvedStyle.transform = transform.map(mapTransform).join(' ');
 };
 

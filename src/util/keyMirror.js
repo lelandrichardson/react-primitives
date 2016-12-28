@@ -1,6 +1,6 @@
 const invariant = require('invariant');
 
-const keyMirror = function(obj) {
+const keyMirror = (obj) => {
   const ret = {};
   invariant(
     obj instanceof Object && !Array.isArray(obj),

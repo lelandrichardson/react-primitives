@@ -1,7 +1,8 @@
 const getHairlineWidth = require('./getHairlineWidth');
 const transformToWebStyle = require('./transformToWebStyle');
-const { registerStyle, getStyle, getClassNames } = require('./registry');
+const { reset, registerStyle, getStyle, getClassNames } = require('./registry');
 const init = require('./initialStyles');
+const injector = require('./injector');
 
 // TODO:
 // 3. ensure that multiple-bundled react-primitives will work...
@@ -73,6 +74,7 @@ const flattenStyle = (input, expandRegisteredStyles) => {
     return input;
   }
   const result = {};
+  let hasResult = false;
   const stack = [{ i: 0, array: input }];
   while (stack.length) {
     const iterator = stack.pop();
@@ -87,14 +89,16 @@ const flattenStyle = (input, expandRegisteredStyles) => {
       }
       if (typeof el === 'number') {
         if (expandRegisteredStyles) {
+          hasResult = true;
           assignStyle(result, getStyle(el));
         }
       } else if (el) {
+        hasResult = true;
         assignStyle(result, el);
       }
     }
   }
-  return result;
+  return hasResult ? result : undefined;
 };
 
 const flattenClassNames = (input, flag) => {
@@ -145,7 +149,7 @@ const resolve = (styles, extraClassName) => {
   };
 };
 
-const returnCopy = (original, result) => original === result ? Object.assign({}, result) : result;
+const returnCopy = (original, result) => (original === result ? { ...result } : result);
 
 init();
 
@@ -170,13 +174,7 @@ module.exports = {
   // TODO(lmr): should this be an internal API or something that we expose?
   resolve,
 
-  // NOTE: direct use of this method is for testing only...
-  //reset: () => {
-  //  _id = 0;
-  //  declarationRegistry = {};
-  //  pseudoStyleRegistry = {};
-  //  mediaQueryRegistry = {};
-  //},
+  reset,
 
-  // renderToStringWithStyles: () => {},
+  getStyleSheetHtml: injector.getStyleSheetHtml,
 };

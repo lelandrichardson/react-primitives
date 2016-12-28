@@ -12,10 +12,11 @@
     "run:ios": "react-native run-ios --project-path ./example/native/ios",
     "run:android": "react-native run-android --root ./example/android",
     "run:webpack": "webpack --watch",
-    "test": "npm run --silent karma",
-    "test:watch": "npm run karma:watch",
-    "karma": "karma start --single-run --browsers PhantomJS",
-    "karma:watch": "karma start --auto-watch"
+    "test": "jest",
+    "lint": "eslint .",
+    "happo": "sh ./scripts/happo-ci.sh",
+    "travis": "npm run --silent test && npm run --silent lint",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.20.0",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.9",
     "babel-plugin-module-resolver": "^2.4.0",
     "babel-plugin-syntax-object-rest-spread": "^6.5.0",
@@ -48,6 +50,7 @@
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "eslint-plugin-react": "^4.3.0",
     "happo": "^3.0.1",
+    "jest": "^18.0.0",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-browserify": "^5.0.3",
@@ -64,6 +67,7 @@
     "react-native": "^0.39.2",
     "react-native-web": "git://github.com/MoOx/react-native-web.git#416207e1c31145d849c105490e6ea1fcb05eec3a",
     "react-sketchapp": "^0.3.0",
+    "react-test-renderer": "^15.4.1",
     "watchify": "^3.7.0",
     "webpack": "^1.14.0"
   },

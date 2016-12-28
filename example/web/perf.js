@@ -47,8 +47,8 @@ const deepTreeRNW = ({ wrap, depth, breadth, runs }) => () => benchmark({
 
 Promise.resolve()
   // .then(deepTreeRP({ wrap: 0, depth: 3, breadth: 3, runs: 100 }))
-  .then(deepTreeRP({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
-  .then(deepTreeRNW({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
+  // .then(deepTreeRP({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
+  // .then(deepTreeRNW({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
   .then(deepTreeRP({ wrap: 1, depth: 5, breadth: 3, runs: 10 }))
   .then(deepTreeRNW({ wrap: 1, depth: 5, breadth: 3, runs: 10 }))
   // .then(deepTreeRP({ wrap: 2, depth: 3, breadth: 3, runs: 10 }))

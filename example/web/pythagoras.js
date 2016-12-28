@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Animated, View, Touchable } from 'react-primitives';
-
+import { StyleSheet, Animated, View, Touchable } from 'react-primitives';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,34 +13,34 @@ class App extends React.Component {
     const { press } = this.state;
     return (
       <View>
-        <Touchable press={press} onPress={() => console.log('press!')}>
-          <Animated.View
-            style={{
-              backgroundColor: 'blue',
-              width: 100,
-              height: 100,
-              opacity: press.interpolate({
-                inputRange: [ 0, 1 ],
-                outputRange: [ 1, 0 ],
-              }),
-            }}
-          >
-
-          </Animated.View>
-        </Touchable>
+        <View
+          style={[
+            styles.test,
+          ]}
+        />
       </View>
     );
   }
 }
 
-const Wrap = ({ children }) => (
-  <div
+const styles = StyleSheet.create({
+  test: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'orange',
+    borderBottomColor: "#F00",
+    // borderTopWidth: 0,
+    // borderLeftWidth: 0,
+    // borderRightWidth: 0,
+    borderBottomWidth: 10,
+    borderWidth: 0,
+    transform: [
+      { translateX: 200 },
+    ]
+  },
+  green: {
+    backgroundColor: 'green',
+  },
+});
 
-  >
-    {children}
-  </div>
-);
-
-// ReactDOM.render(, document.querySelector('.other'));
-
-ReactDOM.render(<Wrap><App /></Wrap>, document.querySelector('.root'));
+ReactDOM.render(<App />, document.querySelector('.root'));

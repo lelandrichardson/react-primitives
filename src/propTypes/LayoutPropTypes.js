@@ -56,7 +56,7 @@ const LayoutPropTypes = {
     'stretch',
   ]),
   flex: number,
-  flexBasis: string,
+  flexBasis: numberOrString,
   flexDirection: oneOf([
     'column',
     'column-reverse',

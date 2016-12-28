@@ -4,37 +4,18 @@ const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const ViewStylePropTypes = require('./ViewStylePropTypes');
 const normalizeNativeEvent = require('../Touchable/normalizeNativeEvent');
 const applyPrimitiveMethods = require('../util/applyPrimitiveMethods');
+const Accessibility = require('../propTypes/Accessibility');
 const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('../util/flexboxSupport');
 
 const { PropTypes } = React;
-const { func, string, bool, node, oneOf } = PropTypes;
-
-const roleComponents = {
-  article: 'article',
-  banner: 'header',
-  button: 'button',
-  complementary: 'aside',
-  contentinfo: 'footer',
-  form: 'form',
-  heading: 'h1', // TODO: Figure out the ideal way to support additional semantic header tags.
-  link: 'a',
-  list: 'ul',
-  listitem: 'li',
-  main: 'main',
-  navigation: 'nav',
-  region: 'section',
-};
+const { func, string } = PropTypes;
 
 const propTypes = {
   accessibilityLabel: string,
-  accessibilityLiveRegion: oneOf([
-    'assertive',
-    'off',
-    'polite',
-  ]),
-  accessibilityRole: string,
-  accessible: bool,
-  children: node,
+  accessibilityLiveRegion: Accessibility.LiveRegionPropType,
+  accessibilityRole: Accessibility.RolePropType,
+  accessible: PropTypes.bool,
+  children: PropTypes.node,
   onClick: func,
   onClickCapture: func,
   onMoveShouldSetResponder: func,
@@ -55,7 +36,7 @@ const propTypes = {
   onTouchMoveCapture: func,
   onTouchStart: func,
   onTouchStartCapture: func,
-  pointerEvents: oneOf([
+  pointerEvents: PropTypes.oneOf([
     'auto',
     'box-none',
     'box-only',
@@ -106,7 +87,7 @@ View.prototype.render = function render() {
   const passedStyle = !pointerEvents ? style : [style, { pointerEvents }];
 
   const resolvedStyle = StyleSheet.resolve(passedStyle, VIEW_CLASSNAME);
-  const Component = (accessibilityRole && roleComponents[accessibilityRole]) || 'div';
+  const Component = (accessibilityRole && Accessibility.Components[accessibilityRole]) || 'div';
   const props = {
     className: resolvedStyle.className,
     style: resolvedStyle.style,

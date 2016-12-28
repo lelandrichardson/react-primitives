@@ -135,4 +135,8 @@ module.exports = ([
   // 'wrapFlow',
   // 'wrapThrough',
   // 'wrapMargin',
-]).reduce((acc, key) => { acc[key] = true; return acc; }, {});
+]).reduce((acc, key) => {
+  // eslint-disable-next-line no-param-reassign
+  acc[key] = true;
+  return acc;
+}, {});

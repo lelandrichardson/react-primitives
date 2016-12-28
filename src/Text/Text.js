@@ -3,35 +3,16 @@ const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const TextStylePropTypes = require('./TextStylePropTypes');
 const applyPrimitiveMethods = require('../util/applyPrimitiveMethods');
+const Accessibility = require('../propTypes/Accessibility');
 const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('../util/flexboxSupport');
 
 const { PropTypes } = React;
-const { string, number, oneOf, bool, node, func } = PropTypes;
-
-const roleComponents = {
-  article: 'article',
-  banner: 'header',
-  button: 'button',
-  complementary: 'aside',
-  contentinfo: 'footer',
-  form: 'form',
-  heading: 'h1', // TODO: Figure out the ideal way to support additional semantic header tags.
-  link: 'a',
-  list: 'ul',
-  listitem: 'li',
-  main: 'main',
-  navigation: 'nav',
-  region: 'section',
-};
+const { string, number, bool, node, func } = PropTypes;
 
 const propTypes = {
   accessibilityLabel: string,
-  accessibilityLiveRegion: oneOf([
-    'assertive',
-    'off',
-    'polite',
-  ]),
-  accessibilityRole: string,
+  accessibilityLiveRegion: Accessibility.LiveRegionPropType,
+  accessibilityRole: Accessibility.RolePropType,
   accessible: bool,
   onMoveShouldSetResponder: func,
   onMoveShouldSetResponderCapture: func,
@@ -67,7 +48,7 @@ class Text extends React.Component {
 
     const passedStyle = numberOfLines === 1 ? [style, styles.singleLineStyle] : style;
     const resolvedStyle = StyleSheet.resolve(passedStyle, TEXT_CLASSNAME);
-    const Component = (accessibilityRole && roleComponents[accessibilityRole]) || 'span';
+    const Component = (accessibilityRole && Accessibility.Components[accessibilityRole]) || 'span';
 
     const props = {
       className: resolvedStyle.className,
