@@ -156,15 +156,18 @@ init();
 // TODO(lmr):
 // figure out a good strategy for SSR here.
 
+const absoluteFillObject = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+};
+
 module.exports = {
   hairlineWidth: getHairlineWidth(),
-  absoluteFill: registerStyle('absoluteFill', {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  }),
+  absoluteFillObject,
+  absoluteFill: registerStyle('absoluteFill', absoluteFillObject),
   create,
   // NOTE:
   // `flatten` is exported separately from `resolve` because it mimics the RN api more closely

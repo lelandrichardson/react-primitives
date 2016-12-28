@@ -3,6 +3,7 @@ const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const TextStylePropTypes = require('./TextStylePropTypes');
 const applyPrimitiveMethods = require('../util/applyPrimitiveMethods');
+const applyOnLayoutHandling = require('../util/applyOnLayoutHandling');
 const Accessibility = require('../propTypes/Accessibility');
 const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('../util/flexboxSupport');
 
@@ -14,6 +15,7 @@ const propTypes = {
   accessibilityLiveRegion: Accessibility.LiveRegionPropType,
   accessibilityRole: Accessibility.RolePropType,
   accessible: bool,
+  onLayout: func,
   onMoveShouldSetResponder: func,
   onMoveShouldSetResponderCapture: func,
   onResponderGrant: func,
@@ -90,13 +92,17 @@ class Text extends React.Component {
       });
     }
 
+    if (this.props.onLayout) {
+      applyOnLayoutHandling(this);
+    }
+
     if (!FLEXBOX_SUPPORTED) {
       // this is a performance optimization... and an ugly one at that.
       // we basically want to ensure that `StyleSheet.resolve` doesn't
       // have to get called twice for every update of every primitive,
       // so we cache this value here.
       props.ref = this.__setEl;
-      this.lastResolvedStyle = resolvedStyle.style;
+      this._lastResolvedStyle = resolvedStyle.style;
     }
 
     return React.createElement(Component, props);

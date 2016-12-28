@@ -61,8 +61,8 @@ function throttledPolyfill() {
 // }
 
 function componentDidUpdate() {
-  if (this.el && this.lastResolvedStyle) {
-    const styleMarkup = CSSPropertyOperations.createMarkupForStyles(this.lastResolvedStyle);
+  if (this.el && this._lastResolvedStyle) {
+    const styleMarkup = CSSPropertyOperations.createMarkupForStyles(this._lastResolvedStyle);
     if (this.dataStyleAttribute !== styleMarkup) {
       this.el.setAttribute('data-style', styleMarkup);
       this.dataStyleAttribute = styleMarkup;
@@ -72,8 +72,8 @@ function componentDidUpdate() {
 }
 
 function componentDidMount() {
-  if (this.el && this.lastResolvedStyle) {
-    const styleMarkup = CSSPropertyOperations.createMarkupForStyles(this.lastResolvedStyle);
+  if (this.el && this._lastResolvedStyle) {
+    const styleMarkup = CSSPropertyOperations.createMarkupForStyles(this._lastResolvedStyle);
     this.el.setAttribute('data-style', styleMarkup);
     this.dataStyleAttribute = styleMarkup;
     throttledPolyfill();

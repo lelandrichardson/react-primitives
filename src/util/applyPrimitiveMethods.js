@@ -19,7 +19,17 @@ function focus() {
   UIManager.focus(ReactDOM.findDOMNode(this));
 }
 
-// TODO(lmr): measure(callback)
+function measure(callback) {
+  UIManager.measure(ReactDOM.findDOMNode(this), callback);
+}
+
+function measureInWindow(callback) {
+  UIManager.measureInWindow(ReactDOM.findDOMNode(this), callback);
+}
+
+function measureLayout(relativeToNativeNode, onSuccess, onFail) {
+  UIManager.measureLayout(ReactDOM.findDOMNode(this), relativeToNativeNode, onFail, onSuccess);
+}
 
 module.exports = (Constructor, coreClassName) => {
   /* eslint no-param-reassign:0 */
@@ -27,4 +37,7 @@ module.exports = (Constructor, coreClassName) => {
   Constructor.prototype.setNativeProps = setNativeProps;
   Constructor.prototype.blur = blur;
   Constructor.prototype.focus = focus;
+  Constructor.prototype.measure = measure;
+  Constructor.prototype.measureInWindow = measureInWindow;
+  Constructor.prototype.measureLayout = measureLayout;
 };
