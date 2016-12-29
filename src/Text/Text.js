@@ -93,7 +93,7 @@ class Text extends React.Component {
     }
 
     if (this.props.onLayout) {
-      applyOnLayoutHandling(this);
+      this.applyOnLayoutIfNeeded();
     }
 
     if (!FLEXBOX_SUPPORTED) {
@@ -113,6 +113,7 @@ Text.propTypes = propTypes;
 
 applyPrimitiveMethods(Text, TEXT_CLASSNAME);
 applyFlexboxPolyfill(Text);
+applyOnLayoutHandling(Text);
 
 const styles = StyleSheet.create({
   singleLineStyle: {
