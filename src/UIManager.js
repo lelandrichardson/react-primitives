@@ -1,14 +1,17 @@
+const asap = require('asap');
 const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
 const _measureLayout = (node, relativeToNativeNode, callback) => {
-  const relativeNode = relativeToNativeNode || node.parentNode;
-  const relativeRect = relativeNode.getBoundingClientRect();
-  const { height, left, top, width } = node.getBoundingClientRect();
-  const x = left - relativeRect.left;
-  const y = top - relativeRect.top;
-  callback(x, y, width, height, left, top);
+  asap(() => {
+    const relativeNode = relativeToNativeNode || node.parentNode;
+    const relativeRect = relativeNode.getBoundingClientRect();
+    const { height, left, top, width } = node.getBoundingClientRect();
+    const x = left - relativeRect.left;
+    const y = top - relativeRect.top;
+    callback(x, y, width, height, left, top);
+  });
 };
 
 const UIManager = {
@@ -25,8 +28,10 @@ const UIManager = {
   },
 
   measureInWindow(node, callback) {
-    const { height, left, top, width } = node.getBoundingClientRect();
-    callback(left, top, width, height);
+    asap(() => {
+      const { height, left, top, width } = node.getBoundingClientRect();
+      callback(left, top, width, height);
+    });
   },
 
   measureLayout(node, relativeToNativeNode, onFail, onSuccess) {
