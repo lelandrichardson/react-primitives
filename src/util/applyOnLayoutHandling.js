@@ -13,32 +13,7 @@ const registry = {};
 function triggerAll() {
   Object.keys(registry).forEach(key => {
     const instance = registry[key];
-    handleOnLayout(instance);
-  });
-}
-
-function handleOnLayout(instance) {
-  const prev = instance._prevLayout;
-
-  instance.measure((x, y, width, height) => {
-    if (instance._isUnmounted) return;
-    if (
-      prev.width !== width ||
-      prev.height !== height ||
-      prev.x !== x ||
-      prev.y !== y
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      instance._prevLayout = { x, y, width, height };
-
-      if (instance.props.onLayout) {
-        instance.props.onLayout({
-          nativeEvent: {
-            layout: instance._prevLayout,
-          },
-        });
-      }
-    }
+    instance.handleOnLayout();
   });
 }
 
@@ -60,39 +35,67 @@ if (global.document && global.addEventListener) {
   );
 }
 
-module.exports = instance => {
+module.exports = Component => {
   /* eslint-disable no-param-reassign */
-  // on server side, do nothing.
-  if (!global.document) return;
-  // we only need to apply this to the instance once.
-  if (instance._hasOnLayoutApplied) return;
+  Component.prototype.handleOnLayout = function handleOnLayout() {
+    const prev = this._prevLayout;
 
-  instance._hasOnLayoutApplied = true;
-  instance._prevLayout = {};
-  instance._onLayoutId = guid();
-  instance._isUnmounted = false;
-  // add instance to registry so that it gets called on window resizes
-  registry[instance._onLayoutId] = instance;
+    this.measure((x, y, width, height) => {
+      if (this._isUnmounted) return;
+      if (
+        prev.width !== width ||
+        prev.height !== height ||
+        prev.x !== x ||
+        prev.y !== y
+      ) {
+        // eslint-disable-next-line no-param-reassign
+        this._prevLayout = { x, y, width, height };
 
-  instance.componentDidMount = safeOverride(
-    instance.componentDidMount,
-    function componentDidMount() {
-      handleOnLayout(this);
-    }
-  );
+        if (this.props.onLayout) {
+          this.props.onLayout({
+            nativeEvent: {
+              layout: this._prevLayout,
+            },
+          });
+        }
+      }
+    });
+  };
 
-  instance.componentDidUpdate = safeOverride(
-    instance.componentDidUpdate,
-    function componentDidUpdate() {
-      handleOnLayout(this);
-    }
-  );
+  Component.prototype.applyOnLayoutIfNeeded = function applyOnLayoutIfNeeded() {
+    /* eslint-disable no-param-reassign */
+    // on server side, do nothing.
+    if (!global.document) return;
+    // we only need to apply this to the instance once.
+    if (this._hasOnLayoutApplied) return;
 
-  instance.componentWillUnmount = safeOverride(
-    instance.componentWillUnmount,
-    function componentWillUnmount() {
-      this._isUnmounted = true;
-      delete registry[this._onLayoutId];
-    }
-  );
+    this._hasOnLayoutApplied = true;
+    this._prevLayout = {};
+    this._onLayoutId = guid();
+    this._isUnmounted = false;
+    // add instance to registry so that it gets called on window resizes
+    registry[this._onLayoutId] = this;
+
+    this.componentDidMount = safeOverride(
+      this.componentDidMount,
+      function componentDidMount() {
+        this.handleOnLayout();
+      }
+    );
+
+    this.componentDidUpdate = safeOverride(
+      this.componentDidUpdate,
+      function componentDidUpdate() {
+        this.handleOnLayout();
+      }
+    );
+
+    this.componentWillUnmount = safeOverride(
+      this.componentWillUnmount,
+      function componentWillUnmount() {
+        this._isUnmounted = true;
+        delete registry[this._onLayoutId];
+      }
+    );
+  };
 };

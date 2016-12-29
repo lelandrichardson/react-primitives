@@ -138,7 +138,7 @@ View.prototype.render = function render() {
   }
 
   if (this.props.onLayout) {
-    applyOnLayoutHandling(this);
+    this.applyOnLayoutIfNeeded();
   }
 
   if (!FLEXBOX_SUPPORTED) {
@@ -157,5 +157,6 @@ View.propTypes = propTypes;
 
 applyPrimitiveMethods(View, VIEW_CLASSNAME);
 applyFlexboxPolyfill(View);
+applyOnLayoutHandling(View);
 
 module.exports = View;
