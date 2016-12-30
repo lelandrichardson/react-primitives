@@ -110,6 +110,7 @@ class Text extends React.Component {
 }
 
 Text.propTypes = propTypes;
+Text.displayName = 'Text';
 
 applyPrimitiveMethods(Text, TEXT_CLASSNAME);
 applyFlexboxPolyfill(Text);

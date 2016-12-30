@@ -14,6 +14,9 @@ module.exports = {
   ...LayoutPropTypes,
   ...TransformPropTypes,
   ...ShadowPropTypes,
+  // RN-only styles
+  elevation: number,
+
   backfaceVisibility: hiddenOrVisible,
   backgroundColor: ColorPropType,
   opacity: number,

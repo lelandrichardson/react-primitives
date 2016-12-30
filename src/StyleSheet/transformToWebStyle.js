@@ -185,6 +185,9 @@ const transformToWebStyle = (style) => {
           }
         }
       } break;
+      case 'elevation':
+        // ignore
+        break;
       default:
         resolvedStyle[key] = normalizeValue(key, value);
         break;

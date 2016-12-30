@@ -149,7 +149,12 @@ const resolve = (styles, extraClassName) => {
   };
 };
 
-const returnCopy = (original, result) => (original === result ? { ...result } : result);
+const returnCopy = (original, result) => {
+  if (original === result || typeof original === 'number') {
+    return { ...result };
+  }
+  return result;
+};
 
 init();
 

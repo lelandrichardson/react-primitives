@@ -40,6 +40,7 @@ function init() {
       padding: 0,
       textDecorationLine: 'none',
       wordWrap: 'break-word',
+      whiteSpace: 'pre-wrap',
     },
     rp_Image: {
       borderWidth: 0,
