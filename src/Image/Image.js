@@ -290,6 +290,7 @@ class Image extends React.Component {
 
 Image.propTypes = propTypes;
 Image.resizeMode = ImageResizeMode;
+Image.displayName = 'Image';
 
 applyPrimitiveMethods(Image);
 

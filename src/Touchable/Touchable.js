@@ -47,6 +47,7 @@ const Touchable = (Animated, StyleSheet, Platform) => {
 
   // eslint-disable-next-line react/prefer-es6-class
   return React.createClass({
+    displayName: 'Touchable',
     propTypes: {
       accessible: PropTypes.bool,
 

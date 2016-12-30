@@ -154,6 +154,7 @@ View.prototype.render = function render() {
 };
 
 View.propTypes = propTypes;
+View.displayName = 'View';
 
 applyPrimitiveMethods(View, VIEW_CLASSNAME);
 applyFlexboxPolyfill(View);
