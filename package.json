@@ -2,7 +2,7 @@
   "name": "react-primitives",
   "version": "0.3.2",
   "description": "Primitive React Interfaces Across Targets",
-  "main": "lib/index.js",
+  "main": "lib/main.js",
   "scripts": {
     "prepublish": "npm run build",
     "build": "rm -rf lib && babel -d lib src",
