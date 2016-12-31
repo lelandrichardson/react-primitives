@@ -6,7 +6,7 @@ const TransformPropTypes = require('../propTypes/TransformPropTypes');
 const ShadowPropTypes = require('../propTypes/ShadowPropTypes');
 
 const { number, oneOf, string } = PropTypes;
-const autoOrHiddenOrVisible = oneOf(['auto', 'hidden', 'visible']);
+const autoOrHiddenOrVisible = oneOf(['auto', 'hidden', 'visible', 'scroll']);
 const hiddenOrVisible = oneOf(['hidden', 'visible']);
 
 module.exports = {
