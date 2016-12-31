@@ -12,6 +12,20 @@ const InsetPropType = PropTypes.shape({
   right: PropTypes.number,
 });
 
+const THROTTLE_MS = 50;
+
+function throttle(fn, throttleMs) {
+  let lastCall = null;
+
+  return () => {
+    const now = new Date;
+    if (lastCall === null || (now - lastCall > throttleMs)) {
+      fn();
+      lastCall = new Date;
+    }
+  };
+}
+
 /**
  * A wrapper for making views respond properly to touches.
  * On press down, the opacity of the wrapped view is decreased, dimming it.
@@ -137,6 +151,12 @@ const Touchable = (Animated, StyleSheet, Platform) => {
     },
 
     getInitialState() {
+      this.touchableHandleActivePressOut = throttle(
+        this.touchableHandleActivePressOut,
+        THROTTLE_MS
+      );
+      this.touchableHandlePress = throttle(this.touchableHandlePress, THROTTLE_MS);
+      this.touchableHandleLongPress = throttle(this.touchableHandleLongPress, THROTTLE_MS);
       return this.touchableGetInitialState();
     },
 
