@@ -12,15 +12,19 @@ const InsetPropType = PropTypes.shape({
   right: PropTypes.number,
 });
 
-const THROTTLE_MS = 50;
+
+// NOTE(lmr): this is a huge hack right now, and prevents anything from being clickable more than
+// twice per second, but the alternative is so bad right now. Need to figure out how to fix the
+// responder plugin later and fix this.
+const THROTTLE_MS = 500;
 
 function throttle(fn, throttleMs) {
   let lastCall = null;
 
-  return () => {
+  return function (...args) {
     const now = new Date;
     if (lastCall === null || (now - lastCall > throttleMs)) {
-      fn();
+      fn.apply(this, args);
       lastCall = new Date;
     }
   };
@@ -151,12 +155,6 @@ const Touchable = (Animated, StyleSheet, Platform) => {
     },
 
     getInitialState() {
-      this.touchableHandleActivePressOut = throttle(
-        this.touchableHandleActivePressOut,
-        THROTTLE_MS
-      );
-      this.touchableHandlePress = throttle(this.touchableHandlePress, THROTTLE_MS);
-      this.touchableHandleLongPress = throttle(this.touchableHandleLongPress, THROTTLE_MS);
       return this.touchableGetInitialState();
     },
 
@@ -183,7 +181,7 @@ const Touchable = (Animated, StyleSheet, Platform) => {
      * `Touchable.Mixin` self callbacks. The mixin will invoke these if they are
      * defined on your component.
      */
-    touchableHandleActivePressIn(e) {
+    touchableHandleActivePressIn: throttle(function (e) {
       if (e.dispatchConfig.registrationName === 'onResponderGrant') {
         this._setActive(0);
       } else {
@@ -191,23 +189,23 @@ const Touchable = (Animated, StyleSheet, Platform) => {
       }
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressIn && this.props.onPressIn(e);
-    },
+    }, THROTTLE_MS),
 
-    touchableHandleActivePressOut(e) {
+    touchableHandleActivePressOut: throttle(function (e) {
       this._setInactive(250);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressOut && this.props.onPressOut(e);
-    },
+    }, THROTTLE_MS),
 
-    touchableHandlePress(e) {
+    touchableHandlePress: throttle(function (e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onPress && this.props.onPress(e);
-    },
+    }, THROTTLE_MS),
 
-    touchableHandleLongPress(e) {
+    touchableHandleLongPress: throttle(function (e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onLongPress && this.props.onLongPress(e);
-    },
+    }, THROTTLE_MS),
 
     touchableGetPressRectOffset() {
       return this.props.pressRetentionOffset;

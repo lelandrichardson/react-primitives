@@ -24,6 +24,7 @@ module.exports = {
   // TODO(lmr): we probably want to shim the RN stylesheet or something to strip
   // these styles, or else it will trigger a redbox in RN.
   /* @platform web */
+  WebkitOverflowScrolling: string,
   backgroundAttachment: string,
   backgroundClip: string,
   backgroundImage: string,

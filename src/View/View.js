@@ -113,6 +113,7 @@ View.prototype.render = function render() {
       onResponderTerminationRequest: this.props.onResponderTerminationRequest,
       onStartShouldSetResponder: this.props.onStartShouldSetResponder,
       onStartShouldSetResponderCapture: this.props.onStartShouldSetResponderCapture,
+      onScroll: this.props.onScroll,
       onTouchCancel: normalizeHandler(this.props.onTouchCancel),
       onTouchCancelCapture: normalizeHandler(this.props.onTouchCancelCapture),
       onTouchEnd: normalizeHandler(this.props.onTouchEnd),
