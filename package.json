@@ -1,6 +1,6 @@
 {
   "name": "react-primitives",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Primitive React Interfaces Across Targets",
   "main": "lib/main.js",
   "scripts": {
