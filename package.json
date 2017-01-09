@@ -66,7 +66,7 @@
     "react-dom": "^15.4.0",
     "react-native": "^0.39.2",
     "react-native-web": "git://github.com/MoOx/react-native-web.git#416207e1c31145d849c105490e6ea1fcb05eec3a",
-    "react-sketchapp": "^0.3.0",
+    "react-sketchapp": "^0.6.0",
     "react-test-renderer": "^15.4.1",
     "watchify": "^3.7.0",
     "webpack": "^1.14.0"
