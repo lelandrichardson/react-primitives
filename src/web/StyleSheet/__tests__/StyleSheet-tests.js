@@ -33,7 +33,7 @@ describe('StyleSheet', () => {
         ], 'coreClassName');
 
         expect(styles).toMatchObject({
-          className: 'coreClassName r67985t r1nerynz1 ',
+          className: 'coreClassName r12yvxpk rjz5agh1 ',
           style: null,
         });
       });
@@ -45,7 +45,7 @@ describe('StyleSheet', () => {
         ], 'coreClassName');
 
         expect(styles).toMatchObject({
-          className: 'coreClassName r67985t ',
+          className: 'coreClassName r12yvxpk ',
           style: {
             height: '20px',
           },
@@ -193,15 +193,15 @@ describe('StyleSheet', () => {
 
         const test = (s, v) => expect(StyleSheet.resolve(s, 'core').className).toMatch(v);
 
-        test([a, b, c, d], 'core rnuu8u2 r1d4rkvr1 r1rjx91z2 r1e1iju13 ');
-        test([a, [b, c], d], 'core rnuu8u2 r1d4rkvr1 r1rjx91z2 r1e1iju13 ');
-        test([a, [b, [c]], d], 'core rnuu8u2 r1d4rkvr1 r1rjx91z2 r1e1iju13 ');
-        test([a, [], [b, [c]], d], 'core rnuu8u2 r1d4rkvr1 r1rjx91z2 r1e1iju13 ');
-        test([a, [b], [[c]], d], 'core rnuu8u2 r1d4rkvr1 r1rjx91z2 r1e1iju13 ');
-        test([a, c, b, d], 'core rnuu8u2 r1rjx91z1 r1d4rkvr2 r1e1iju13 ');
-        test([false, false, false, d], 'core r1e1iju13 ');
-        test([false, false, d, false], 'core r1e1iju12 ');
-        test([d, false, false, false], 'core r1e1iju1 ');
+        test([a, b, c, d], 'core rtkgqor r1wol5js1 r1oe826x2 rnazxpa3 ');
+        test([a, [b, c], d], 'core rtkgqor r1wol5js1 r1oe826x2 rnazxpa3 ');
+        test([a, [b, [c]], d], 'core rtkgqor r1wol5js1 r1oe826x2 rnazxpa3 ');
+        test([a, [], [b, [c]], d], 'core rtkgqor r1wol5js1 r1oe826x2 rnazxpa3 ');
+        test([a, [b], [[c]], d], 'core rtkgqor r1wol5js1 r1oe826x2 rnazxpa3 ');
+        test([a, c, b, d], 'core rtkgqor r1oe826x1 r1wol5js2 rnazxpa3 ');
+        test([false, false, false, d], 'core rnazxpa3 ');
+        test([false, false, d, false], 'core rnazxpa2 ');
+        test([d, false, false, false], 'core rnazxpa ');
       });
 
       it('does not flush styles before they are used', () => {

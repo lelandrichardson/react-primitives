@@ -50,7 +50,7 @@ exports[`<View /> with a11y role 1`] = `
 
 exports[`<View /> with multiple styles and some inline 1`] = `
 <div
-  className="rp_View r1e1kp2h r1khqts81 "
+  className="rp_View r1pr8dlo rsp2czt1 "
   style={
     Object {
       "opacity": 0.5,
@@ -73,6 +73,6 @@ exports[`<View /> with single inline style 1`] = `
 
 exports[`<View /> with single registered style 1`] = `
 <div
-  className="rp_View r1e1kp2h"
+  className="rp_View r1pr8dlo"
   style={null} />
 `;

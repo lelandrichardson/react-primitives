@@ -1,5 +1,5 @@
 const generateCss = require('./generateCss');
-const murmurHash = require('./murmurHash');
+const hash = require('string-hash');
 const mapKeyValue = require('../util/mapKeyValue');
 const injector = require('./injector');
 
@@ -13,7 +13,7 @@ let styleRegistry = {};
 const createCssRule = (prefix, key, rule, genCss) => {
   const cssBody = generateCss(rule);
   // key is the media query, eg. '@media (max-width: 600px)'
-  const className = `${prefix}${murmurHash(key + cssBody)}`;
+  const className = `${prefix}${hash(key + cssBody).toString(36)}`;
   const css = genCss(key, className, cssBody);
   // this adds the rule to the buffer to be injected into the document
   injector.addRule(className, css);
@@ -36,7 +36,7 @@ const repeat = (s, n) => {
 
 const createPositionableCssRule = (prefix, rule) => {
   const cssBody = generateCss(rule);
-  const className = `${prefix}${murmurHash(cssBody)}`;
+  const className = `${prefix}${hash(cssBody).toString(36)}`;
   const positions = [];
   const injectPosition = position => {
     if (positions[position] === true) {

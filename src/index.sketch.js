@@ -1,1 +1,3 @@
-module.exports = require('./index-sketch');
+require('./injection/react-sketchapp');
+
+module.exports = require('./ReactPrimitives');

@@ -70,7 +70,7 @@ exports[`<Text /> with a11y props 1`] = `
 
 exports[`<Text /> with multiple styles and some inline 1`] = `
 <span
-  className="rp_Text r1e1kp2h r1khqts81 "
+  className="rp_Text r1pr8dlo rsp2czt1 "
   style={
     Object {
       "opacity": 0.5,
@@ -95,7 +95,7 @@ exports[`<Text /> with single inline style 1`] = `
 
 exports[`<Text /> with single registered style 1`] = `
 <span
-  className="rp_Text r1e1kp2h"
+  className="rp_Text r1pr8dlo"
   style={null}>
   Hello World!
 </span>

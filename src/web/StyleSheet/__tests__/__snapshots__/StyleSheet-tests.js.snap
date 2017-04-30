@@ -1,10 +1,10 @@
 exports[`StyleSheet (Rendered CSS) pseudo styles allows for pseudo-styles 1`] = `
 "
-.r1epyumm:hover
+.rzhqa44:hover
 {
 width:20px;
 }
-.rq59zk7
+.riv7kbt
 {
 width:30px;
 }
@@ -18,7 +18,7 @@ exports[`StyleSheet .resolve(style) positional classes does not flush styles bef
 
 exports[`StyleSheet .resolve(style) positional classes flushes styles when they are used 1`] = `
 "
-.rnuu8u2
+.rtkgqor
 {
 width:1px;
 }
@@ -27,8 +27,8 @@ width:1px;
 
 exports[`StyleSheet .resolve(style) positional classes uses compound selectors when styles are applied at a certain index 1`] = `
 "
-.rnuu8u2,
-.rnuu8u21.rnuu8u21
+.rtkgqor,
+.rtkgqor1.rtkgqor1
 {
 width:1px;
 }
