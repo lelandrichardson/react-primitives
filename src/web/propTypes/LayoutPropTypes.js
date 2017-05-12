@@ -1,4 +1,4 @@
-const { PropTypes } = require('react');
+const PropTypes = require('prop-types');
 
 const { number, oneOf, oneOfType, string } = PropTypes;
 const numberOrString = oneOfType([number, string]);

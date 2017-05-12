@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const StyleSheet = require('../StyleSheet');
 const StyleSheetPropType = require('../propTypes/StyleSheetPropType');
 const ViewStylePropTypes = require('./ViewStylePropTypes');
@@ -8,7 +9,6 @@ const applyOnLayoutHandling = require('../util/applyOnLayoutHandling');
 const Accessibility = require('../propTypes/Accessibility');
 const { FLEXBOX_SUPPORTED, applyFlexboxPolyfill } = require('../util/flexboxSupport');
 
-const { PropTypes } = React;
 const { func, string } = PropTypes;
 
 const propTypes = {

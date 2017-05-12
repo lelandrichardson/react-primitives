@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const TimerMixin = require('react-timer-mixin');
 
 const ensurePositiveDelayProps = (props) => {
@@ -7,8 +8,6 @@ const ensurePositiveDelayProps = (props) => {
   //   'Touchable components cannot have negative delay properties'
   // );
 };
-
-const { PropTypes } = React;
 
 const InsetPropType = PropTypes.shape({
   top: PropTypes.number,

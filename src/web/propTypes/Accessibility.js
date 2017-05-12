@@ -1,4 +1,4 @@
-const { PropTypes } = require('react');
+const PropTypes = require('prop-types');
 
 const Components = {
   article: 'article',

@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const StyleSheet = require('../StyleSheet');
 const View = require('../View/View');
 const resolveAssetSource = require('./resolveAssetSource');
@@ -13,7 +14,6 @@ const STATUS_LOADING = 'LOADING';
 const STATUS_PENDING = 'PENDING';
 const STATUS_IDLE = 'IDLE';
 
-const { PropTypes } = React;
 const { string, node, bool, func, oneOf } = PropTypes;
 
 const ImageSourcePropType = PropTypes.oneOfType([

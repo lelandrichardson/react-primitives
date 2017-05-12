@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-const { PropTypes } = require('react');
+const PropTypes = require('prop-types');
 const { arrayOf, oneOfType, shape, number, string } = PropTypes;
 
 const ArrayOfNumberPropType = arrayOf(number);

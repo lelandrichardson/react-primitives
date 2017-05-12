@@ -1,4 +1,4 @@
-const { PropTypes } = require('react');
+const PropTypes = require('prop-types');
 const BorderPropTypes = require('../propTypes/BorderPropTypes');
 const ColorPropType = require('../propTypes/ColorPropType');
 const LayoutPropTypes = require('../propTypes/LayoutPropTypes');

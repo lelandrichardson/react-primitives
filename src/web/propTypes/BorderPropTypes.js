@@ -1,4 +1,4 @@
-const { PropTypes } = require('react');
+const PropTypes = require('prop-types');
 const ColorPropType = require('./ColorPropType');
 
 const numberOrString = PropTypes.oneOfType([PropTypes.number, PropTypes.string]);
