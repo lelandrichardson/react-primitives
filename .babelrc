@@ -6,7 +6,7 @@
       "module-resolver",
       {
         "alias": {
-          "react-primitives": "./src/main"
+          "react-primitives": "./"
         },
         "cwd": "babelrc"
       }

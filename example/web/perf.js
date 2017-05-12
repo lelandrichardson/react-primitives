@@ -13,7 +13,7 @@ const ReactNativeWeb = require('react-native-web');
 const DeepTreeRP = makeDeepTree(ReactPrimitives);
 const DeepTreeRNW = makeDeepTree(ReactNativeWeb);
 
-const deepTreeRP = ({ wrap, depth, breadth, runs }) => () => benchmark({
+const deepTreeRPW = ({ wrap, depth, breadth, runs }) => () => benchmark({
   name: `DeepTree (React Primitives) (depth=${depth}, breadth=${breadth}, wrap=${wrap})`,
   runs,
   setup,
@@ -46,18 +46,32 @@ const deepTreeRNW = ({ wrap, depth, breadth, runs }) => () => benchmark({
 });
 
 Promise.resolve()
-  // .then(deepTreeRP({ wrap: 0, depth: 3, breadth: 3, runs: 100 }))
-  // .then(deepTreeRP({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
-  // .then(deepTreeRNW({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
-  .then(deepTreeRP({ wrap: 1, depth: 5, breadth: 3, runs: 10 }))
+  .then(deepTreeRPW({ wrap: 0, depth: 3, breadth: 3, runs: 100 }))
+  .then(deepTreeRNW({ wrap: 0, depth: 3, breadth: 3, runs: 100 }))
+
+  .then(deepTreeRPW({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 4, depth: 3, breadth: 10, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 1, depth: 5, breadth: 3, runs: 10 }))
   .then(deepTreeRNW({ wrap: 1, depth: 5, breadth: 3, runs: 10 }))
-  // .then(deepTreeRP({ wrap: 2, depth: 3, breadth: 3, runs: 10 }))
-  // .then(deepTreeRP({ wrap: 3, depth: 3, breadth: 3, runs: 10 }))
-  // .then(deepTreeRP({ wrap: 4, depth: 3, breadth: 3, runs: 10 }))
-  // .then(deepTreeRP({ wrap: 5, depth: 3, breadth: 3, runs: 10 }))
-  // .then(deepTreeRP({ wrap: 6, depth: 3, breadth: 3, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 2, depth: 3, breadth: 3, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 2, depth: 3, breadth: 3, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 3, depth: 3, breadth: 3, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 3, depth: 3, breadth: 3, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 4, depth: 3, breadth: 3, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 4, depth: 3, breadth: 3, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 5, depth: 3, breadth: 3, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 5, depth: 3, breadth: 3, runs: 10 }))
+
+  .then(deepTreeRPW({ wrap: 6, depth: 3, breadth: 3, runs: 10 }))
+  .then(deepTreeRNW({ wrap: 6, depth: 3, breadth: 3, runs: 10 }))
+
   .then(() => ReactDOM.render(
-    <DeepTreeRP
+    <DeepTreeRNW
       wrap={0}
       depth={4}
       breadth={3}

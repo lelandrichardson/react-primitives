@@ -1,9 +1,9 @@
 const fmt = time => `${Math.round(time * 100) / 100}ms`;
 
 const measure = fn => {
-  const start = Date.now();
+  const start = performance.now();
   fn();
-  const end = Date.now();
+  const end = performance.now();
   return end - start;
 };
 
