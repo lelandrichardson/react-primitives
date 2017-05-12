@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const TimerMixin = require('react-timer-mixin');
 
-const ensurePositiveDelayProps = (props) => {
+const ensurePositiveDelayProps = (/* props */) => {
   // invariant(
   //   !(props.delayPressIn < 0 || props.delayPressOut < 0 || props.delayLongPress < 0),
   //   'Touchable components cannot have negative delay properties'
