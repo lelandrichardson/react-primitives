@@ -30,6 +30,6 @@ ReactPrimitives.inject({
     Animated,
     StyleSheet,
     ReactPrimitives.Platform,
-    Touchable
+    Touchable.Mixin,
   ),
 });
