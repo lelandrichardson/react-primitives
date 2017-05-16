@@ -10,14 +10,24 @@ const {
   Dimensions,
   Easing,
 } = require('react-native-web');
+const StyleRegistry = require('react-native-web/dist/apis/StyleSheet/registry');
+
+const emptyObject = {};
+
+const resolve = style => {
+  return StyleRegistry.resolveStyle(style) || emptyObject;
+};
 
 ReactPrimitives.inject({
-  StyleSheet,
   View,
   Text,
   Image,
   Easing,
   Animated,
+  StyleSheet: {
+    ...StyleSheet,
+    resolve,
+  },
   Platform: {
     OS: Platform.OS,
     Version: Platform.Version,
