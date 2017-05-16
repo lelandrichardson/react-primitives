@@ -15,7 +15,7 @@ const StyleRegistry = require('react-native-web/dist/apis/StyleSheet/registry');
 const emptyObject = {};
 
 const resolve = style => {
-  return StyleRegistry.resolveStyle(style) || emptyObject;
+  return StyleRegistry.resolve(style) || emptyObject;
 };
 
 ReactPrimitives.inject({
