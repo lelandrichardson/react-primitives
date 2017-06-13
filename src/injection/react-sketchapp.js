@@ -23,7 +23,6 @@ const TouchableMixin = {
   touchableHandleResponderMove() {},
 };
 
-
 Animated.inject.FlattenStyle(StyleSheet.flatten);
 
 ReactPrimitives.inject({
@@ -43,8 +42,6 @@ ReactPrimitives.inject({
     Version: 1,
   },
 });
-
-
 
 ReactPrimitives.inject({
   Touchable: require('../modules/Touchable')(
