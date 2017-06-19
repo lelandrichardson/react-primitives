@@ -1,13 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const TimerMixin = require('react-timer-mixin');
-
-const ensurePositiveDelayProps = (/* props */) => {
-  // invariant(
-  //   !(props.delayPressIn < 0 || props.delayPressOut < 0 || props.delayLongPress < 0),
-  //   'Touchable components cannot have negative delay properties'
-  // );
-};
+const { VrButton } = require('react-vr');
 
 const InsetPropType = PropTypes.shape({
   top: PropTypes.number,
@@ -15,7 +8,6 @@ const InsetPropType = PropTypes.shape({
   bottom: PropTypes.number,
   right: PropTypes.number,
 });
-
 
 // NOTE(lmr): this is a huge hack right now, and prevents anything from being clickable more than
 // twice per second, but the alternative is so bad right now. Need to figure out how to fix the
@@ -61,18 +53,6 @@ const Touchable = (
   Platform,
   TouchableMixin,
 ) => {
-  const styles = StyleSheet.create({
-    touchable: Platform.select({
-      web: {
-        cursor: 'pointer',
-      },
-      ios: {},
-      android: {},
-      sketch: {},
-      vr: {},
-    }),
-  });
-
   // eslint-disable-next-line react/prefer-es6-class
   return React.createClass({
     displayName: 'Touchable',
@@ -141,7 +121,7 @@ const Touchable = (
       children: PropTypes.node,
     },
 
-    mixins: [TimerMixin, TouchableMixin],
+    mixins: [],
 
     statics: {
       Mixin: TouchableMixin,
@@ -164,18 +144,6 @@ const Touchable = (
       };
     },
 
-    getInitialState() {
-      return this.touchableGetInitialState();
-    },
-
-    componentDidMount() {
-      ensurePositiveDelayProps(this.props);
-    },
-
-    componentWillReceiveProps(nextProps) {
-      ensurePositiveDelayProps(nextProps);
-    },
-
     setPressValue(toValue) {
       Animated.timing(
         this.props.press,
@@ -187,16 +155,9 @@ const Touchable = (
       ).start();
     },
 
-    /**
-     * `Touchable.Mixin` self callbacks. The mixin will invoke these if they are
-     * defined on your component.
-     */
+
     touchableHandleActivePressIn: throttle(function (e) {
-      if (e.dispatchConfig.registrationName === 'onResponderGrant') {
-        this._setActive(0);
-      } else {
-        this._setActive(150);
-      }
+      this._setActive(150);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressIn && this.props.onPressIn(e);
     }, THROTTLE_MS),
@@ -217,26 +178,6 @@ const Touchable = (
       this.props.onLongPress && this.props.onLongPress(e);
     }, THROTTLE_MS),
 
-    touchableGetPressRectOffset() {
-      return this.props.pressRetentionOffset;
-    },
-
-    touchableGetHitSlop() {
-      return this.props.hitSlop;
-    },
-
-    touchableGetHighlightDelayMS() {
-      return this.props.delayPressIn;
-    },
-
-    touchableGetLongPressDelayMS() {
-      return this.props.delayLongPress;
-    },
-
-    touchableGetPressOutDelayMS() {
-      return this.props.delayPressOut;
-    },
-
     _setActive(duration) {
       this.setPressValue(1, duration);
     },
@@ -247,19 +188,19 @@ const Touchable = (
 
     render() {
       const child = this.props.children;
-      const childStyle = child && child.props && child.props.style;
-      return React.cloneElement(child, {
-        onStartShouldSetResponder: this.touchableHandleStartShouldSetResponder,
-        onResponderTerminationRequest: this.touchableHandleResponderTerminationRequest,
-        onResponderGrant: this.touchableHandleResponderGrant,
-        onResponderMove: this.touchableHandleResponderMove,
-        onResponderRelease: this.touchableHandleResponderRelease,
-        onResponderTerminate: this.touchableHandleResponderTerminate,
-        style: [
-          styles.touchable,
-          childStyle,
-        ],
-      });
+      return (
+        <VrButton
+          accessible={this.props.accessible}
+          disabled={this.props.disabled}
+          onLayout={this.props.onLayout}
+          onButtonPress={this.touchableHandleActivePressIn}
+          onButtonRelease={this.touchableHandleActivePressOut}
+          onClick={this.touchableHandlePress}
+          onLongClick={this.touchableHandleLongPress}
+        >
+          {child}
+        </VrButton>
+      );
     },
   });
 };

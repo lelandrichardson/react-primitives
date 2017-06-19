@@ -67,6 +67,7 @@
     "react-native": "^0.39.2",
     "react-sketchapp": "^0.6.0",
     "react-test-renderer": "^15.4.1",
+    "react-vr": "1.2.0",
     "watchify": "^3.7.0",
     "webpack": "^1.14.0"
   },
