@@ -10,8 +10,10 @@ const Platform = {
     return obj.default;
   },
   inject: platform => {
-    Platform.OS = platform.OS;
-    Platform.Version = platform.Version;
+    // Use bracket accessor notation as workaround for
+    // https://github.com/facebook/metro-bundler/issues/27
+    Platform['OS'] = platform.OS; // eslint-disable-line dot-notation
+    Platform['Version'] = platform.Version; // eslint-disable-line dot-notation
   },
 };
 
