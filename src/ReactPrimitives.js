@@ -14,6 +14,7 @@ const ReactPrimitives = {
   Easing: null,
   Animated: null,
   Dimensions: null,
+  TextInput: null,
   PixelRatio: require('./modules/PixelRatio'),
   Platform: require('./modules/Platform'),
   inject: (api) => {
@@ -40,6 +41,9 @@ const ReactPrimitives = {
     }
     if (api.Dimensions) {
       ReactPrimitives.Dimensions = api.Dimensions;
+    }
+    if (api.TextInput) {
+      ReactPrimitives.TextInput = api.TextInput;
     }
     if (api.Platform) {
       ReactPrimitives.Platform.inject(api.Platform);
