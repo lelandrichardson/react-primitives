@@ -9,6 +9,7 @@ const {
   Touchable,
   Dimensions,
   Easing,
+  TextInput,
 } = require('react-native-web');
 const StyleRegistry = require('react-native-web/dist/apis/StyleSheet/registry');
 
@@ -33,6 +34,7 @@ ReactPrimitives.inject({
     Version: Platform.Version,
   },
   Dimensions,
+  TextInput,
 });
 
 ReactPrimitives.inject({
