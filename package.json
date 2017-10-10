@@ -74,13 +74,14 @@
   "dependencies": {
     "animated": "^0.1.5",
     "asap": "^2.0.5",
+    "create-react-class": "^15.6.2",
     "deline": "^1.0.4",
     "flexibility": "^2.0.1",
     "inline-style-prefixer": "^2.0.5",
     "invariant": "^2.2.1",
     "normalize-css-color": "^1.0.1",
     "prop-types": "^15.5.10",
-    "react-native-web": "0.0.x",
+    "react-native-web": ">=0.0.100",
     "react-timer-mixin": "^0.13.3",
     "string-hash": "^1.1.3"
   },
