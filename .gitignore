@@ -66,3 +66,4 @@ local.properties
 lib/
 snapshots
 example/web/dist
+yarn.lock
