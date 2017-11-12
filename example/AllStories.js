@@ -6,6 +6,7 @@ import { getStories } from './StoryManager';
 import './stories/View';
 import './stories/Image';
 import './stories/Text';
+import './stories/Touchable';
 
 const styles = StyleSheet.create({
   app: {
