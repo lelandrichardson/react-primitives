@@ -10,7 +10,7 @@ const {
   Dimensions,
   Easing,
 } = require('react-native-web');
-const StyleRegistry = require('react-native-web/dist/apis/StyleSheet/registry');
+const StyleRegistry = require('react-native-web/dist/apis/StyleSheet/registry').default;
 
 const emptyObject = {};
 
