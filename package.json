@@ -62,7 +62,7 @@
     "octonode": "^0.7.7",
     "phantomjs-prebuilt": "^2.1.7",
     "react": "^16.2.0",
-    "react-addons-test-utils": "^15.0.0",
+    "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.2.0",
     "react-native": "^0.39.2",
     "react-sketchapp": "^0.6.0",
