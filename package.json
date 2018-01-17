@@ -62,11 +62,10 @@
     "octonode": "^0.7.7",
     "phantomjs-prebuilt": "^2.1.7",
     "react": "^16.2.0",
-    "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.2.0",
     "react-native": "^0.39.2",
     "react-sketchapp": "^0.6.0",
-    "react-test-renderer": "^15.4.1",
+    "react-test-renderer": "^16.2.0",
     "react-vr": "1.2.0",
     "watchify": "^3.7.0",
     "webpack": "^1.14.0"
@@ -81,6 +80,7 @@
     "invariant": "^2.2.1",
     "normalize-css-color": "^1.0.1",
     "prop-types": "^15.5.10",
+    "react-css-property-operations": "^15.4.1",
     "react-native-web": "^0.2.2",
     "react-timer-mixin": "^0.13.3",
     "string-hash": "^1.1.3"
