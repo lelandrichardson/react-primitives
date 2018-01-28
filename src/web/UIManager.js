@@ -1,5 +1,5 @@
 const asap = require('asap');
-const CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
+const CSSPropertyOperations = require('react-css-property-operations');
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
