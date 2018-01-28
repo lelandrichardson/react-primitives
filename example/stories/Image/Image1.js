@@ -49,47 +49,6 @@ make('Image: border radius', () => (
   />
 ));
 
-make('Image: with children 2', () => (
-  <Image
-    style={{
-      width: 200,
-      height: 200,
-      padding: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-    source={image(200)}
-  >
-    <View
-      style={{
-        width: 20,
-        height: 20,
-        backgroundColor: 'white',
-      }}
-    />
-  </Image>
-));
-
-
-make('Image: with children 1', () => (
-  <Image
-    style={{
-      width: 200,
-      height: 200,
-      padding: 10,
-    }}
-    source={image(200)}
-  >
-    <View
-      style={{
-        width: 20,
-        height: 20,
-        backgroundColor: 'white',
-      }}
-    />
-  </Image>
-));
-
 make('Image: resizeMode=stretch 1', () => (
   <Image
     style={{
