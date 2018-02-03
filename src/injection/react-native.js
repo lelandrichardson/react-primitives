@@ -8,7 +8,7 @@ const {
   Platform,
   Easing,
   Dimensions,
-  Touchable
+  Touchable,
 } = require('react-native');
 
 ReactPrimitives.inject({
