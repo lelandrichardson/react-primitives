@@ -8,6 +8,7 @@ const {
   Platform,
   Easing,
   Dimensions,
+  Touchable
 } = require('react-native');
 
 ReactPrimitives.inject({
@@ -22,5 +23,5 @@ ReactPrimitives.inject({
     Version: Platform.Version,
   },
   Dimensions,
-  Touchable: require('../modules/Touchable')(Animated, StyleSheet, Platform),
+  Touchable: require('../modules/Touchable')(Animated, StyleSheet, Platform, Touchable.Mixin),
 });
