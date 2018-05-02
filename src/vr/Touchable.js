@@ -1,7 +1,7 @@
 const React = require('react');
 const createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
-const { VrButton } = require('react-vr');
+const { VrButton } = require('react-360');
 
 const InsetPropType = PropTypes.shape({
   top: PropTypes.number,
@@ -18,11 +18,11 @@ const THROTTLE_MS = 500;
 function throttle(fn, throttleMs) {
   let lastCall = null;
 
-  return function (...args) {
-    const now = new Date;
-    if (lastCall === null || (now - lastCall > throttleMs)) {
+  return function(...args) {
+    const now = new Date();
+    if (lastCall === null || now - lastCall > throttleMs) {
       fn.apply(this, args);
-      lastCall = new Date;
+      lastCall = new Date();
     }
   };
 }
@@ -48,12 +48,7 @@ function throttle(fn, throttleMs) {
  * },
  * ```
  */
-const Touchable = (
-  Animated,
-  StyleSheet,
-  Platform,
-  TouchableMixin,
-) => {
+const Touchable = (Animated, StyleSheet, Platform, TouchableMixin) => {
   // eslint-disable-next-line react/prefer-es6-class
   return createReactClass({
     displayName: 'Touchable',
@@ -146,35 +141,31 @@ const Touchable = (
     },
 
     setPressValue(toValue) {
-      Animated.timing(
-        this.props.press,
-        {
-          toValue,
-          duration: this.props.pressDuration,
-          // easing: Easing.inOut(Easing.quad),
-        }
-      ).start();
+      Animated.timing(this.props.press, {
+        toValue,
+        duration: this.props.pressDuration,
+        // easing: Easing.inOut(Easing.quad),
+      }).start();
     },
 
-
-    touchableHandleActivePressIn: throttle(function (e) {
+    touchableHandleActivePressIn: throttle(function(e) {
       this._setActive(150);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressIn && this.props.onPressIn(e);
     }, THROTTLE_MS),
 
-    touchableHandleActivePressOut: throttle(function (e) {
+    touchableHandleActivePressOut: throttle(function(e) {
       this._setInactive(250);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressOut && this.props.onPressOut(e);
     }, THROTTLE_MS),
 
-    touchableHandlePress: throttle(function (e) {
+    touchableHandlePress: throttle(function(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onPress && this.props.onPress(e);
     }, THROTTLE_MS),
 
-    touchableHandleLongPress: throttle(function (e) {
+    touchableHandleLongPress: throttle(function(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onLongPress && this.props.onLongPress(e);
     }, THROTTLE_MS),

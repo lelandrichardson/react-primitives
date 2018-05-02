@@ -7,7 +7,7 @@ const {
   StyleSheet,
   Easing,
   // TODO: Dimensions. Does that even make sense tho?
-} = require('react-vr');
+} = require('react-360');
 
 ReactPrimitives.inject({
   StyleSheet,
@@ -23,6 +23,6 @@ ReactPrimitives.inject({
   Touchable: require('../vr/Touchable')(
     Animated,
     StyleSheet,
-    ReactPrimitives.Platform
+    ReactPrimitives.Platform,
   ),
 });
