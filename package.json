@@ -74,7 +74,7 @@
     "create-react-class": "^15.6.2",
     "deline": "^1.0.4",
     "flexibility": "^2.0.1",
-    "inline-style-prefixer": "^2.0.5",
+    "inline-style-prefixer": "^4.0.2",
     "invariant": "^2.2.1",
     "normalize-css-color": "^1.0.1",
     "prop-types": "^15.5.10",
