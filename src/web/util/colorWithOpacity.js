@@ -1,4 +1,4 @@
-import normalizeColor from 'normalize-css-color';
+const normalizeColor = require('normalize-css-color');
 
 const colorWithOpacity = (input, opacity) => {
   const nullableColor = normalizeColor(input);
