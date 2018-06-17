@@ -37,7 +37,7 @@ make('Animated 1', () => {
 
     handleClick() {
       if (this.state.on) {
-        Animated.timing(this.state.anim, {toValue: 400}).start();
+        Animated.timing(this.state.anim, {toValue: 0}).start();
         this.setState({
           on: false
         })
