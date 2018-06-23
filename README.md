@@ -44,7 +44,7 @@ don't use platform-specific APIs.
 Importantly, this includes `StyleSheet` for declaring styles, as well as
 `Animated` for doing declarative Animations.
 
-The exported interface thus far is:
+The exported APIs thus far are:
 
 1. `Animated`: Pulled from the [animated](https://github.com/animatedjs/animated) project.
 2. `StyleSheet`: Follows React Native's StyleSheet API.
@@ -52,6 +52,10 @@ The exported interface thus far is:
 4. `Text`: A base component for Text rendering.
 5. `Image`: A base component for Image rendering.
 6. `Touchable`: A base component for interaction.
+7. `Easing`: A base set of easing functions.
+8. `Dimensions`: Get the devices dimensions.
+9. `PixelRatio`: Get the devices pixel density.
+10. `Platform`: Get information about the platform. (iOS, Android, Web, Sketch, VR,...)
 
 In the future, a `TextInput` component may also be added.
 
