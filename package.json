@@ -78,7 +78,6 @@
     "invariant": "^2.2.1",
     "normalize-css-color": "^1.0.1",
     "prop-types": "^15.5.10",
-    "react-css-property-operations": "^15.4.1",
     "react-native-web": "^0.3.2",
     "react-timer-mixin": "^0.13.3",
     "string-hash": "^1.1.3"
