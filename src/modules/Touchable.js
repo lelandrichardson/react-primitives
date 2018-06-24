@@ -27,10 +27,10 @@ function throttle(fn, throttleMs) {
   let lastCall = null;
 
   return function (...args) {
-    const now = new Date;
+    const now = new Date();
     if (lastCall === null || (now - lastCall > throttleMs)) {
       fn.apply(this, args);
-      lastCall = new Date;
+      lastCall = new Date();
     }
   };
 }
@@ -184,7 +184,7 @@ const Touchable = (
           toValue,
           duration: this.props.pressDuration,
           // easing: Easing.inOut(Easing.quad),
-        }
+        },
       ).start();
     },
 

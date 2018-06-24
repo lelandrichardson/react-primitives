@@ -23,6 +23,6 @@ ReactPrimitives.inject({
   Touchable: require('../vr/Touchable')(
     Animated,
     StyleSheet,
-    ReactPrimitives.Platform
+    ReactPrimitives.Platform,
   ),
 });
