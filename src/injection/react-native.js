@@ -1,4 +1,4 @@
-const ReactPrimitives = require('../ReactPrimitives')
+const ReactPrimitives = require('../ReactPrimitives');
 const {
   Animated,
   View,
@@ -9,7 +9,7 @@ const {
   Easing,
   Dimensions,
   TouchableWithoutFeedback,
-} = require('react-native')
+} = require('react-native');
 
 ReactPrimitives.inject({
   StyleSheet,
@@ -24,4 +24,4 @@ ReactPrimitives.inject({
   },
   Dimensions,
   Touchable: TouchableWithoutFeedback,
-})
+});
