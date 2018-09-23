@@ -64,6 +64,7 @@
     "react-art": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-native": "^0.52.0",
+    "react-native-web": "^0.9.0",
     "react-sketchapp": "^2.0.0",
     "react-test-renderer": "^16.4.0",
     "react-vr": "^2.0.0",
