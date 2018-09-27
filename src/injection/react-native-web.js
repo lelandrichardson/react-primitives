@@ -39,5 +39,5 @@ ReactPrimitives.inject({
     Version: Platform.Version,
   },
   Dimensions,
-  Touchable: TouchableWithoutFeedback
+  Touchable: TouchableWithoutFeedback,
 });
