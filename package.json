@@ -80,7 +80,7 @@
     "normalize-css-color": "^1.0.1",
     "prop-types": "^15.5.10",
     "react-art": "^16.4.0",
-    "react-native-web": "^0.8.3",
+    "react-native-web": "^0.9.5",
     "react-timer-mixin": "^0.13.3",
     "string-hash": "^1.1.3"
   },
