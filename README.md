@@ -5,8 +5,31 @@ Primitive React Interfaces Across Targets
 ## Installation
 
 ```sh
-npm i --save react-primitives
+npm install --save react-primitives
 ```
+
+You will also need to install the targets you want to support:
+
+- web:
+  ```sh
+  npm install --save react-dom react-native-web react-art
+  ```
+- native iOS and Android:
+  ```sh
+  npm install --save react-native
+  ```
+- sketch:
+  ```sh
+  npm install --save react-sketchapp react-test-renderer
+  ```
+- vr:
+  ```sh
+  npm install --save react-vr
+  ```
+- Windows:
+  ```sh
+  npm install --save react-native-windows
+  ```
 
 ### Usage
 
@@ -32,7 +55,6 @@ const styles = StyleSheet.create({
   },
 });
 ```
-
 
 ## What is this?
 
@@ -62,6 +84,6 @@ In the future, a `TextInput` component may also be added.
 
 ## Props where props are due
 
-This library was largely inspired from the work done by [Nicolas Gallager](https://github.com/necolas) 
+This library was largely inspired from the work done by [Nicolas Gallager](https://github.com/necolas)
 and his great work on the [react-native-web](https://github.com/necolas/react-native-web) library. A few of the files
 in this repo are even copied directly from his project.
