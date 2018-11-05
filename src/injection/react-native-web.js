@@ -6,7 +6,7 @@ const {
   Text,
   Image,
   Platform,
-  Touchable,
+  TouchableWithoutFeedback,
   Dimensions,
   Easing,
 } = require('react-native-web');
@@ -39,13 +39,5 @@ ReactPrimitives.inject({
     Version: Platform.Version,
   },
   Dimensions,
-});
-
-ReactPrimitives.inject({
-  Touchable: require('../modules/Touchable')(
-    Animated,
-    StyleSheet,
-    ReactPrimitives.Platform,
-    Touchable.Mixin,
-  ),
+  Touchable: TouchableWithoutFeedback,
 });
