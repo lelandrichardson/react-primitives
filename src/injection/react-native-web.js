@@ -16,7 +16,13 @@ const {
 function getDefault(m) {
   return m.__esModule === true ? m.default : m;
 }
-const StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'));
+
+let StyleRegistry = null;
+try {
+  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
+} catch (e) {
+  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/ReactNativeStyleResolver'));
+}
 
 const emptyObject = {};
 
