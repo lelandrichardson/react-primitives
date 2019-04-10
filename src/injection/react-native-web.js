@@ -17,14 +17,7 @@ function getDefault(m) {
   return m.__esModule === true ? m.default : m;
 }
 
-let StyleRegistry = null;
-/* eslint-disable import/no-unresolved */
-try {
-  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
-} catch (e) {
-  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/ReactNativeStyleResolver'));
-}
-/* eslint-enable */
+const StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
 
 const emptyObject = {};
 

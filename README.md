@@ -24,7 +24,7 @@ You will also need to install the targets you want to support:
   ```
 - vr:
   ```sh
-  npm install --save react-vr
+  npm install --save react-360
   ```
 - Windows:
   ```sh
@@ -34,16 +34,12 @@ You will also need to install the targets you want to support:
 ### Usage
 
 ```jsx
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-primitives';
+import React from "react";
+import { View, Text, Image, StyleSheet } from "react-primitives";
 
 class Foo extends React.Component {
   render() {
-    return (
-      <View style={styles.foo}>
-        {this.props.children}
-      </View>
-    );
+    return <View style={styles.foo}>{this.props.children}</View>;
   }
 }
 
@@ -51,8 +47,8 @@ const styles = StyleSheet.create({
   foo: {
     width: 100,
     height: 100,
-    backgroundColor: '#ff00ff',
-  },
+    backgroundColor: "#ff00ff"
+  }
 });
 ```
 
@@ -80,7 +76,6 @@ The exported APIs thus far are:
 10. `Platform`: Get information about the platform. (iOS, Android, Web, Sketch, VR,...)
 
 In the future, a `TextInput` component may also be added.
-
 
 ## Props where props are due
 
