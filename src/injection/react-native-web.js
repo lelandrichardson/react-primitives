@@ -6,7 +6,7 @@ const {
   Text,
   Image,
   Platform,
-  Touchable,
+  TouchableWithoutFeedback,
   Dimensions,
   Easing,
 } = require('react-native-web');
@@ -16,7 +16,15 @@ const {
 function getDefault(m) {
   return m.__esModule === true ? m.default : m;
 }
-const StyleRegistry = getDefault(require('react-native-web/dist/exports/StyleSheet/registry'));
+
+let StyleRegistry = null;
+/* eslint-disable import/no-unresolved */
+try {
+  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
+} catch (e) {
+  StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/ReactNativeStyleResolver'));
+}
+/* eslint-enable */
 
 const emptyObject = {};
 
@@ -39,13 +47,5 @@ ReactPrimitives.inject({
     Version: Platform.Version,
   },
   Dimensions,
-});
-
-ReactPrimitives.inject({
-  Touchable: require('../modules/Touchable')(
-    Animated,
-    StyleSheet,
-    ReactPrimitives.Platform,
-    Touchable.Mixin,
-  ),
+  Touchable: TouchableWithoutFeedback,
 });

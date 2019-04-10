@@ -26,11 +26,11 @@ const THROTTLE_MS = 500;
 function throttle(fn, throttleMs) {
   let lastCall = null;
 
-  return function (...args) {
-    const now = new Date;
+  return function throttleIt(...args) {
+    const now = new Date();
     if (lastCall === null || (now - lastCall > throttleMs)) {
       fn.apply(this, args);
-      lastCall = new Date;
+      lastCall = new Date();
     }
   };
 }
@@ -184,7 +184,7 @@ const Touchable = (
           toValue,
           duration: this.props.pressDuration,
           // easing: Easing.inOut(Easing.quad),
-        }
+        },
       ).start();
     },
 
@@ -192,7 +192,7 @@ const Touchable = (
      * `Touchable.Mixin` self callbacks. The mixin will invoke these if they are
      * defined on your component.
      */
-    touchableHandleActivePressIn: throttle(function (e) {
+    touchableHandleActivePressIn: throttle(function touchableHandleActivePressInNow(e) {
       if (e.dispatchConfig.registrationName === 'onResponderGrant') {
         this._setActive(0);
       } else {
@@ -202,18 +202,18 @@ const Touchable = (
       this.props.onPressIn && this.props.onPressIn(e);
     }, THROTTLE_MS),
 
-    touchableHandleActivePressOut: throttle(function (e) {
+    touchableHandleActivePressOut: throttle(function touchableHandleActivePressOutNow(e) {
       this._setInactive(250);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressOut && this.props.onPressOut(e);
     }, THROTTLE_MS),
 
-    touchableHandlePress: throttle(function (e) {
+    touchableHandlePress: throttle(function touchableHandlePressNow(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onPress && this.props.onPress(e);
     }, THROTTLE_MS),
 
-    touchableHandleLongPress: throttle(function (e) {
+    touchableHandleLongPress: throttle(function touchableHandleLongPressNow(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onLongPress && this.props.onLongPress(e);
     }, THROTTLE_MS),

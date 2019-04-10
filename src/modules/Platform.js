@@ -1,4 +1,4 @@
-const hasOwnProperty = Object.prototype.hasOwnProperty;
+const { hasOwnProperty } = Object.prototype;
 
 const Platform = {
   OS: 'unknown',

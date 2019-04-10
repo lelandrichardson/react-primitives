@@ -18,7 +18,7 @@ const THROTTLE_MS = 500;
 function throttle(fn, throttleMs) {
   let lastCall = null;
 
-  return function (...args) {
+  return function throttleIt(...args) {
     const now = new Date();
     if (lastCall === null || (now - lastCall > throttleMs)) {
       fn.apply(this, args);
@@ -152,29 +152,29 @@ const Touchable = (
           toValue,
           duration: this.props.pressDuration,
           // easing: Easing.inOut(Easing.quad),
-        }
+        },
       ).start();
     },
 
 
-    touchableHandleActivePressIn: throttle(function (e) {
+    touchableHandleActivePressIn: throttle(function touchableHandleActivePressInNow(e) {
       this._setActive(150);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressIn && this.props.onPressIn(e);
     }, THROTTLE_MS),
 
-    touchableHandleActivePressOut: throttle(function (e) {
+    touchableHandleActivePressOut: throttle(function touchableHandleActivePressOutNow(e) {
       this._setInactive(250);
       // eslint-disable-next-line no-unused-expressions
       this.props.onPressOut && this.props.onPressOut(e);
     }, THROTTLE_MS),
 
-    touchableHandlePress: throttle(function (e) {
+    touchableHandlePress: throttle(function touchableHandlePressNow(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onPress && this.props.onPress(e);
     }, THROTTLE_MS),
 
-    touchableHandleLongPress: throttle(function (e) {
+    touchableHandleLongPress: throttle(function touchableHandleLongPressNow(e) {
       // eslint-disable-next-line no-unused-expressions
       this.props.onLongPress && this.props.onLongPress(e);
     }, THROTTLE_MS),
