@@ -74,9 +74,9 @@
   },
   "dependencies": {
     "animated": "^0.2.2",
-    "create-react-class": "^15.6.2",
-    "prop-types": "^15.5.10",
-    "react-timer-mixin": "^0.13.3"
+    "create-react-class": "^15.6.3",
+    "prop-types": "^15.7.2",
+    "react-timer-mixin": "^0.13.4"
   },
   "peerDependencies": {
     "react": ">=16.5.1",
