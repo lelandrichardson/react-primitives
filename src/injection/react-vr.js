@@ -7,7 +7,7 @@ const {
   StyleSheet,
   Easing,
   // TODO: Dimensions. Does that even make sense tho?
-} = require('react-vr');
+} = require('react-360');
 
 ReactPrimitives.inject({
   StyleSheet,

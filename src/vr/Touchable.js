@@ -1,7 +1,7 @@
 const React = require('react');
 const createReactClass = require('create-react-class');
 const PropTypes = require('prop-types');
-const { VrButton } = require('react-vr');
+const { VrButton } = require('react-360');
 
 const InsetPropType = PropTypes.shape({
   top: PropTypes.number,
