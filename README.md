@@ -2,6 +2,12 @@
 
 Primitive React Interfaces Across Targets
 
+[![LICENSE](https://img.shields.io/github/license/lelandrichardson/react-primitives.svg?color=blue&style=for-the-badge)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/react-primitives.svg?color=brightgreen&style=for-the-badge)](https://www.npmjs.com/package/react-primitives)
+[![GitHub bug issues](https://img.shields.io/github/issues/lelandrichardson/react-primitives/bug.svg?color=fc2929&label=BUGs&style=for-the-badge)](https://github.com/lelandrichardson/react-primitives/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+[![GitHub issues](https://img.shields.io/github/issues/lelandrichardson/react-primitives.svg?style=for-the-badge)](https://github.com/lelandrichardson/react-primitives/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/lelandrichardson/react-primitives.svg?style=for-the-badge)](https://github.com/lelandrichardson/react-primitives/pulls)
+
 ## Installation
 
 ```sh
