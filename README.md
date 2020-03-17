@@ -2,6 +2,8 @@
 
 Primitive React Interfaces Across Targets
 
+[![npm](https://img.shields.io/npm/v/react-primitives)]((https://www.npmjs.com/package/react-primitives))
+
 ## Installation
 
 ```sh
