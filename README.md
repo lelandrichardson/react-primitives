@@ -24,6 +24,10 @@ You will also need to install the targets you want to support:
   ```sh
   npm install --save react-sketchapp react-test-renderer
   ```
+- figma:
+  ```sh
+  npm install --save react-figma yoga-layout-prebuilt
+  ```
 - vr:
   ```sh
   npm install --save react-360

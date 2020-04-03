@@ -64,6 +64,7 @@
     "react-360": "^1.1.0",
     "react-art": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-figma": "0.0.57",
     "react-native": "^0.52.0",
     "react-native-web": "^0.11.0",
     "react-sketchapp": "^2.0.0",
