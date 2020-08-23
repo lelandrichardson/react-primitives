@@ -26,7 +26,7 @@ You will also need to install the targets you want to support:
   ```
 - figma:
   ```sh
-  npm install --save react-figma yoga-layout-prebuilt
+  npm install --save react-figma
   ```
 - vr:
   ```sh
