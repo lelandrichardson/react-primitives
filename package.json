@@ -66,7 +66,7 @@
     "react-dom": "^16.5.2",
     "react-figma": "0.0.57",
     "react-native": "^0.52.0",
-    "react-native-web": "^0.18.10",
+    "react-native-web": "^0.11.0",
     "react-sketchapp": "^2.0.0",
     "react-test-renderer": "^16.4.0",
     "watchify": "^3.7.0",
@@ -83,6 +83,6 @@
     "react": ">=16.5.1",
     "react-art": ">=16.5.1",
     "react-dom": ">=16.5.1",
-    "react-native-web": ">=0.18.10"
+    "react-native-web": ">=0.11.0"
   }
 }
