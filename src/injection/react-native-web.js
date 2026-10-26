@@ -17,13 +17,16 @@ function getDefault(m) {
   return m.__esModule === true ? m.default : m;
 }
 
-const StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
-
 const emptyObject = {};
 
-const resolve = style => {
-  return StyleRegistry.resolve(style) || emptyObject;
-};
+let resolve;
+try {
+  const StyleRegistry = getDefault(require('react-native-web/dist/cjs/exports/StyleSheet/createStyleResolver'))();
+  resolve = style => StyleRegistry.resolve(style) || emptyObject;
+} catch (e) {
+  // react-native-web 0.18+ no longer ships createStyleResolver
+  resolve = style => ({ style: StyleSheet.flatten(style) });
+}
 
 ReactPrimitives.inject({
   View,
